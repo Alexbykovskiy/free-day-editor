@@ -256,13 +256,32 @@ input[type="color"] {
 
 .preview-calendar-container {
   margin-top: 18px;
-  background: rgba(249, 250, 251, 0.96);
   border-radius: 26px;
   padding: 16px 14px 18px;
-  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.45);
-  opacity: var(--calendar-opacity, 0.96); /* <– добавили */
-}
 
+  /* цвет карточки календаря управляется переменной */
+  background: var(--calendar-bg-color, rgba(249, 250, 251, 0.96));
+
+  /* тень / свечение календаря */
+  box-shadow: var(
+    --calendar-shadow,
+    0 18px 35px rgba(15, 23, 42, 0.45)
+  );
+
+  opacity: var(--calendar-opacity, 0.96);
+
+  /* размер и положение календаря */
+  transform: translate(
+      var(--calendar-offset-x, 0px),
+      var(--calendar-offset-y, 0px)
+    )
+    scale(var(--calendar-scale, 1));
+  transform-origin: center center;
+
+  transition: transform 0.15s ease,
+              box-shadow 0.15s ease,
+              background 0.15s ease;
+}
 .preview-title-month {
   text-align: center;
   font-weight: 700;

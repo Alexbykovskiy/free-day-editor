@@ -92,18 +92,108 @@
   />
 </div>
 
+<!-- Календарь: размер, положение, цвет -->
 <div class="form-group">
-  <label for="calendarOpacityInput">Прозрачность календаря</label>
+  <label>Календарь — размер и положение</label>
+
+  <div class="form-row">
+    <div class="form-group">
+      <small>Размер</small>
+      <input
+        id="calendarScaleInput"
+        type="range"
+        min="0.8"
+        max="1.3"
+        step="0.01"
+        value="1"
+      />
+    </div>
+
+    <div class="form-group">
+      <small>Смещение по X</small>
+      <input
+        id="calendarOffsetXInput"
+        type="range"
+        min="-80"
+        max="80"
+        step="1"
+        value="0"
+      />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <small>Смещение по Y</small>
+      <input
+        id="calendarOffsetYInput"
+        type="range"
+        min="-120"
+        max="120"
+        step="1"
+        value="0"
+      />
+    </div>
+
+    <div class="form-group">
+      <small>Цвет карточки</small>
+      <input
+        id="calendarBgColorInput"
+        type="color"
+        value="#f9fafb"
+      />
+    </div>
+  </div>
+</div>
+
+<!-- Эффекты календаря -->
+<div class="form-group">
+  <label>
+    <input
+      id="calendarEffectsEnableInput"
+      type="checkbox"
+      checked
+      style="margin-right: 6px;"
+    />
+    Эффекты календаря (тень и свечение)
+  </label>
+</div>
+
+<div class="form-group">
+  <label for="calendarShadowSizeInput">Размер тени</label>
   <input
-    id="calendarOpacityInput"
+    id="calendarShadowSizeInput"
     type="range"
-    min="0.3"
-    max="1"
-    step="0.05"
-    value="0.96"
+    min="0"
+    max="60"
+    step="1"
+    value="35"
   />
 </div>
 
+<div class="form-group">
+  <label for="calendarShadowOpacityInput">Прозрачность тени</label>
+  <input
+    id="calendarShadowOpacityInput"
+    type="range"
+    min="0"
+    max="0.7"
+    step="0.05"
+    value="0.45"
+  />
+</div>
+
+<div class="form-group">
+  <label for="calendarGlowSizeInput">Свечение календаря</label>
+  <input
+    id="calendarGlowSizeInput"
+    type="range"
+    min="0"
+    max="40"
+    step="1"
+    value="0"
+  />
+</div>
         <div class="form-group">
           <label for="accentColorInput">Цвет акцента (свободные дни)</label>
           <input id="accentColorInput" type="color" value="#e53935" />
