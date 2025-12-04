@@ -214,6 +214,18 @@ if (titleMonthFontSelect) {
   });
 }
 
+if (titleMonthFontSelect) {
+  Array.from(titleMonthFontSelect.options).forEach(opt => {
+    opt.style.fontFamily = opt.value;
+  });
+}
+
+if (footerFontSelect) {
+  Array.from(footerFontSelect.options).forEach(opt => {
+    opt.style.fontFamily = opt.value;
+  });
+}
+
 if (titleMonthColorInput) {
   titleMonthColorInput.addEventListener("input", () => {
     state.titleMonthColor = titleMonthColorInput.value;
