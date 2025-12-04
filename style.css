@@ -362,12 +362,7 @@ input[type="color"] {
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
 }
 
-/* свободный день, цвет задаём через CSS-переменную */
-.calendar-day.available .calendar-day-inner {
-  background: var(--accent-color, #e53935);
-  color: #f9fafb;
-  font-weight: 700;
-}
+
 
 /* выходные слегка подсвечены */
 .calendar-day.weekend .calendar-day-inner {
