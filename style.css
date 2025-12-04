@@ -394,9 +394,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   background: var(--calendar-card-bg-color, rgba(255, 255, 255, 0.95));
   border-radius: 18px;
   padding: 10px 10px 10px;
-  border: 1px solid rgba(148, 163, 184, 0.6);
+  border: none; /* рамки больше нет */
 }
-
 /* === ДНИ НЕДЕЛИ (ПН–ВС) — ТОЧНОЕ ВЫРАВНИВАНИЕ === */
 
 .calendar-weekdays {
@@ -519,55 +518,19 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   }
 }
 
-/* === FIX: красные крестики (единственный правильный блок) === */
-.calendar-day.unavailable .calendar-day-inner {
-  position: relative;
-  color: var(--calendar-text-color) !important; /* ← цифра в цвет дней недели */
-}
-
-
-.calendar-day.unavailable .calendar-day-inner::before,
-.calendar-day.unavailable .calendar-day-inner::after {
-  content: "";
- background-color: #b91c1c !important; /* красные линии */
-
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: center;
-  background-color: #b91c1c !important;
-  width: calc(var(--calendar-cell-size) * 0.6);
-  height: 2px;
-}
-
 .calendar-day.unavailable .calendar-day-inner::before {
-  transform: translate(-50%, -50%) rotate(45deg);
-}
-
-.calendar-day.unavailable .calendar-day-inner::after {
-  transform: translate(-50%, -50%) rotate(-45deg);
-}
-/* === FIX: правильное центрирование зелёного круга === */
-
-.calendar-day.available .calendar-day-inner {
-  position: relative;
-  color: #ffffff !important; /* всегда белые цифры */
-  font-weight: 700;          /* лучше читаемость */
- }
-.calendar-day.available .calendar-day-inner::before {
   content: "";
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--calendar-cell-size) * 0.95);
-  height: calc(var(--calendar-cell-size) * 0.95);
-
-  background: rgba(128, 128, 128, 0.8); /* серый, 95% непрозрачности */
-  border-radius: 50%;
-
-  transform: translate(-50%, -50%);
-  
+  width: calc(var(--calendar-cell-size) * 0.9);
+  height: 2px;
+  background: #e53935; /* красная полоса */
+  transform: translate(-50%, -50%) rotate(-20deg); /* лёгкое диагональное перечёркивание */
+  border-radius: 2px;
+  z-index: 3;
 }
+
 @media (max-width: 480px) {
   .page {
     padding: 10px 8px 16px;
