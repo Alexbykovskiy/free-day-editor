@@ -431,12 +431,13 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: relative;
   width: var(--calendar-cell-size);
   height: var(--calendar-cell-size);
-    font-size: 0.7rem;
+  font-size: 0.7rem;
   border: none;
   background: transparent;
   cursor: pointer;
   color: #111827;
   transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.08s;
+  z-index: 0; /* ← создаёт единый контекст слоёв */
 }
 .calendar-day-inner {
   width: 100%;
@@ -528,6 +529,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 .calendar-day.unavailable .calendar-day-inner::before,
 .calendar-day.unavailable .calendar-day-inner::after {
   content: "";
+ z-index: 3; /* кресты выше всех слоёв */
   position: absolute;
   left: 50%;
   top: 50%;
@@ -549,8 +551,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 /* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
 .calendar-day.available .calendar-day-inner {
   position: relative;
- color: #ffffff !important; /* цифра БЕЛАЯ поверх круга */
-  z-index: 2; /* ЦИФРА ВСЕГДА СВЕРХУ */
+  z-index: 2; /* цифра выше круга */
+  color: #ffffff !important;
 }
 
 .calendar-day.available .calendar-day-inner::before {
