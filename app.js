@@ -446,10 +446,35 @@ function updateCalendarOpacity() {
 }
 
 // размер / положение / эффекты календаря
+// размер / положение / эффекты календаря
 function updateCalendarAppearance() {
-  ...
-}
+  if (!previewArtboard) return;
 
+  // размер и положение
+  previewArtboard.style.setProperty("--calendar-scale", state.calendarScale);
+  previewArtboard.style.setProperty("--calendar-offset-x", state.calendarOffsetX + "px");
+  previewArtboard.style.setProperty("--calendar-offset-y", state.calendarOffsetY + "px");
+  previewArtboard.style.setProperty("--calendar-bg-color", state.calendarBgColor);
+
+  // если эффекты выключены – тени нет
+  if (!state.calendarEffectsEnabled) {
+    previewArtboard.style.setProperty("--calendar-shadow", "none");
+    return;
+  }
+
+  // эффекты календаря
+  const blur = state.calendarShadowSize;
+  const opacity = state.calendarShadowOpacity;
+  const glow = state.calendarGlowSize;
+
+  const baseShadow = `0 18px ${blur}px rgba(15, 23, 42, ${opacity})`;
+  const glowShadow = glow > 0 ? `, 0 0 ${glow}px rgba(255, 255, 255, 0.7)` : "";
+
+  previewArtboard.style.setProperty(
+    "--calendar-shadow",
+    baseShadow + glowShadow
+  );
+}
 function updateCalendarSettingsVisibility() {
   if (!calendarSettingsGroup) return;
   calendarSettingsGroup.style.display = state.calendarSettingsEnabled ? "" : "none";
