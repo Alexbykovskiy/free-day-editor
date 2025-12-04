@@ -7,8 +7,10 @@ const state = {
   footerText: "Ближайшие свободные окна:",
   format: "story",
   background: "bg-beige",
-  accentColor: "#e53935",
-  availableDays: new Set(), // числа дней (1..31)
+  accentColor: "#22c55e", // зелёный по умолчанию
+  calendarOpacity: 0.96,
+  availableDays: new Set(), // свободные дни
+  customBackground: null,   // dataURL пользовательского фона
 };
 
 // DOM-элементы
@@ -27,8 +29,10 @@ let monthSelect,
   previewArtboard,
   previewWrapper,
   clearDaysBtn,
-  downloadBtn;
-
+  downloadBtn,
+  uploadBgBtn,
+  bgUploadInput,
+  calendarOpacityInput;
 document.addEventListener("DOMContentLoaded", init);
 
 function init() {
@@ -40,8 +44,11 @@ function init() {
   updateBackground();
   updateFormat();
   updateAccentColor();
+  updateCalendarOpacity();
+ if (calendarOpacityInput) {
+    calendarOpacityInput.value = state.calendarOpacity;
+  }
 }
-
 /* ====== DOM helpers ====== */
 
 function cacheDom() {
@@ -61,8 +68,12 @@ function cacheDom() {
   previewWrapper = document.getElementById("previewWrapper");
   clearDaysBtn = document.getElementById("clearDaysBtn");
   downloadBtn = document.getElementById("downloadBtn");
-}
 
+  // новые элементы
+  uploadBgBtn = document.getElementById("uploadBgBtn");
+  bgUploadInput = document.getElementById("bgUploadInput");
+  calendarOpacityInput = document.getElementById("calendarOpacityInput");
+}
 function initDefaults() {
   // по умолчанию ставим следующий месяц, чтобы было похоже на "запись открыта"
   const now = new Date();
@@ -139,6 +150,32 @@ function bindEvents() {
     updateFormat();
   });
 
+
+// Кнопка "Добавить свой фон"
+  uploadBgBtn.addEventListener("click", () => {
+    bgUploadInput.click();
+  });
+
+  bgUploadInput.addEventListener("change", (e) => {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      state.customBackground = event.target.result;
+      state.background = "bg-custom";
+      backgroundSelect.value = "bg-solid"; // визуально что-то выбрано, но фон кастомный
+      updateBackground();
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Прозрачность календаря
+  calendarOpacityInput.addEventListener("input", () => {
+    state.calendarOpacity = Number(calendarOpacityInput.value);
+    updateCalendarOpacity();
+  });
+
   clearDaysBtn.addEventListener("click", () => {
     state.availableDays.clear();
     buildCalendar();
@@ -190,8 +227,12 @@ function buildCalendar() {
         cell.classList.add("weekend");
       }
 
+      // если день есть в availableDays — это свободный (зелёный кружок),
+      // иначе — день занятый с красным крестиком
       if (state.availableDays.has(dayNumber)) {
         cell.classList.add("available");
+      } else {
+        cell.classList.add("unavailable");
       }
 
       cell.addEventListener("click", () => {
@@ -234,12 +275,31 @@ function updatePreviewTexts() {
 }
 
 function updateBackground() {
-  previewArtboard.classList.remove("bg-beige", "bg-red", "bg-green", "bg-solid");
-  previewArtboard.classList.add(state.background);
-}
+  previewArtboard.classList.remove(
+    "bg-beige",
+    "bg-red",
+    "bg-green",
+    "bg-solid",
+    "bg-custom"
+  );
 
+  if (state.customBackground && state.background === "bg-custom") {
+    previewArtboard.classList.add("bg-custom");
+    previewArtboard.style.backgroundImage = `url(${state.customBackground})`;
+  } else {
+    previewArtboard.style.backgroundImage = "";
+    previewArtboard.classList.add(state.background);
+  }
+}
 function updateAccentColor() {
   previewArtboard.style.setProperty("--accent-color", state.accentColor);
+}
+
+function updateCalendarOpacity() {
+  previewArtboard.style.setProperty(
+    "--calendar-opacity",
+    state.calendarOpacity
+  );
 }
 
 function updateFormat() {
