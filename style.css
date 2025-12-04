@@ -549,7 +549,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 /* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
 .calendar-day.available .calendar-day-inner {
   position: relative;
-  color: var(--calendar-text-color) !important; /* ЦИФРА ДОЛЖНА БЫТЬ ВИДНА */
+ color: #ffffff !important; /* цифра БЕЛАЯ поверх круга */
   z-index: 2; /* ЦИФРА ВСЕГДА СВЕРХУ */
 }
 
