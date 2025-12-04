@@ -55,7 +55,7 @@ titleMonthFontSizeInput,
 
     footerFontSizeInput,
     footerFontWeightSelect,
-    footerFontStyleSelect;
+    footerFontStyleSelect,
   yearInput,
   titleMainInput,
   titleMonthInput,
