@@ -423,8 +423,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: relative;
   width: var(--calendar-cell-size);
   height: var(--calendar-cell-size);
-  border-radius: 999px;
-  font-size: 0.7rem;
+    font-size: 0.7rem;
   border: none;
   background: transparent;
   cursor: pointer;
@@ -443,7 +442,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   line-height: 1;
   color: var(--calendar-text-color);
 
-  border-radius: 8px; /* сохраняет стиль */
+  border-radius: 50%; /* сохраняет стиль */
 }
 
 /* НЕсвободный день: красный крестик */
@@ -540,6 +539,37 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   }
 }
 
+/* === FIX: красные крестики === */
+.calendar-day.unavailable .calendar-day-inner {
+  position: relative;
+  color: #b91c1c !important;
+}
+
+.calendar-day.unavailable .calendar-day-inner::before,
+.calendar-day.unavailable .calendar-day-inner::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--calendar-cell-size) * 0.6);
+  height: 2px;
+  background-color: #b91c1c !important;
+  transform-origin: center;
+}
+
+.calendar-day.unavailable .calendar-day-inner::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.calendar-day.unavailable .calendar-day-inner::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+/* === FIX: правильное центрирование зелёного круга === */
+.calendar-day-inner {
+  border-radius: 50%;
+}
+
 @media (max-width: 480px) {
   .page {
     padding: 10px 8px 16px;
@@ -585,3 +615,26 @@ textarea {
   color: var(--calendar-text-color) !important;
 }
 
+/* Исправляем цвет красных крестиков — они всегда должны быть красными */
+.calendar-day.unavailable .calendar-day-inner {
+  color: #b91c1c !important;
+}
+
+.calendar-day.unavailable .calendar-day-inner::before,
+.calendar-day.unavailable .calendar-day-inner::after {
+  background-color: #b91c1c !important;
+}
+
+.calendar-day.unavailable .calendar-day-inner {
+  position: relative;
+}
+
+.calendar-day.unavailable .calendar-day-inner::before,
+.calendar-day.unavailable .calendar-day-inner::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-origin: center;
+  background-color: #b91c1c;
+}
