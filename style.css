@@ -437,7 +437,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   cursor: pointer;
   color: #111827;
   transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.08s;
-  z-index: 0; /* ← создаёт единый контекст слоёв */
 }
 .calendar-day-inner {
   width: 100%;
@@ -530,7 +529,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 .calendar-day.unavailable .calendar-day-inner::before,
 .calendar-day.unavailable .calendar-day-inner::after {
   content: "";
- z-index: 3; /* кресты выше всех слоёв */
  background-color: #b91c1c !important; /* красные линии */
 
   position: absolute;
@@ -555,8 +553,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: relative;
   color: #ffffff !important; /* всегда белые цифры */
   font-weight: 700;          /* лучше читаемость */
-  z-index: 2;
-}
+ }
 .calendar-day.available .calendar-day-inner::before {
   content: "";
   position: absolute;
