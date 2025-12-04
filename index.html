@@ -121,6 +121,31 @@
     <input id="titleMonthColorInput" type="color" value="#1f2937" />
   </div>
 </div>
+<!-- Размер, толщина и наклон подзаголовка -->
+<div class="form-row">
+  <div class="form-group">
+    <small>Размер шрифта</small>
+    <input id="titleMonthFontSizeInput" type="range" min="10" max="48" step="1" value="20">
+  </div>
+
+  <div class="form-group">
+    <small>Толщина</small>
+    <select id="titleMonthFontWeightSelect">
+      <option value="300">Light</option>
+      <option value="400" selected>Regular</option>
+      <option value="600">Semi-Bold</option>
+      <option value="700">Bold</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <small>Наклон</small>
+    <select id="titleMonthFontStyleSelect">
+      <option value="normal">Обычный</option>
+      <option value="italic">Italic</option>
+    </select>
+  </div>
+</div>
 
   <div class="form-group">
     <label for="footerTextInput">Текст под календарём</label>
@@ -146,6 +171,32 @@
   <div class="form-group">
     <small>Цвет текста под календарём</small>
     <input id="footerColorInput" type="color" value="#374151" />
+  </div>
+</div>
+
+<!-- Размер, толщина и наклон текста под календарём -->
+<div class="form-row">
+  <div class="form-group">
+    <small>Размер шрифта</small>
+    <input id="footerFontSizeInput" type="range" min="10" max="48" step="1" value="16">
+  </div>
+
+  <div class="form-group">
+    <small>Толщина</small>
+    <select id="footerFontWeightSelect">
+      <option value="300">Light</option>
+      <option value="400" selected>Regular</option>
+      <option value="600">Semi-Bold</option>
+      <option value="700">Bold</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <small>Наклон</small>
+    <select id="footerFontStyleSelect">
+      <option value="normal">Обычный</option>
+      <option value="italic">Italic</option>
+    </select>
   </div>
 </div>
 

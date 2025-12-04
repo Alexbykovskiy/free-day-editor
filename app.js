@@ -8,8 +8,15 @@ const state = {
 titleMonthFont: "Inter",
 titleMonthColor: "#1f2937",
 
+titleMonthFontSize: 20,
+titleMonthFontWeight: "400",
+titleMonthFontStyle: "normal",
+
 footerFont: "Inter",
 footerColor: "#374151",
+footerFontSize: 16,
+footerFontWeight: "400",
+footerFontStyle: "normal",
   format: "story",
   background: "bg-beige",
   accentColor: "#22c55e", // зелёный по умолчанию
@@ -42,6 +49,13 @@ titleMonthFontSelect,
 titleMonthColorInput,
 footerFontSelect,
 footerColorInput,
+titleMonthFontSizeInput,
+    titleMonthFontWeightSelect,
+    titleMonthFontStyleSelect,
+
+    footerFontSizeInput,
+    footerFontWeightSelect,
+    footerFontStyleSelect;
   yearInput,
   titleMainInput,
   titleMonthInput,
@@ -89,6 +103,16 @@ if (titleMonthColorInput) titleMonthColorInput.value = state.titleMonthColor;
 
 if (footerFontSelect) footerFontSelect.value = state.footerFont;
 if (footerColorInput) footerColorInput.value = state.footerColor;
+
+if (titleMonthFontSizeInput) titleMonthFontSizeInput.value = state.titleMonthFontSize;
+if (titleMonthFontWeightSelect) titleMonthFontWeightSelect.value = state.titleMonthFontWeight;
+if (titleMonthFontStyleSelect) titleMonthFontStyleSelect.value = state.titleMonthFontStyle;
+
+if (footerFontSizeInput) footerFontSizeInput.value = state.footerFontSize;
+if (footerFontWeightSelect) footerFontWeightSelect.value = state.footerFontWeight;
+if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
+
+
   // инициализация ползунков и чекбоксов
   if (calendarOpacityInput) {
     calendarOpacityInput.value = state.calendarOpacity;
@@ -122,6 +146,7 @@ if (footerColorInput) footerColorInput.value = state.footerColor;
     calendarSettingsToggle.checked = state.calendarSettingsEnabled;
   }
   updateCalendarSettingsVisibility();
+
 }
 
 /* ====== DOM helpers ====== */
@@ -170,6 +195,15 @@ footerColorInput = document.getElementById("footerColorInput");
   calendarShadowSizeInput = document.getElementById("calendarShadowSizeInput");
   calendarShadowOpacityInput = document.getElementById("calendarShadowOpacityInput");
   calendarGlowSizeInput = document.getElementById("calendarGlowSizeInput");
+
+titleMonthFontSizeInput = document.getElementById("titleMonthFontSizeInput");
+  titleMonthFontWeightSelect = document.getElementById("titleMonthFontWeightSelect");
+  titleMonthFontStyleSelect = document.getElementById("titleMonthFontStyleSelect");
+
+  footerFontSizeInput = document.getElementById("footerFontSizeInput");
+  footerFontWeightSelect = document.getElementById("footerFontWeightSelect");
+  footerFontStyleSelect = document.getElementById("footerFontStyleSelect");
+
 }
 function initDefaults() {
   // по умолчанию ставим следующий месяц, чтобы было похоже на "запись открыта"
@@ -236,6 +270,27 @@ if (titleMonthColorInput) {
   });
 }
 
+if (titleMonthFontSizeInput) {
+  titleMonthFontSizeInput.addEventListener("input", () => {
+    state.titleMonthFontSize = titleMonthFontSizeInput.value;
+    updatePreviewTexts();
+  });
+}
+
+if (titleMonthFontWeightSelect) {
+  titleMonthFontWeightSelect.addEventListener("change", () => {
+    state.titleMonthFontWeight = titleMonthFontWeightSelect.value;
+    updatePreviewTexts();
+  });
+}
+
+if (titleMonthFontStyleSelect) {
+  titleMonthFontStyleSelect.addEventListener("change", () => {
+    state.titleMonthFontStyle = titleMonthFontStyleSelect.value;
+    updatePreviewTexts();
+  });
+}
+
 if (footerFontSelect) {
   footerFontSelect.addEventListener("change", () => {
     state.footerFont = footerFontSelect.value;
@@ -246,6 +301,27 @@ if (footerFontSelect) {
 if (footerColorInput) {
   footerColorInput.addEventListener("input", () => {
     state.footerColor = footerColorInput.value;
+    updatePreviewTexts();
+  });
+}
+
+if (footerFontSizeInput) {
+  footerFontSizeInput.addEventListener("input", () => {
+    state.footerFontSize = footerFontSizeInput.value;
+    updatePreviewTexts();
+  });
+}
+
+if (footerFontWeightSelect) {
+  footerFontWeightSelect.addEventListener("change", () => {
+    state.footerFontWeight = footerFontWeightSelect.value;
+    updatePreviewTexts();
+  });
+}
+
+if (footerFontStyleSelect) {
+  footerFontStyleSelect.addEventListener("change", () => {
+    state.footerFontStyle = footerFontStyleSelect.value;
     updatePreviewTexts();
   });
 }
@@ -471,9 +547,18 @@ function updatePreviewTexts() {
       : "\u00A0"; // неразрывный пробел, чтобы блок не схлопывался
 
 previewTitleMonth.style.setProperty("--title-month-font", state.titleMonthFont);
+previewTitleMonth.style.setProperty("--title-month-font-size", state.titleMonthFontSize + "px");
+previewTitleMonth.style.setProperty("--title-month-font-weight", state.titleMonthFontWeight);
+previewTitleMonth.style.setProperty("--title-month-font-style", state.titleMonthFontStyle);
+
 previewTitleMonth.style.setProperty("--title-month-color", state.titleMonthColor);
 
 previewFooterText.style.setProperty("--footer-font", state.footerFont);
+
+previewFooterText.style.setProperty("--footer-font-size", state.footerFontSize + "px");
+previewFooterText.style.setProperty("--footer-font-weight", state.footerFontWeight);
+previewFooterText.style.setProperty("--footer-font-style", state.footerFontStyle);
+
 previewFooterText.style.setProperty("--footer-color", state.footerColor);
 
   previewTitleMonth.textContent =
