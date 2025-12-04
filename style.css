@@ -559,17 +559,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   color: #b91c1c !important;
 }
 
-.calendar-day.unavailable .calendar-day-inner::before,
-.calendar-day.unavailable .calendar-day-inner::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: calc(var(--calendar-cell-size) * 0.6);
-  height: 2px;
-  background-color: #b91c1c !important;
-  transform-origin: center;
-}
 
 .calendar-day.unavailable .calendar-day-inner::before {
   transform: translate(-50%, -50%) rotate(45deg);
@@ -616,20 +605,8 @@ textarea {
   box-sizing: border-box;
 }
 
-.calendar-weekdays span,
-.calendar-day .calendar-day-inner {
-  color: var(--calendar-text-color) !important;
-}
-
-.calendar-day.weekend .calendar-day-inner {
-  color: var(--calendar-text-color) !important;
-}
 
 
-.calendar-day.unavailable .calendar-day-inner::before,
-.calendar-day.unavailable .calendar-day-inner::after {
-  background-color: #b91c1c !important;
-}
 
 .calendar-day.unavailable .calendar-day-inner::before,
 .calendar-day.unavailable .calendar-day-inner::after {
