@@ -1,5 +1,6 @@
 // Простроим состояние приложения
 const state = {
+calendarFontSize: 18,
 calendarCardBgColor: "#ffffff",
 calendarTextColor: "#111827",
   year: new Date().getFullYear(),
@@ -47,6 +48,7 @@ footerFontStyle: "normal",
 
 // DOM-элементы
 let monthSelect,
+calendarFontSizeInput,
 calendarCardBgColorInput,
 calendarTextColorInput,
 titleMonthFontSelect,
@@ -106,6 +108,7 @@ function init() {
 
 if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
 if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
+if (calendarFontSizeInput) calendarFontSizeInput.value = state.calendarFontSize;
 
 if (titleMonthFontSelect) titleMonthFontSelect.value = state.titleMonthFont;
 if (titleMonthColorInput) titleMonthColorInput.value = state.titleMonthColor;
@@ -187,7 +190,7 @@ footerColorInput = document.getElementById("footerColorInput");
   previewWrapper = document.getElementById("previewWrapper");
   clearDaysBtn = document.getElementById("clearDaysBtn");
   downloadBtn = document.getElementById("downloadBtn");
-
+calendarFontSizeInput = document.getElementById("calendarFontSizeInput");
   // новые элементы
    // новые элементы
   uploadBgBtn = document.getElementById("uploadBgBtn");
@@ -247,6 +250,12 @@ function initDefaults() {
 /* ====== События ====== */
 function bindEvents() {
 
+if (calendarFontSizeInput) {
+  calendarFontSizeInput.addEventListener("input", () => {
+    state.calendarFontSize = calendarFontSizeInput.value;
+    updateCalendarAppearance();
+  });
+}
 
 if (calendarCardBgColorInput) {
   calendarCardBgColorInput.addEventListener("input", () => {
@@ -629,6 +638,7 @@ function updateCalendarOpacity() {
 // размер / положение / эффекты календаря
 // размер / положение / эффекты календаря
 function updateCalendarAppearance() {
+previewArtboard.style.setProperty("--calendar-font-size", state.calendarFontSize + "px");
   if (!previewArtboard) return;
 
   // размер и положение
