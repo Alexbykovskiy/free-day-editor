@@ -560,13 +560,15 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--calendar-cell-size) * 0.95);
-  height: calc(var(--calendar-cell-size) * 0.95);
-  background: var(--accent-color);
+  width: calc(var(--calendar-cell-size) * 0.85); /* размер кольца */
+  height: calc(var(--calendar-cell-size) * 0.85);
+  border: 3px solid var(--accent-color); /* толщина кольца */
   border-radius: 50%;
+  background: transparent; /* фон кольца — прозрачный */
   transform: translate(-50%, -50%);
-  z-index: 1; /* КРУГ НИЖЕ ЦИФРЫ, НО ВЕРХЕ КАРТЫ */
+  z-index: 1;
 }
+
 @media (max-width: 480px) {
   .page {
     padding: 10px 8px 16px;
