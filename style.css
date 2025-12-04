@@ -371,7 +371,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   font-style: var(--title-month-font-style);
   margin-bottom: 10px;
 
-  white-space: normal;        /* ← разрешить перенос */
+ white-space: pre-wrap;
   word-wrap: break-word;      /* ← переносить длинные слова */
   overflow-wrap: anywhere;    /* ← жесткий перенос */
   line-height: 1.25;          /* ← чтобы красиво выглядело */
@@ -482,7 +482,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   font-weight: var(--footer-font-weight);
   font-style: var(--footer-font-style);
 
-  white-space: normal;
+  white-space: pre-wrap;   /* ← главное для переноса с Enter */
   word-wrap: break-word;
   overflow-wrap: anywhere;
   line-height: 1.25;
@@ -541,4 +541,17 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 #titleMonthFontSelect option,
 #footerFontSelect option {
   font-family: inherit; /* браузер может игнорировать: исправим ниже */
+}
+
+textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  background: white;
+  color: #1f2937;
+  resize: vertical;
+  font-size: 0.9rem;
+  font-family: inherit;
+  box-sizing: border-box;
 }
