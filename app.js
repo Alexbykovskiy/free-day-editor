@@ -131,6 +131,9 @@ titleMonthFontSelect = document.getElementById("titleMonthFontSelect");
 titleMonthColorInput = document.getElementById("titleMonthColorInput");
 
 footerFontSelect = document.getElementById("footerFontSelect");
+  footerColorInput = document.getElementById("footerColorInput");
+
+footerFontSelect = document.getElementById("footerFontSelect");
 footerColorInput = document.getElementById("footerColorInput");
   monthSelect = document.getElementById("monthSelect");
   yearInput = document.getElementById("yearInput");
