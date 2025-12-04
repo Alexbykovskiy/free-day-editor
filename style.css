@@ -431,23 +431,18 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.08s;
 }
 .calendar-day-inner {
-  width: var(--calendar-cell-size);
-  height: var(--calendar-cell-size);
+  width: 100%;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-size: var(--calendar-font-size);
   font-weight: 600;
-  line-height: 1;
+  line-height: calc(var(--calendar-font-size) + 2px);
   color: var(--calendar-text-color);
 
-  border-radius: 50%; /* сохраняет стиль */
-}
-
-/* НЕсвободный день: красный крестик */
-.calendar-day.unavailable .calendar-day-inner {
-  color: #b91c1c; /* цифра тоже красноватая */
+  border-radius: 50%;
 }
 
 .calendar-day.unavailable .calendar-day-inner::before,
@@ -477,12 +472,14 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   cursor: default;
 }
 
-.calendar-day:not(.empty):hover {
+.calendar-day:not(.empty):hover .calendar-day-inner {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
 }
 
-
+.calendar-day-inner {
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
 
 /* выходные слегка подсвечены */
 .calendar-day.weekend .calendar-day-inner {
@@ -611,22 +608,10 @@ textarea {
   color: var(--calendar-text-color) !important;
 }
 
-.calendar-day.unavailable .calendar-day-inner {
-  color: var(--calendar-text-color) !important;
-}
-
-/* Исправляем цвет красных крестиков — они всегда должны быть красными */
-.calendar-day.unavailable .calendar-day-inner {
-  color: #b91c1c !important;
-}
 
 .calendar-day.unavailable .calendar-day-inner::before,
 .calendar-day.unavailable .calendar-day-inner::after {
   background-color: #b91c1c !important;
-}
-
-.calendar-day.unavailable .calendar-day-inner {
-  position: relative;
 }
 
 .calendar-day.unavailable .calendar-day-inner::before,
