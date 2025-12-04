@@ -549,10 +549,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 /* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
 .calendar-day.available .calendar-day-inner {
   position: relative;
-  color: var(--calendar-card-bg-color) !important;
-}
-.calendar-day.available .calendar-day-inner::before {
-  z-index: 0 !important; /* КРУГ ВСЕГДА СНИЗУ И НЕ ИСЧЕЗАЕТ */
+  color: var(--calendar-text-color) !important; /* ЦИФРА ДОЛЖНА БЫТЬ ВИДНА */
+  z-index: 2; /* ЦИФРА ВСЕГДА СВЕРХУ */
 }
 
 .calendar-day.available .calendar-day-inner::before {
@@ -560,14 +558,13 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: absolute;
   left: 50%;
   top: 50%;
-  width: calc(var(--calendar-cell-size) * 0.95);   /* размер круга */
+  width: calc(var(--calendar-cell-size) * 0.95);
   height: calc(var(--calendar-cell-size) * 0.95);
   background: var(--accent-color);
   border-radius: 50%;
   transform: translate(-50%, -50%);
-  z-index: -1;
+  z-index: 1; /* КРУГ НИЖЕ ЦИФРЫ, НО ВЕРХЕ КАРТЫ */
 }
-
 @media (max-width: 480px) {
   .page {
     padding: 10px 8px 16px;
