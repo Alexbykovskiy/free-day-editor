@@ -1,5 +1,8 @@
 // Простроим состояние приложения
 const state = {
+calendarBorderColor: "#d1d5db",
+calendarCardBgColor: "#ffffff",
+calendarTextColor: "#111827",
   year: new Date().getFullYear(),
   month: new Date().getMonth(), // 0-11
   titleMain: "Запись на декабрь открыта",
@@ -45,6 +48,9 @@ footerFontStyle: "normal",
 
 // DOM-элементы
 let monthSelect,
+calendarBorderColorInput,
+calendarCardBgColorInput,
+calendarTextColorInput,
 titleMonthFontSelect,
 titleMonthColorInput,
 footerFontSelect,
@@ -87,6 +93,8 @@ titleMonthFontSizeInput,
 
 function init() {
 
+
+
   cacheDom();
   initDefaults();
   buildCalendar();
@@ -97,6 +105,10 @@ function init() {
   updateAccentColor();
   updateCalendarOpacity();
   updateCalendarAppearance();
+
+if (calendarBorderColorInput) calendarBorderColorInput.value = state.calendarBorderColor;
+if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
+if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
 
 if (titleMonthFontSelect) titleMonthFontSelect.value = state.titleMonthFont;
 if (titleMonthColorInput) titleMonthColorInput.value = state.titleMonthColor;
@@ -152,6 +164,9 @@ if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
 /* ====== DOM helpers ====== */
 
 function cacheDom() {
+calendarBorderColorInput = document.getElementById("calendarBorderColorInput");
+calendarCardBgColorInput = document.getElementById("calendarCardBgColorInput");
+calendarTextColorInput = document.getElementById("calendarTextColorInput");
 titleMonthFontSelect = document.getElementById("titleMonthFontSelect");
 titleMonthColorInput = document.getElementById("titleMonthColorInput");
 
@@ -235,6 +250,27 @@ function initDefaults() {
 
 /* ====== События ====== */
 function bindEvents() {
+
+if (calendarBorderColorInput) {
+  calendarBorderColorInput.addEventListener("input", () => {
+    state.calendarBorderColor = calendarBorderColorInput.value;
+    updateCalendarAppearance();
+  });
+}
+
+if (calendarCardBgColorInput) {
+  calendarCardBgColorInput.addEventListener("input", () => {
+    state.calendarCardBgColor = calendarCardBgColorInput.value;
+    updateCalendarAppearance();
+  });
+}
+
+if (calendarTextColorInput) {
+  calendarTextColorInput.addEventListener("input", () => {
+    state.calendarTextColor = calendarTextColorInput.value;
+    updateCalendarAppearance();
+  });
+}
 
   // Вкл/выкл группы настроек календаря
   if (calendarSettingsToggle) {
@@ -606,6 +642,9 @@ function updateCalendarAppearance() {
   if (!previewArtboard) return;
 
   // размер и положение
+previewArtboard.style.setProperty("--calendar-border-color", state.calendarBorderColor);
+previewArtboard.style.setProperty("--calendar-card-bg-color", state.calendarCardBgColor);
+previewArtboard.style.setProperty("--calendar-text-color", state.calendarTextColor);
   previewArtboard.style.setProperty("--calendar-scale", state.calendarScale);
   previewArtboard.style.setProperty("--calendar-offset-x", state.calendarOffsetX + "px");
   previewArtboard.style.setProperty("--calendar-offset-y", state.calendarOffsetY + "px");
