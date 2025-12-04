@@ -260,7 +260,7 @@ input[type="color"] {
   padding: 16px 14px 18px;
 
   /* цвет карточки календаря управляется переменной */
-  background: var(--calendar-bg-color, rgba(249, 250, 251, 0.96));
+ background: var(--calendar-bg-color, rgba(249, 250, 251, 0.82));
 
   /* размытие фона за карточкой */
   backdrop-filter: blur(var(--calendar-bg-blur, 0px));
