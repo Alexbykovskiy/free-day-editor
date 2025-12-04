@@ -523,13 +523,16 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 /* === FIX: красные крестики (единственный правильный блок) === */
 .calendar-day.unavailable .calendar-day-inner {
   position: relative;
-  color: #b91c1c !important;
+  color: var(--calendar-text-color) !important; /* ← цифра в цвет дней недели */
 }
+
 
 .calendar-day.unavailable .calendar-day-inner::before,
 .calendar-day.unavailable .calendar-day-inner::after {
   content: "";
  z-index: 3; /* кресты выше всех слоёв */
+ background-color: #b91c1c !important; /* красные линии */
+
   position: absolute;
   left: 50%;
   top: 50%;
@@ -550,7 +553,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 
 .calendar-day.available .calendar-day-inner {
   position: relative;
-  color: var(--calendar-text-color) !important; /* ← привязка цвета цифр */
+  color: #ffffff !important; /* всегда белые цифры */
+  font-weight: 700;          /* лучше читаемость */
   z-index: 2;
 }
 .calendar-day.available .calendar-day-inner::before {
@@ -561,7 +565,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   width: calc(var(--calendar-cell-size) * 0.95);
   height: calc(var(--calendar-cell-size) * 0.95);
 
-  background: rgba(128, 128, 128, 0.8); /* серый, 80% непрозрачности */
+  background: rgba(128, 128, 128, 0.8); /* серый, 95% непрозрачности */
   border-radius: 50%;
 
   transform: translate(-50%, -50%);
