@@ -6,7 +6,6 @@
   box-sizing: border-box;
 }
 :root {
-  --calendar-border-color: #d1d5db;
   --calendar-card-bg-color: #ffffff;
   --calendar-text-color: #111827;
 }
@@ -344,7 +343,6 @@ input[type="color"] {
   color: var(--calendar-text-color);
 }
 .preview-calendar-container {
-  border: 4px solid var(--calendar-border-color);   /* ← ШИРОКАЯ РАМКА */
   background: var(--calendar-card-bg-color);        /* ← ФОН КАРТОЧКИ */
   color: var(--calendar-text-color);                /* ← ЦВЕТ ТЕКСТА */
 margin-top: 18px;
