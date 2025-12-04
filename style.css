@@ -453,13 +453,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 }
 
 
-.calendar-day.unavailable .calendar-day-inner::before {
-  transform: rotate(45deg);
-}
-
-.calendar-day.unavailable .calendar-day-inner::after {
-  transform: rotate(-45deg);
-}
 
 .calendar-day.empty {
   cursor: default;
@@ -524,13 +517,13 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   left: 50%;
   top: 50%;
   width: calc(var(--calendar-cell-size) * 0.9);
-  height: 2px;
-  background: #e53935; /* красная полоса */
-  transform: translate(-50%, -50%) rotate(-20deg); /* лёгкое диагональное перечёркивание */
-  border-radius: 2px;
-  z-index: 3;
+  height: 6px; /* толщина линии */
+  background: #e53935; /* красная */
+  border-radius: 999px; /* пилюля */
+  transform: translate(-50%, -50%);
+  z-index: 3; /* над цифрой */
+  opacity: 0.9;
 }
-
 .calendar-day.available .calendar-day-inner::before {
   content: "";
   position: absolute;
