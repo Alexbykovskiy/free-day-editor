@@ -551,6 +551,9 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   position: relative;
   color: var(--calendar-card-bg-color) !important;
 }
+.calendar-day.available .calendar-day-inner::before {
+  z-index: 0 !important; /* КРУГ ВСЕГДА СНИЗУ И НЕ ИСЧЕЗАЕТ */
+}
 
 .calendar-day.available .calendar-day-inner::before {
   content: "";
