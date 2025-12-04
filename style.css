@@ -550,11 +550,9 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 
 .calendar-day.available .calendar-day-inner {
   position: relative;
-  color: #ffffff !important;
-  z-index: 10;               /* цифра выше кольца */
-  isolation: isolate;        /* ← создаёт свой stacking context */
+  color: var(--calendar-text-color) !important; /* ← привязка цвета цифр */
+  z-index: 2;
 }
-
 .calendar-day.available .calendar-day-inner::before {
   content: "";
   position: absolute;
