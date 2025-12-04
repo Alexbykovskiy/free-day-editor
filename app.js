@@ -479,20 +479,7 @@ function updateCalendarSettingsVisibility() {
   if (!calendarSettingsGroup) return;
   calendarSettingsGroup.style.display = state.calendarSettingsEnabled ? "" : "none";
 }
-  const blur = state.calendarShadowSize;
-  const opacity = state.calendarShadowOpacity;
-  const glow = state.calendarGlowSize;
-
-  const baseShadow = `0 18px ${blur}px rgba(15, 23, 42, ${opacity})`;
-  const glowShadow =
-    glow > 0 ? `, 0 0 ${glow}px rgba(255, 255, 255, 0.7)` : "";
-
-  previewArtboard.style.setProperty(
-    "--calendar-shadow",
-    baseShadow + glowShadow
-  );
-}
-
+ 
 function updateFormat() {
   previewWrapper.classList.remove("format-story", "format-square", "format-post");
   if (state.format === "story") {
