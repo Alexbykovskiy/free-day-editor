@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Календарь свободных окон</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="style.css" />
+  <!-- html2canvas для выгрузки превью в PNG -->
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <h1>Календарь свободных окон</h1>
+      <p>Собери картинку для поста: выбери месяц, дни, фон и заголовок.</p>
+    </header>
+
+    <main class="layout">
+      <!-- Панель редактора -->
+      <section class="panel panel-editor">
+        <h2 class="panel-title">Настройки</h2>
+
+        <div class="form-group">
+          <label for="formatSelect">Формат</label>
+          <select id="formatSelect">
+            <option value="story">Instagram Story 1080×1920 (9:16)</option>
+            <option value="square">Квадрат 1080×1080 (1:1)</option>
+            <option value="post">Пост 1080×1350 (4:5)</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="monthSelect">Месяц</label>
+            <select id="monthSelect">
+              <option value="0">Январь</option>
+              <option value="1">Февраль</option>
+              <option value="2">Март</option>
+              <option value="3">Апрель</option>
+              <option value="4">Май</option>
+              <option value="5">Июнь</option>
+              <option value="6">Июль</option>
+              <option value="7">Август</option>
+              <option value="8">Сентябрь</option>
+              <option value="9">Октябрь</option>
+              <option value="10">Ноябрь</option>
+              <option value="11">Декабрь</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="yearInput">Год</label>
+            <input id="yearInput" type="number" min="2020" max="2100" />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="titleMainInput">Заголовок (верх)</label>
+          <input id="titleMainInput" type="text" placeholder="Запись на декабрь открыта" />
+        </div>
+
+        <div class="form-group">
+          <label for="titleMonthInput">Подзаголовок (месяц)</label>
+          <input id="titleMonthInput" type="text" placeholder="Декабрь 2025" />
+        </div>
+
+        <div class="form-group">
+          <label for="footerTextInput">Текст под календарём</label>
+          <input id="footerTextInput" type="text" placeholder="Ближайшие свободные окна:" />
+        </div>
+
+        <div class="form-group">
+          <label for="backgroundSelect">Фон</label>
+          <select id="backgroundSelect">
+            <option value="bg-beige">Тёплый бежевый (свитер)</option>
+            <option value="bg-red">Красный (свитер)</option>
+            <option value="bg-green">Лесной фон</option>
+            <option value="bg-solid">Однородный светлый</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="accentColorInput">Цвет акцента (свободные дни)</label>
+          <input id="accentColorInput" type="color" value="#e53935" />
+        </div>
+
+        <div class="hint">
+          Дни в календаре отмечаются кликом по ячейке. Повторный клик снимает выделение.
+        </div>
+
+        <button id="clearDaysBtn" class="btn btn-secondary">Сбросить выделенные дни</button>
+
+        <hr class="divider" />
+
+        <button id="downloadBtn" class="btn btn-primary">Скачать картинку (PNG)</button>
+      </section>
+
+      <!-- Превью календаря -->
+      <section class="panel panel-preview">
+        <h2 class="panel-title">Превью</h2>
+
+        <div id="previewWrapper" class="preview-wrapper format-story">
+          <div id="previewArtboard" class="preview-artboard bg-beige">
+            <div class="preview-overlay">
+              <div class="preview-header">
+                <div id="previewTitleMain" class="preview-title-main">
+                  Запись на декабрь открыта
+                </div>
+              </div>
+
+              <div class="preview-calendar-container">
+                <div id="previewTitleMonth" class="preview-title-month">
+                  Декабрь 2025
+                </div>
+
+                <div class="calendar">
+                  <div class="calendar-weekdays">
+                    <span>ПН</span>
+                    <span>ВТ</span>
+                    <span>СР</span>
+                    <span>ЧТ</span>
+                    <span>ПТ</span>
+                    <span>СБ</span>
+                    <span>ВС</span>
+                  </div>
+                  <div id="calendarDays" class="calendar-days">
+                    <!-- Дни месяца будут вставляться скриптом -->
+                  </div>
+                </div>
+
+                <div id="previewFooterText" class="preview-footer-text">
+                  Ближайшие свободные окна:
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="preview-note">
+          * Можешь прокрутить страницу вниз — превью всё равно останется в видимой области.
+        </p>
+      </section>
+    </main>
+
+    <footer class="page-footer">
+      <span>Сделано для быстрого создания календарей с окнами ✨</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

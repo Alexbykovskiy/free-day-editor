@@ -1,0 +1,393 @@
+/* ====== БАЗА ====== */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #f5f5f7 0, #dde1e7 50%, #c7d0dd 100%);
+  color: #111827;
+}
+
+body {
+  min-height: 100vh;
+}
+
+.page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ====== ШАПКА/ФУТЕР ====== */
+
+.page-header {
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  margin: 0 0 4px;
+  font-size: 1.5rem;
+}
+
+.page-header p {
+  margin: 0;
+  color: #4b5563;
+  font-size: 0.95rem;
+}
+
+.page-footer {
+  margin-top: 16px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+/* ====== ЛЕЙАУТ ====== */
+
+.layout {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+}
+
+.panel {
+  backdrop-filter: blur(18px);
+  background: rgba(248, 250, 252, 0.8);
+  border-radius: 18px;
+  padding: 16px 18px 18px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.20);
+  border: 1px solid rgba(148, 163, 184, 0.35);
+}
+
+.panel-title {
+  margin: 0 0 12px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+/* ====== ФОРМА ====== */
+
+.form-group {
+  margin-bottom: 10px;
+}
+
+.form-row {
+  display: flex;
+  gap: 10px;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  margin-bottom: 4px;
+  color: #4b5563;
+}
+
+input[type="text"],
+input[type="number"],
+select {
+  width: 100%;
+  padding: 6px 8px;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  font-size: 0.9rem;
+  outline: none;
+  background: rgba(255, 255, 255, 0.9);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, background 0.15s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+select:focus {
+  border-color: #0ea5e9;
+  box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.3);
+  background: #fff;
+}
+
+input[type="color"] {
+  width: 100%;
+  height: 36px;
+  padding: 0;
+  border-radius: 10px;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+  background: transparent;
+}
+
+.hint {
+  font-size: 0.8rem;
+  color: #6b7280;
+  margin: 6px 0 10px;
+}
+
+.divider {
+  border: none;
+  border-top: 1px dashed rgba(148, 163, 184, 0.7);
+  margin: 14px 0;
+}
+
+/* ====== КНОПКИ ====== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  transition: transform 0.1s ease, box-shadow 0.1s ease, background 0.15s,
+    border-color 0.15s;
+}
+
+.btn-primary {
+  background: linear-gradient(120deg, #f97316, #ec4899);
+  color: #f9fafb;
+  box-shadow: 0 12px 30px rgba(236, 72, 153, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 32px rgba(236, 72, 153, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(15, 23, 42, 0.04);
+  color: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.8);
+}
+
+.btn-secondary:hover {
+  background: rgba(15, 23, 42, 0.06);
+}
+
+/* ====== ПРЕВЬЮ ====== */
+
+.panel-preview {
+  position: relative;
+}
+
+.preview-wrapper {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.preview-artboard {
+  width: 100%;
+  aspect-ratio: 9 / 16; /* формат story по умолчанию */
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(15, 23, 42, 0.4);
+}
+
+/* Фоновые варианты */
+
+.preview-artboard.bg-beige {
+  background-image: linear-gradient(135deg, #cbb69b 0, #e7d4bc 45%, #f5ede1 100%);
+}
+
+.preview-artboard.bg-red {
+  background-image: linear-gradient(135deg, #7f1023 0, #b7182f 30%, #e63946 100%);
+}
+
+.preview-artboard.bg-green {
+  background-image: linear-gradient(135deg, #0b3b2d 0, #145c38 40%, #9fd5b6 100%);
+}
+
+.preview-artboard.bg-solid {
+  background-image: linear-gradient(145deg, #f9fafb 0, #e5e7eb 50%, #f9fafb 100%);
+}
+
+/* Полупрозрачная белая карточка с календарём */
+
+.preview-overlay {
+  position: relative;
+  inset: 0;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.preview-header {
+  text-align: left;
+  padding: 8px 10px;
+  border-radius: 18px;
+  background: rgba(17, 24, 39, 0.08);
+  backdrop-filter: blur(10px);
+  color: #f9fafb;
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.preview-title-main {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.preview-calendar-container {
+  margin-top: 18px;
+  background: rgba(249, 250, 251, 0.96);
+  border-radius: 26px;
+  padding: 16px 14px 18px;
+  box-shadow: 0 18px 35px rgba(15, 23, 42, 0.45);
+}
+
+.preview-title-month {
+  text-align: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  color: #111827;
+}
+
+/* Календарь */
+
+.calendar {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 18px;
+  padding: 10px 10px 10px;
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+.calendar-weekdays {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #6b7280;
+  margin-bottom: 6px;
+}
+
+.calendar-weekdays span {
+  padding: 2px 0;
+}
+
+.calendar-days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 3px;
+}
+
+.calendar-day {
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #111827;
+  transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.08s;
+}
+
+.calendar-day-inner {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+}
+
+.calendar-day.empty {
+  cursor: default;
+}
+
+.calendar-day:not(.empty):hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
+}
+
+/* свободный день, цвет задаём через CSS-переменную */
+.calendar-day.available .calendar-day-inner {
+  background: var(--accent-color, #e53935);
+  color: #f9fafb;
+  font-weight: 700;
+}
+
+/* выходные слегка подсвечены */
+.calendar-day.weekend .calendar-day-inner {
+  color: #9b1c1c;
+}
+
+.preview-footer-text {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  color: #4b5563;
+}
+
+/* Подпись под превью */
+
+.preview-note {
+  margin-top: 10px;
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* Форматы */
+
+.format-story .preview-artboard {
+  aspect-ratio: 9 / 16;
+}
+
+.format-square .preview-artboard {
+  aspect-ratio: 1 / 1;
+}
+
+.format-post .preview-artboard {
+  aspect-ratio: 4 / 5;
+}
+
+/* ====== АДАПТИВ ====== */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .panel-preview {
+    order: -1; /* превью наверх */
+  }
+
+  .preview-wrapper {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 480px) {
+  .page {
+    padding: 10px 8px 16px;
+  }
+
+  .preview-overlay {
+    padding: 18px 14px;
+  }
+
+  .preview-calendar-container {
+    padding: 12px 10px 14px;
+  }
+}
