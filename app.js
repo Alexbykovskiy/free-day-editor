@@ -9,9 +9,9 @@ const state = {
   background: "bg-beige",
   accentColor: "#22c55e", // зелёный по умолчанию
 
-  // параметры календаря
-   calendarOpacity: 0.96,
-  calendarBlur: 0,        // размытие фона за календарём
+ // параметры календаря
+  calendarOpacity: 0.96,
+
   calendarScale: 1,
   calendarOffsetX: 0,
   calendarOffsetY: 0,
@@ -23,16 +23,21 @@ const state = {
   calendarShadowOpacity: 0.45, // прозрачность тени
   calendarGlowSize: 0,         // размер свечения
 
+  // вкл/выкл блока настроек календаря
+  calendarSettingsEnabled: true,
+
   availableDays: new Set(), // свободные дни
   customBackground: null,   // dataURL пользовательского фона
 };
+
+
 // DOM-элементы
 let monthSelect,
   yearInput,
   titleMainInput,
   titleMonthInput,
   footerTextInput,
-  backgroundSelect,
+   backgroundSelect,
   accentColorInput,
   formatSelect,
   calendarDaysContainer,
@@ -45,8 +50,9 @@ let monthSelect,
   downloadBtn,
   uploadBgBtn,
   bgUploadInput,
+  calendarSettingsToggle,
+  calendarSettingsGroup,
   calendarOpacityInput,
-  calendarBlurInput,
   calendarScaleInput,
   calendarOffsetXInput,
   calendarOffsetYInput,
@@ -62,7 +68,7 @@ function init() {
   buildCalendar();
   bindEvents();
   updatePreviewTexts();
-   updateBackground();
+  updateBackground();
   updateFormat();
   updateAccentColor();
   updateCalendarOpacity();
@@ -71,9 +77,6 @@ function init() {
   // инициализация ползунков и чекбоксов
   if (calendarOpacityInput) {
     calendarOpacityInput.value = state.calendarOpacity;
-  }
-  if (calendarBlurInput) {
-    calendarBlurInput.value = state.calendarBlur;
   }
   if (calendarScaleInput) {
     calendarScaleInput.value = state.calendarScale;
@@ -99,6 +102,11 @@ function init() {
   if (calendarGlowSizeInput) {
     calendarGlowSizeInput.value = state.calendarGlowSize;
   }
+
+  if (calendarSettingsToggle) {
+    calendarSettingsToggle.checked = state.calendarSettingsEnabled;
+  }
+  updateCalendarSettingsVisibility();
 }
 
 /* ====== DOM helpers ====== */
@@ -122,10 +130,14 @@ function cacheDom() {
   downloadBtn = document.getElementById("downloadBtn");
 
   // новые элементы
+   // новые элементы
   uploadBgBtn = document.getElementById("uploadBgBtn");
   bgUploadInput = document.getElementById("bgUploadInput");
+
+  calendarSettingsToggle = document.getElementById("calendarSettingsToggle");
+  calendarSettingsGroup = document.getElementById("calendarSettingsGroup");
+
   calendarOpacityInput = document.getElementById("calendarOpacityInput");
-  calendarBlurInput = document.getElementById("calendarBlurInput");
   // календарь — размер / положение / цвет / эффекты
   calendarScaleInput = document.getElementById("calendarScaleInput");
   calendarOffsetXInput = document.getElementById("calendarOffsetXInput");
@@ -221,6 +233,13 @@ function bindEvents() {
   bgUploadInput.addEventListener("change", (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
+ // Вкл/выкл группы настроек календаря
+  if (calendarSettingsToggle) {
+    calendarSettingsToggle.addEventListener("change", () => {
+      state.calendarSettingsEnabled = calendarSettingsToggle.checked;
+      updateCalendarSettingsVisibility();
+    });
+  }
 
     const reader = new FileReader();
     reader.onload = (event) => {
@@ -240,14 +259,7 @@ function bindEvents() {
     });
   }
 
-  // Размытие фона за календарём
-  if (calendarBlurInput) {
-    calendarBlurInput.addEventListener("input", () => {
-      state.calendarBlur = Number(calendarBlurInput.value);
-      updateCalendarAppearance();
-    });
-  }
-
+ 
   // Календарь — размер / положение / цвет
   if (calendarScaleInput) {
     calendarScaleInput.addEventListener("input", () => {
@@ -435,38 +447,13 @@ function updateCalendarOpacity() {
 
 // размер / положение / эффекты календаря
 function updateCalendarAppearance() {
-  if (!previewArtboard) return;
+  ...
+}
 
-  // размер и положение
-  previewArtboard.style.setProperty(
-    "--calendar-scale",
-    state.calendarScale
-  );
-  previewArtboard.style.setProperty(
-    "--calendar-offset-x",
-    state.calendarOffsetX + "px"
-  );
-  previewArtboard.style.setProperty(
-    "--calendar-offset-y",
-    state.calendarOffsetY + "px"
-  );
-  previewArtboard.style.setProperty(
-    "--calendar-bg-color",
-    state.calendarBgColor
-  );
-
-  // размытие фона за календарём
-  previewArtboard.style.setProperty(
-    "--calendar-bg-blur",
-    state.calendarBlur + "px"
-  );
-
-  // эффекты
-  if (!state.calendarEffectsEnabled) {
-    previewArtboard.style.setProperty("--calendar-shadow", "none");
-    return;
-  }
-
+function updateCalendarSettingsVisibility() {
+  if (!calendarSettingsGroup) return;
+  calendarSettingsGroup.style.display = state.calendarSettingsEnabled ? "" : "none";
+}
   const blur = state.calendarShadowSize;
   const opacity = state.calendarShadowOpacity;
   const glow = state.calendarGlowSize;

@@ -97,6 +97,65 @@ label {
   color: #4b5563;
 }
 
+/* Категория настроек ("Календарь" + iOS-switch) */
+.settings-cat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 14px 0 6px;
+}
+
+.settings-cat-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+/* iOS-переключатель */
+.switch-ios {
+  position: relative;
+  display: inline-block;
+  width: 40px;
+  height: 22px;
+}
+
+.switch-ios input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-ios .slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: rgba(148, 163, 184, 0.8);
+  border-radius: 999px;
+  transition: background-color 0.2s ease;
+}
+
+.switch-ios .slider::before {
+  content: "";
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  top: 2px;
+  background-color: #fff;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.3);
+  transition: transform 0.2s ease;
+}
+
+.switch-ios input:checked + .slider {
+  background-color: #22c55e;
+}
+
+.switch-ios input:checked + .slider::before {
+  transform: translateX(18px);
+}
+
+
 input[type="text"],
 input[type="number"],
 select {
@@ -262,8 +321,6 @@ input[type="color"] {
   /* цвет карточки календаря управляется переменной */
  background: var(--calendar-bg-color, rgba(249, 250, 251, 0.82));
 
-  /* размытие фона за карточкой */
-  backdrop-filter: blur(var(--calendar-bg-blur, 0px));
 
   /* тень / свечение календаря */
   box-shadow: var(
