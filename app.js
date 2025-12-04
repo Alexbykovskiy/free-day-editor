@@ -177,8 +177,15 @@ function initDefaults() {
 }
 
 /* ====== События ====== */
-
 function bindEvents() {
+
+  // Вкл/выкл группы настроек календаря
+  if (calendarSettingsToggle) {
+    calendarSettingsToggle.addEventListener("change", () => {
+      state.calendarSettingsEnabled = calendarSettingsToggle.checked;
+      updateCalendarSettingsVisibility();
+    });
+  }
   monthSelect.addEventListener("change", () => {
     state.month = Number(monthSelect.value);
     autoUpdateTextsForMonth();
@@ -233,13 +240,6 @@ function bindEvents() {
   bgUploadInput.addEventListener("change", (e) => {
     const file = e.target.files && e.target.files[0];
     if (!file) return;
- // Вкл/выкл группы настроек календаря
-  if (calendarSettingsToggle) {
-    calendarSettingsToggle.addEventListener("change", () => {
-      state.calendarSettingsEnabled = calendarSettingsToggle.checked;
-      updateCalendarSettingsVisibility();
-    });
-  }
 
     const reader = new FileReader();
     reader.onload = (event) => {
