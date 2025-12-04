@@ -466,19 +466,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   cursor: default;
 }
 
-.calendar-day:not(.empty):hover .calendar-day-inner {
-  transform: translateY(-1px);
-  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
-}
 
-.calendar-day-inner {
-  transition: transform 0.12s ease, box-shadow 0.12s ease;
-}
 
-/* выходные слегка подсвечены */
-.calendar-day.weekend .calendar-day-inner {
-  color: #9b1c1c;
-}
 
 .preview-footer-text {
   margin-top: 10px;
@@ -556,9 +545,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   transform: translate(-50%, -50%) rotate(-45deg);
 }
 /* === FIX: правильное центрирование зелёного круга === */
-.calendar-day-inner {
-  border-radius: 50%;
-}
 
 /* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
 .calendar-day.available .calendar-day-inner {
