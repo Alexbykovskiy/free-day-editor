@@ -5,6 +5,11 @@ const state = {
   titleMain: "Запись на декабрь открыта",
   titleMonth: "",
   footerText: "Ближайшие свободные окна:",
+titleMonthFont: "Inter",
+titleMonthColor: "#1f2937",
+
+footerFont: "Inter",
+footerColor: "#374151",
   format: "story",
   background: "bg-beige",
   accentColor: "#22c55e", // зелёный по умолчанию
@@ -33,6 +38,10 @@ const state = {
 
 // DOM-элементы
 let monthSelect,
+titleMonthFontSelect,
+titleMonthColorInput,
+footerFontSelect,
+footerColorInput,
   yearInput,
   titleMainInput,
   titleMonthInput,
@@ -63,6 +72,7 @@ let monthSelect,
   calendarGlowSizeInput;
 
 function init() {
+
   cacheDom();
   initDefaults();
   buildCalendar();
@@ -74,6 +84,11 @@ function init() {
   updateCalendarOpacity();
   updateCalendarAppearance();
 
+if (titleMonthFontSelect) titleMonthFontSelect.value = state.titleMonthFont;
+if (titleMonthColorInput) titleMonthColorInput.value = state.titleMonthColor;
+
+if (footerFontSelect) footerFontSelect.value = state.footerFont;
+if (footerColorInput) footerColorInput.value = state.footerColor;
   // инициализация ползунков и чекбоксов
   if (calendarOpacityInput) {
     calendarOpacityInput.value = state.calendarOpacity;
@@ -112,6 +127,11 @@ function init() {
 /* ====== DOM helpers ====== */
 
 function cacheDom() {
+titleMonthFontSelect = document.getElementById("titleMonthFontSelect");
+titleMonthColorInput = document.getElementById("titleMonthColorInput");
+
+footerFontSelect = document.getElementById("footerFontSelect");
+footerColorInput = document.getElementById("footerColorInput");
   monthSelect = document.getElementById("monthSelect");
   yearInput = document.getElementById("yearInput");
   titleMainInput = document.getElementById("titleMainInput");
@@ -186,6 +206,35 @@ function bindEvents() {
       updateCalendarSettingsVisibility();
     });
   }
+
+if (titleMonthFontSelect) {
+  titleMonthFontSelect.addEventListener("change", () => {
+    state.titleMonthFont = titleMonthFontSelect.value;
+    updatePreviewTexts();
+  });
+}
+
+if (titleMonthColorInput) {
+  titleMonthColorInput.addEventListener("input", () => {
+    state.titleMonthColor = titleMonthColorInput.value;
+    updatePreviewTexts();
+  });
+}
+
+if (footerFontSelect) {
+  footerFontSelect.addEventListener("change", () => {
+    state.footerFont = footerFontSelect.value;
+    updatePreviewTexts();
+  });
+}
+
+if (footerColorInput) {
+  footerColorInput.addEventListener("input", () => {
+    state.footerColor = footerColorInput.value;
+    updatePreviewTexts();
+  });
+}
+
   monthSelect.addEventListener("change", () => {
     state.month = Number(monthSelect.value);
     autoUpdateTextsForMonth();
@@ -405,6 +454,12 @@ function updatePreviewTexts() {
     state.titleMain && state.titleMain.trim().length
       ? state.titleMain
       : "\u00A0"; // неразрывный пробел, чтобы блок не схлопывался
+
+previewTitleMonth.style.setProperty("--title-month-font", state.titleMonthFont);
+previewTitleMonth.style.setProperty("--title-month-color", state.titleMonthColor);
+
+previewFooterText.style.setProperty("--footer-font", state.footerFont);
+previewFooterText.style.setProperty("--footer-color", state.footerColor);
 
   previewTitleMonth.textContent =
     state.titleMonth && state.titleMonth.trim().length
