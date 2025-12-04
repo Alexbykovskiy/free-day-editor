@@ -344,9 +344,9 @@ input[type="color"] {
   color: var(--calendar-text-color);
 }
 .preview-calendar-container {
-  border: 2px solid var(--calendar-border-color);
-background: var(--calendar-card-bg-color);
-color: var(--calendar-text-color);
+  border: 4px solid var(--calendar-border-color);   /* ← ШИРОКАЯ РАМКА */
+  background: var(--calendar-card-bg-color);        /* ← ФОН КАРТОЧКИ */
+  color: var(--calendar-text-color);                /* ← ЦВЕТ ТЕКСТА */
 margin-top: 18px;
   border-radius: 26px;
   padding: 16px 14px 18px;
@@ -354,10 +354,7 @@ max-width: 90%;       /* ← фиксирует, чтобы блок не рос
 width: fit-content;   /* ← пусть подстраивается под содержимое */
 overflow: hidden;     /* ← защитит от “вылезания” */
   /* цвет карточки календаря управляется переменной */
- background: var(--calendar-bg-color, rgba(249, 250, 251, 0.82));
-
-
-  /* тень / свечение календаря */
+   /* тень / свечение календаря */
   box-shadow: var(
     --calendar-shadow,
     0 18px 35px rgba(15, 23, 42, 0.45)
@@ -394,7 +391,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 }/* Календарь */
 
 .calendar {
-  background: rgba(255, 255, 255, 0.95);
+  background: var(--calendar-card-bg-color, rgba(255, 255, 255, 0.95));
   border-radius: 18px;
   padding: 10px 10px 10px;
   border: 1px solid rgba(148, 163, 184, 0.6);
@@ -442,6 +439,10 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   border-radius: inherit;
 }
 
+.calendar-day-inner {
+  color: var(--calendar-text-color);
+}
+
 /* НЕсвободный день: красный крестик */
 .calendar-day.unavailable .calendar-day-inner {
   color: #b91c1c; /* цифра тоже красноватая */
@@ -467,11 +468,10 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 
 /* Свободный день: зелёный кружок (цвет задаём через accent-color) */
 .calendar-day.available .calendar-day-inner {
-  background: var(--accent-color, #22c55e);
-  color: #f9fafb;
+  background: var(--accent-color);
+  color: var(--calendar-card-bg-color) !important; /* читается на фоне */
   font-weight: 700;
 }
-
 
 .calendar-day.empty {
   cursor: default;
@@ -570,3 +570,17 @@ textarea {
   font-family: inherit;
   box-sizing: border-box;
 }
+
+.calendar-weekdays span,
+.calendar-day .calendar-day-inner {
+  color: var(--calendar-text-color) !important;
+}
+
+.calendar-day.weekend .calendar-day-inner {
+  color: var(--calendar-text-color) !important;
+}
+
+.calendar-day.unavailable .calendar-day-inner {
+  color: var(--calendar-text-color) !important;
+}
+
