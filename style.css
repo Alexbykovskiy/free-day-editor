@@ -262,6 +262,9 @@ input[type="color"] {
   /* цвет карточки календаря управляется переменной */
   background: var(--calendar-bg-color, rgba(249, 250, 251, 0.96));
 
+  /* размытие фона за карточкой */
+  backdrop-filter: blur(var(--calendar-bg-blur, 0px));
+
   /* тень / свечение календаря */
   box-shadow: var(
     --calendar-shadow,
@@ -280,9 +283,9 @@ input[type="color"] {
 
   transition: transform 0.15s ease,
               box-shadow 0.15s ease,
-              background 0.15s ease;
-}
-.preview-title-month {
+              background 0.15s ease,
+              backdrop-filter 0.15s ease;
+}.preview-title-month {
   text-align: center;
   font-weight: 700;
   font-size: 1.1rem;

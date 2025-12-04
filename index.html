@@ -92,6 +92,31 @@
   />
 </div>
 
+<!-- Прозрачность и размытие фона за календарём -->
+<div class="form-group">
+  <label for="calendarOpacityInput">Прозрачность календаря</label>
+  <input
+    id="calendarOpacityInput"
+    type="range"
+    min="0.3"
+    max="1"
+    step="0.05"
+    value="0.96"
+  />
+</div>
+
+<div class="form-group">
+  <label for="calendarBlurInput">Размытие фона за календарём</label>
+  <input
+    id="calendarBlurInput"
+    type="range"
+    min="0"
+    max="30"
+    step="1"
+    value="0"
+  />
+</div>
+
 <!-- Календарь: размер, положение, цвет -->
 <div class="form-group">
   <label>Календарь — размер и положение</label>
@@ -194,11 +219,11 @@
     value="0"
   />
 </div>
-        <div class="form-group">
-          <label for="accentColorInput">Цвет акцента (свободные дни)</label>
-          <input id="accentColorInput" type="color" value="#e53935" />
-        </div>
 
+<div class="form-group">
+  <label for="accentColorInput">Цвет акцента (свободные дни)</label>
+  <input id="accentColorInput" type="color" value="#e53935" />
+</div>
         <div class="hint">
           Дни в календаре отмечаются кликом по ячейке. Повторный клик снимает выделение.
         </div>

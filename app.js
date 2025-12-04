@@ -10,11 +10,12 @@ const state = {
   accentColor: "#22c55e", // зелёный по умолчанию
 
   // параметры календаря
-  calendarOpacity: 0.96,
+   calendarOpacity: 0.96,
+  calendarBlur: 0,        // размытие фона за календарём
   calendarScale: 1,
-  calendarOffsetX: 0,   // смещение по горизонтали
-  calendarOffsetY: 0,   // смещение по вертикали
-  calendarBgColor: "#f9fafb", // цвет карточки календаря
+  calendarOffsetX: 0,
+  calendarOffsetY: 0,
+  calendarBgColor: "#f9fafb",
 
   // эффекты календаря
   calendarEffectsEnabled: true,
@@ -45,6 +46,7 @@ let monthSelect,
   uploadBgBtn,
   bgUploadInput,
   calendarOpacityInput,
+  calendarBlurInput,
   calendarScaleInput,
   calendarOffsetXInput,
   calendarOffsetYInput,
@@ -69,6 +71,9 @@ function init() {
   // инициализация ползунков и чекбоксов
   if (calendarOpacityInput) {
     calendarOpacityInput.value = state.calendarOpacity;
+  }
+  if (calendarBlurInput) {
+    calendarBlurInput.value = state.calendarBlur;
   }
   if (calendarScaleInput) {
     calendarScaleInput.value = state.calendarScale;
@@ -120,7 +125,8 @@ function cacheDom() {
   uploadBgBtn = document.getElementById("uploadBgBtn");
   bgUploadInput = document.getElementById("bgUploadInput");
   calendarOpacityInput = document.getElementById("calendarOpacityInput");
-// календарь — размер / положение / цвет / эффекты
+  calendarBlurInput = document.getElementById("calendarBlurInput");
+  // календарь — размер / положение / цвет / эффекты
   calendarScaleInput = document.getElementById("calendarScaleInput");
   calendarOffsetXInput = document.getElementById("calendarOffsetXInput");
   calendarOffsetYInput = document.getElementById("calendarOffsetYInput");
@@ -227,52 +233,78 @@ function bindEvents() {
   });
 
   // Прозрачность календаря
-  calendarOpacityInput.addEventListener("input", () => {
-    state.calendarOpacity = Number(calendarOpacityInput.value);
-    updateCalendarOpacity();
-  });
+  if (calendarOpacityInput) {
+    calendarOpacityInput.addEventListener("input", () => {
+      state.calendarOpacity = Number(calendarOpacityInput.value);
+      updateCalendarOpacity();
+    });
+  }
 
-// Календарь — размер / положение / цвет
-  calendarScaleInput.addEventListener("input", () => {
-    state.calendarScale = Number(calendarScaleInput.value);
-    updateCalendarAppearance();
-  });
+  // Размытие фона за календарём
+  if (calendarBlurInput) {
+    calendarBlurInput.addEventListener("input", () => {
+      state.calendarBlur = Number(calendarBlurInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarOffsetXInput.addEventListener("input", () => {
-    state.calendarOffsetX = Number(calendarOffsetXInput.value);
-    updateCalendarAppearance();
-  });
+  // Календарь — размер / положение / цвет
+  if (calendarScaleInput) {
+    calendarScaleInput.addEventListener("input", () => {
+      state.calendarScale = Number(calendarScaleInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarOffsetYInput.addEventListener("input", () => {
-    state.calendarOffsetY = Number(calendarOffsetYInput.value);
-    updateCalendarAppearance();
-  });
+  if (calendarOffsetXInput) {
+    calendarOffsetXInput.addEventListener("input", () => {
+      state.calendarOffsetX = Number(calendarOffsetXInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarBgColorInput.addEventListener("input", () => {
-    state.calendarBgColor = calendarBgColorInput.value;
-    updateCalendarAppearance();
-  });
+  if (calendarOffsetYInput) {
+    calendarOffsetYInput.addEventListener("input", () => {
+      state.calendarOffsetY = Number(calendarOffsetYInput.value);
+      updateCalendarAppearance();
+    });
+  }
+
+  if (calendarBgColorInput) {
+    calendarBgColorInput.addEventListener("input", () => {
+      state.calendarBgColor = calendarBgColorInput.value;
+      updateCalendarAppearance();
+    });
+  }
 
   // Эффекты календаря
-  calendarEffectsEnableInput.addEventListener("change", () => {
-    state.calendarEffectsEnabled = calendarEffectsEnableInput.checked;
-    updateCalendarAppearance();
-  });
+  if (calendarEffectsEnableInput) {
+    calendarEffectsEnableInput.addEventListener("change", () => {
+      state.calendarEffectsEnabled = calendarEffectsEnableInput.checked;
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarShadowSizeInput.addEventListener("input", () => {
-    state.calendarShadowSize = Number(calendarShadowSizeInput.value);
-    updateCalendarAppearance();
-  });
+  if (calendarShadowSizeInput) {
+    calendarShadowSizeInput.addEventListener("input", () => {
+      state.calendarShadowSize = Number(calendarShadowSizeInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarShadowOpacityInput.addEventListener("input", () => {
-    state.calendarShadowOpacity = Number(calendarShadowOpacityInput.value);
-    updateCalendarAppearance();
-  });
+  if (calendarShadowOpacityInput) {
+    calendarShadowOpacityInput.addEventListener("input", () => {
+      state.calendarShadowOpacity = Number(calendarShadowOpacityInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
-  calendarGlowSizeInput.addEventListener("input", () => {
-    state.calendarGlowSize = Number(calendarGlowSizeInput.value);
-    updateCalendarAppearance();
-  });
+  if (calendarGlowSizeInput) {
+    calendarGlowSizeInput.addEventListener("input", () => {
+      state.calendarGlowSize = Number(calendarGlowSizeInput.value);
+      updateCalendarAppearance();
+    });
+  }
 
 
   clearDaysBtn.addEventListener("click", () => {
@@ -423,6 +455,12 @@ function updateCalendarAppearance() {
     state.calendarBgColor
   );
 
+  // размытие фона за календарём
+  previewArtboard.style.setProperty(
+    "--calendar-bg-blur",
+    state.calendarBlur + "px"
+  );
+
   // эффекты
   if (!state.calendarEffectsEnabled) {
     previewArtboard.style.setProperty("--calendar-shadow", "none");
@@ -543,9 +581,11 @@ function getMonthName(monthIndex, form) {
     "декабря",
   ];
 
-  if (form === "ru-nom") {
+   if (form === "ru-nom") {
     return monthsNom[monthIndex] || "";
   }
 
   return monthsGenNice[monthIndex] || monthsGen[monthIndex] || "";
 }
+
+document.addEventListener("DOMContentLoaded", init);
