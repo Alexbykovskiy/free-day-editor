@@ -666,7 +666,7 @@ previewArtboard.style.setProperty("--calendar-text-color", state.calendarTextCol
   const glowShadow = glow > 0 ? `, 0 0 ${glow}px rgba(255, 255, 255, 0.7)` : "";
 
 // Размер ячейки привязываем к размеру шрифта
-const cellSize = state.calendarFontSize * 2;
+const cellSize = Math.round(state.calendarFontSize * 1.7);
 previewArtboard.style.setProperty("--calendar-cell-size", cellSize + "px");
 
   previewArtboard.style.setProperty(

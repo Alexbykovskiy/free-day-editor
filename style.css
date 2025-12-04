@@ -415,14 +415,14 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 }
 .calendar-days {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  grid-template-columns: repeat(7, var(--calendar-cell-size));
   gap: 3px;
+  justify-content: center;
 }
-
 .calendar-day {
   position: relative;
-  width: 100%;
-  padding-top: 100%;
+  width: var(--calendar-cell-size);
+  height: var(--calendar-cell-size);
   border-radius: 999px;
   font-size: 0.7rem;
   border: none;
@@ -431,7 +431,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   color: #111827;
   transition: background 0.12s ease, box-shadow 0.12s ease, transform 0.08s;
 }
-
 .calendar-day-inner {
   width: var(--calendar-cell-size);
   height: var(--calendar-cell-size);
