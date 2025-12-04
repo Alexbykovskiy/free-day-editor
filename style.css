@@ -397,23 +397,31 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   border: 1px solid rgba(148, 163, 184, 0.6);
 }
 
+/* === ДНИ НЕДЕЛИ (ПН–ВС) — ТОЧНОЕ ВЫРАВНИВАНИЕ === */
+
 .calendar-weekdays {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  text-align: center;
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #6b7280;
+  grid-template-columns: repeat(7, var(--calendar-cell-size));
+  justify-content: center;
+  gap: 3px;
   margin-bottom: 6px;
 }
 
+/* Ячейка для дня недели — тот же размер, что цифры */
 .calendar-weekdays span {
-  font-size: calc(var(--calendar-font-size) * 0.7);
   width: var(--calendar-cell-size);
-  text-align: center;
-  color: var(--calendar-text-color) !important;
-}
-.calendar-days {
+  height: var(--calendar-cell-size);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* На 20% меньше, чем цифры */
+  font-size: calc(var(--calendar-font-size) * 0.8);
+
+  font-weight: 600;
+  color: var(--calendar-text-color);
+}.calendar-days {
   display: grid;
   grid-template-columns: repeat(7, var(--calendar-cell-size));
   gap: 3px;
