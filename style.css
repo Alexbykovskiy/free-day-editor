@@ -548,11 +548,11 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 }
 /* === FIX: правильное центрирование зелёного круга === */
 
-/* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
 .calendar-day.available .calendar-day-inner {
   position: relative;
-  z-index: 2; /* цифра выше круга */
   color: #ffffff !important;
+  z-index: 10;               /* цифра выше кольца */
+  isolation: isolate;        /* ← создаёт свой stacking context */
 }
 
 .calendar-day.available .calendar-day-inner::before {
