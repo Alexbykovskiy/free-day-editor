@@ -335,7 +335,9 @@ input[type="color"] {
   margin-top: 18px;
   border-radius: 26px;
   padding: 16px 14px 18px;
-
+max-width: 90%;       /* ← фиксирует, чтобы блок не рос шире */
+width: fit-content;   /* ← пусть подстраивается под содержимое */
+overflow: hidden;     /* ← защитит от “вылезания” */
   /* цвет карточки календаря управляется переменной */
  background: var(--calendar-bg-color, rgba(249, 250, 251, 0.82));
 
@@ -368,8 +370,13 @@ input[type="color"] {
   font-weight: var(--title-month-font-weight);
   font-style: var(--title-month-font-style);
   margin-bottom: 10px;
-}
-/* Календарь */
+
+  white-space: normal;        /* ← разрешить перенос */
+  word-wrap: break-word;      /* ← переносить длинные слова */
+  overflow-wrap: anywhere;    /* ← жесткий перенос */
+  line-height: 1.25;          /* ← чтобы красиво выглядело */
+  text-wrap: wrap;            /* ← современный wrap */
+}/* Календарь */
 
 .calendar {
   background: rgba(255, 255, 255, 0.95);
@@ -474,8 +481,13 @@ input[type="color"] {
   font-size: var(--footer-font-size);
   font-weight: var(--footer-font-weight);
   font-style: var(--footer-font-style);
-}/* Подпись под превью */
 
+  white-space: normal;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
+  text-wrap: wrap;
+}
 .preview-note {
   margin-top: 10px;
   font-size: 0.75rem;
