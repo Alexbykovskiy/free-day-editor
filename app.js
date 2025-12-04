@@ -254,6 +254,7 @@ if (calendarFontSizeInput) {
   calendarFontSizeInput.addEventListener("input", () => {
     state.calendarFontSize = calendarFontSizeInput.value;
     updateCalendarAppearance();
+buildCalendar();
   });
 }
 
@@ -638,6 +639,7 @@ function updateCalendarOpacity() {
 // размер / положение / эффекты календаря
 // размер / положение / эффекты календаря
 function updateCalendarAppearance() {
+
 previewArtboard.style.setProperty("--calendar-font-size", state.calendarFontSize + "px");
   if (!previewArtboard) return;
 
@@ -662,6 +664,10 @@ previewArtboard.style.setProperty("--calendar-text-color", state.calendarTextCol
 
   const baseShadow = `0 18px ${blur}px rgba(15, 23, 42, ${opacity})`;
   const glowShadow = glow > 0 ? `, 0 0 ${glow}px rgba(255, 255, 255, 0.7)` : "";
+
+// Размер ячейки привязываем к размеру шрифта
+const cellSize = state.calendarFontSize * 2;
+previewArtboard.style.setProperty("--calendar-cell-size", cellSize + "px");
 
   previewArtboard.style.setProperty(
     "--calendar-shadow",
