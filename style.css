@@ -467,19 +467,28 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   transform: rotate(-45deg);
 }
 
-/* Свободный день: зелёный кружок (цвет задаём через accent-color) */
-.calendar-day.available .calendar-day-inner {
-  width: var(--calendar-cell-size);
-  height: var(--calendar-cell-size);
-  border-radius: 50%;
-  background: var(--accent-color);
-  color: var(--calendar-card-bg-color) !important;
-}
-
 .calendar-day.empty {
   cursor: default;
 }
 
+/* ЗЕЛЁНЫЙ КРУГ (правильный, центрированный) */
+.calendar-day.available .calendar-day-inner {
+  position: relative;
+  color: var(--calendar-card-bg-color) !important;
+}
+
+.calendar-day.available .calendar-day-inner::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--calendar-cell-size) * 0.95);   /* размер круга */
+  height: calc(var(--calendar-cell-size) * 0.95);
+  background: var(--accent-color);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+}
 .calendar-day:not(.empty):hover .calendar-day-inner {
   transform: translateY(-1px);
   box-shadow: 0 4px 10px rgba(15, 23, 42, 0.25);
