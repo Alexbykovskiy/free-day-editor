@@ -453,11 +453,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   border-radius: 50%;
 }
 
-.calendar-day.unavailable .calendar-day-inner::before,
-.calendar-day.unavailable .calendar-day-inner::after {
-  width: calc(var(--calendar-cell-size) * 0.6);
-  height: 2px;
-}
 
 .calendar-day.unavailable .calendar-day-inner::before {
   transform: rotate(45deg);
@@ -607,13 +602,3 @@ textarea {
 
 
 
-
-.calendar-day.unavailable .calendar-day-inner::before,
-.calendar-day.unavailable .calendar-day-inner::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform-origin: center;
-  background-color: #b91c1c;
-}
