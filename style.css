@@ -281,28 +281,6 @@ input[type="color"]::-webkit-color-swatch {
 
 /* ====== ПРЕВЬЮ ====== */
 
-.panel-preview {
-  position: relative;
-}
-
-.preview-wrapper {
-  width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-}
-
-.preview-artboard {
-  width: 100%;
-  aspect-ratio: 9 / 16; /* формат story по умолчанию */
-  border-radius: 32px;
-  overflow: hidden;
-  position: relative;
-  display: flex;
-  align-items: stretch;
-  justify-content: center;
-  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.6);
-  border: 1px solid rgba(15, 23, 42, 0.4);
-}
 
 /* Фоновые варианты */
 
@@ -595,10 +573,10 @@ textarea {
 
   /* Превью: фиксированный квадрат сверху */
   .panel-preview {
-    order: -1;
-    flex: 0 0 100vw;  /* высота = ширине экрана */
-    height: 100vw;
-    max-height: 100vw;
+  height: 100vw;        /* ← высота = ширина экрана = квадрат */
+  flex: 0 0 100vw;
+  overflow: hidden;
+}
 
     position: sticky;
     top: 0;
