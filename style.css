@@ -543,9 +543,9 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 4px; /* расстояние под цифрой */
+  bottom: 6px; /* расстояние под цифрой */
   width: calc(var(--calendar-cell-size) * 0.7);
-  height: 6px;
+  height: 4px;
   background: var(--accent-color); /* зелёная */
   border-radius: 999px; /* пилюля */
   transform: translateX(-50%);
