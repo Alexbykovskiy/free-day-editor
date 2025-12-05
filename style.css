@@ -206,14 +206,29 @@ select:focus {
 }
 
 input[type="color"] {
-  width: 100%;
-  height: 36px;
+  width: 36px;              /* круг */
+  height: 36px;             /* круг */
   padding: 0;
-  border-radius: 10px;
-  border: 1px solid rgba(148, 163, 184, 0.8);
+  border-radius: 50%;       /* ← ДЕЛАЕТ КРУГЛЫМ */
+  border: none;
   background: transparent;
+  cursor: pointer;
+
+  -webkit-appearance: none; /* убираем стандартный стиль */
+  appearance: none;
+  overflow: hidden;
 }
 
+/* Для Chrome — делаем реальный круг */
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border-radius: 50%;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 50%;
+}
 .hint {
   font-size: 0.8rem;
   color: #6b7280;
@@ -528,15 +543,15 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   content: "";
   position: absolute;
   left: 50%;
-  bottom: 6px; /* расстояние под цифрой */
+  bottom: 4px; /* расстояние под цифрой */
   width: calc(var(--calendar-cell-size) * 0.7);
-  height: 3px;
-  background: var(--accent-color); /* зелёная линия */
+  height: 6px;
+  background: var(--accent-color); /* зелёная */
+  border-radius: 999px; /* пилюля */
   transform: translateX(-50%);
-  border-radius: 2px;
-  z-index: 1;
+  z-index: 1; /* под цифрой */
+  opacity: 0.9;
 }
-
 @media (max-width: 480px) {
   .page {
     padding: 10px 8px 16px;
