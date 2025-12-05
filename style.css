@@ -512,19 +512,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
 
 /* ====== АДАПТИВ ====== */
 
-@media (max-width: 900px) {
-  .layout {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .panel-preview {
-    order: -1; /* превью наверх */
-  }
-
-  .preview-wrapper {
-    max-width: 360px;
-  }
-}
 
 .calendar-day.unavailable .calendar-day-inner::before {
   content: "";
