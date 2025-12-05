@@ -16,6 +16,53 @@
       <p>Собери картинку для поста: выбери месяц, дни, фон и заголовок.</p>
     </header>
 
+ <!-- Превью календаря -->
+      <section class="panel panel-preview">
+        <h2 class="panel-title">Превью</h2>
+
+        <div id="previewWrapper" class="preview-wrapper format-story">
+          <div id="previewArtboard" class="preview-artboard bg-beige">
+            <div class="preview-overlay">
+              <div class="preview-header">
+                <div id="previewTitleMain" class="preview-title-main">
+                  Запись на декабрь открыта
+                </div>
+              </div>
+
+              <div class="preview-calendar-container">
+                <div id="previewTitleMonth" class="preview-title-month">
+                  Декабрь 2025
+                </div>
+
+                <div class="calendar">
+                  <div class="calendar-weekdays">
+                    <span>ПН</span>
+                    <span>ВТ</span>
+                    <span>СР</span>
+                    <span>ЧТ</span>
+                    <span>ПТ</span>
+                    <span>СБ</span>
+                    <span>ВС</span>
+                  </div>
+                  <div id="calendarDays" class="calendar-days">
+                    <!-- Дни месяца будут вставляться скриптом -->
+                  </div>
+                </div>
+
+                <div id="previewFooterText" class="preview-footer-text">
+                  Ближайшие свободные окна:
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="preview-note">
+          * Можешь прокрутить страницу вниз — превью всё равно останется в видимой области.
+        </p>
+      </section>
+    </main>
+
     <main class="mobile-layout">
       <!-- Панель редактора -->
       <section class="panel panel-editor">
@@ -337,52 +384,7 @@
         <button id="downloadBtn" class="btn btn-primary">Скачать картинку (PNG)</button>
       </section>
 
-      <!-- Превью календаря -->
-      <section class="panel panel-preview">
-        <h2 class="panel-title">Превью</h2>
-
-        <div id="previewWrapper" class="preview-wrapper format-story">
-          <div id="previewArtboard" class="preview-artboard bg-beige">
-            <div class="preview-overlay">
-              <div class="preview-header">
-                <div id="previewTitleMain" class="preview-title-main">
-                  Запись на декабрь открыта
-                </div>
-              </div>
-
-              <div class="preview-calendar-container">
-                <div id="previewTitleMonth" class="preview-title-month">
-                  Декабрь 2025
-                </div>
-
-                <div class="calendar">
-                  <div class="calendar-weekdays">
-                    <span>ПН</span>
-                    <span>ВТ</span>
-                    <span>СР</span>
-                    <span>ЧТ</span>
-                    <span>ПТ</span>
-                    <span>СБ</span>
-                    <span>ВС</span>
-                  </div>
-                  <div id="calendarDays" class="calendar-days">
-                    <!-- Дни месяца будут вставляться скриптом -->
-                  </div>
-                </div>
-
-                <div id="previewFooterText" class="preview-footer-text">
-                  Ближайшие свободные окна:
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p class="preview-note">
-          * Можешь прокрутить страницу вниз — превью всё равно останется в видимой области.
-        </p>
-      </section>
-    </main>
+     
 
     <footer class="page-footer">
       <span>Сделано для быстрого создания календарей с окнами ✨</span>
