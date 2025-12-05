@@ -532,7 +532,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   left: 50%;
   top: 50%;
   width: calc(var(--calendar-cell-size) * 0.9);
-  height: 6px; /* толщина линии */
+  height: 4px; /* толщина линии */
   background: #e53935; /* красная */
   border-radius: 999px; /* пилюля */
   transform: translate(-50%, -50%);
