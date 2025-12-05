@@ -281,6 +281,28 @@ input[type="color"]::-webkit-color-swatch {
 
 /* ====== ПРЕВЬЮ ====== */
 
+.panel-preview {
+  position: relative;
+}
+
+.preview-wrapper {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.preview-artboard {
+  width: 100%;
+  aspect-ratio: 9 / 16; /* формат story по умолчанию */
+  border-radius: 32px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  box-shadow: 0 30px 60px rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(15, 23, 42, 0.4);
+}
 
 /* Фоновые варианты */
 
@@ -556,7 +578,6 @@ textarea {
    МОБИЛЬНЫЙ РЕЖИМ — ПРЕВЬЮ СВЕРХУ
    ============================ */
 
-/* ===== МОБИЛЬНЫЙ РЕЖИМ — фиксированное квадратное превью ===== */
 @media (max-width: 900px) {
 
   html, body {
@@ -571,48 +592,56 @@ textarea {
     overflow: hidden;
   }
 
-  /* Превью: фиксированный квадрат сверху */
-  .panel-preview {
-  height: 100vw;        /* ← высота = ширина экрана = квадрат */
-  flex: 0 0 100vw;
+  /* ПРЕВЬЮ — ВСЕГДА СВЕРХУ */
+  /* ПРЕВЬЮ — КВАДРАТНЫЙ БЛОК, НЕ СКРОЛЛИТСЯ */
+.panel-preview {
+  order: -1 !important;
+
+  /* превью всегда квадрат: ширина = высота */
+  width: 100%;
+  height: 100vw; /* ← квадрат */
+
+  flex: 0 0 auto; 
+  position: sticky;
+  top: 0;
+  z-index: 20;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
 }
+.preview-wrapper {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
 
-    position: sticky;
-    top: 0;
-    z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  transform: none !important;
+}
+.preview-artboard {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+}
 
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* Превью целиком влезает */
-  .preview-wrapper {
-    width: 100%;
-    height: 100%;
-    max-width: 100%;
-    max-height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transform: none !important;
-  }
-
-  .preview-artboard {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-  }
-
-  /* Нижняя зона — настройки */
+  /* НАСТРОЙКИ — НИЖЕ, МОГУТ СКРОЛЛИТЬСЯ */
   .panel-editor {
-    flex: 1;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
+  flex: 1;
+  overflow-y: auto;
+  padding-bottom: 40px;
+  -webkit-overflow-scrolling: touch;
+}
+
+  /* Чуть уменьшаем превью, чтобы лучше помещалось */
+  .preview-wrapper {
+    transform: scale(0.92);
+    transform-origin: top center;
   }
 }
