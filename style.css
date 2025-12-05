@@ -587,12 +587,15 @@ textarea {
 /* ============================
    МОБИЛЬНЫЙ РЕЖИМ — 2 ПОЛОВИНЫ
    ============================ */
+/* ============================
+   МОБИЛЬНЫЙ РЕЖИМ — ПРЕВЬЮ СВЕРХУ
+   ============================ */
 
 @media (max-width: 900px) {
 
-  body, html {
+  html, body {
     height: 100%;
-    overflow: hidden; /* чтобы верхняя часть не прокручивалась */
+    overflow: hidden;
   }
 
   .mobile-layout {
@@ -602,29 +605,29 @@ textarea {
     overflow: hidden;
   }
 
-  /* Верхний блок — фиксированное превью */
+  /* ПРЕВЬЮ — ВСЕГДА СВЕРХУ */
   .panel-preview {
-    flex: 0 0 50vh;     /* половина экрана */
-    max-height: 50vh;
+    order: -1 !important;        /* <<< перемещаем превью в самый верх */
+    flex: 0 0 40vh !important;   /* занимает ровно 40% экрана */
+    max-height: 40vh;
     overflow: hidden;
     position: sticky;
     top: 0;
-    z-index: 5;
+    z-index: 10;
   }
 
-  /* Нижняя панель — скролл */
+  /* НАСТРОЙКИ — НИЖЕ, МОГУТ СКРОЛЛИТЬСЯ */
   .panel-editor {
-    flex: 1;
+    order: 0 !important;
+    flex: 1 1 60vh;
     overflow-y: auto;
-    padding-bottom: 40px;
+    padding-bottom: 80px;
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Превью в центре и без лишних отступов */
+  /* Чуть уменьшаем превью, чтобы лучше помещалось */
   .preview-wrapper {
-    margin-top: 10px;
-    transform: scale(0.9);
+    transform: scale(0.92);
     transform-origin: top center;
   }
 }
-
