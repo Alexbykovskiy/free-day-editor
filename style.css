@@ -584,5 +584,47 @@ textarea {
   box-sizing: border-box;
 }
 
+/* ============================
+   МОБИЛЬНЫЙ РЕЖИМ — 2 ПОЛОВИНЫ
+   ============================ */
 
+@media (max-width: 900px) {
+
+  body, html {
+    height: 100%;
+    overflow: hidden; /* чтобы верхняя часть не прокручивалась */
+  }
+
+  .mobile-layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Верхний блок — фиксированное превью */
+  .panel-preview {
+    flex: 0 0 50vh;     /* половина экрана */
+    max-height: 50vh;
+    overflow: hidden;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+  }
+
+  /* Нижняя панель — скролл */
+  .panel-editor {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 40px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Превью в центре и без лишних отступов */
+  .preview-wrapper {
+    margin-top: 10px;
+    transform: scale(0.9);
+    transform-origin: top center;
+  }
+}
 
