@@ -435,16 +435,6 @@ window.addEventListener("orientationchange", () => {
     updateAccentColor();
   });
 
- const onFormatChange = () => {
-  // iOS иногда обновляет value чуть позже закрытия пикера,
-  // поэтому делаем двойной вызов: сразу и через тик.
-  updateFormat();
-  requestAnimationFrame(updatePreviewScale);
-  setTimeout(() => {
-    updateFormat();
-    updatePreviewScale();
-  }, 60);
-};
 
 
 // Кнопка "Добавить свой фон"

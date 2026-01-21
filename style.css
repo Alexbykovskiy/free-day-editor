@@ -641,3 +641,56 @@ textarea {
     padding-right: 0;
   }
 }
+
+/* ====== PREVIEW CONTROLS: slider left + button right ====== */
+
+.preview-shell{
+  height: 100%;
+  display: grid;
+  grid-template-columns: 44px 1fr 140px; /* слайдер | превью | кнопка */
+  align-items: center;
+  gap: 10px;
+}
+
+.preview-zoom{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Вертикальный range */
+.preview-zoom-slider{
+  width: 180px;                  /* станет "высотой" после поворота */
+  transform: rotate(-90deg);
+  transform-origin: center;
+  touch-action: none;
+}
+
+/* справа */
+.preview-actions{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.preview-download{
+  white-space: nowrap;
+  padding: 10px 14px;
+}
+
+/* На мобилке: кнопка чуть уже, и grid компактнее */
+@media (max-width: 480px){
+  .preview-shell{
+    grid-template-columns: 40px 1fr 110px;
+    gap: 6px;
+  }
+  .preview-zoom-slider{
+    width: 150px;
+  }
+  .preview-download{
+    padding: 9px 12px;
+    font-size: 0.85rem;
+  }
+}

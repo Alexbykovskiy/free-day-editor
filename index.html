@@ -16,67 +16,64 @@
       
     
   <main class="workspace">
-<section class="panel panel-preview">
-     
-        <div id="previewWrapper" class="preview-wrapper">
-          <div id="previewArtboard" class="preview-artboard bg-beige">
-            <div class="preview-overlay">
-              <div class="preview-header">
-                <div id="previewTitleMain" class="preview-title-main">
-                  Запись на декабрь открыта
-                </div>
-              </div>
+<div class="preview-shell">
+  <!-- ЛЕВЫЙ вертикальный ползунок масштаба -->
+  <div class="preview-zoom">
+    <input
+      id="previewScaleInput"
+      class="preview-zoom-slider"
+      type="range"
+      min="0.6"
+      max="1.4"
+      step="0.01"
+      value="1"
+      aria-label="Масштаб превью"
+    />
+  </div>
 
-              <div class="preview-calendar-container">
-                <div id="previewTitleMonth" class="preview-title-month">
-                  Декабрь 2025
-                </div>
-
-                <div class="calendar">
-                  <div class="calendar-weekdays">
-                    <span>ПН</span>
-                    <span>ВТ</span>
-                    <span>СР</span>
-                    <span>ЧТ</span>
-                    <span>ПТ</span>
-                    <span>СБ</span>
-                    <span>ВС</span>
-                  </div>
-                  <div id="calendarDays" class="calendar-days">
-                    <!-- Дни месяца будут вставляться скриптом -->
-                  </div>
-                </div>
-
-                <div id="previewFooterText" class="preview-footer-text">
-                  Ближайшие свободные окна:
-                </div>
-              </div>
-            </div>
+  <!-- ЦЕНТР: превью -->
+  <div id="previewWrapper" class="preview-wrapper">
+    <div id="previewArtboard" class="preview-artboard bg-beige">
+      <div class="preview-overlay">
+        <div class="preview-header">
+          <div id="previewTitleMain" class="preview-title-main">
+            Запись на декабрь открыта
           </div>
         </div>
 
-        <p class="preview-note">
-          * Можешь прокрутить страницу вниз — превью всё равно останется в видимой области.
-        </p>
-      </section>
-      <!-- Панель редактора -->
+        <div class="preview-calendar-container">
+          <div id="previewTitleMonth" class="preview-title-month">
+            Декабрь 2025
+          </div>
+
+          <div class="calendar">
+            <div class="calendar-weekdays">
+              <span>ПН</span><span>ВТ</span><span>СР</span><span>ЧТ</span><span>ПТ</span><span>СБ</span><span>ВС</span>
+            </div>
+            <div id="calendarDays" class="calendar-days"></div>
+          </div>
+
+          <div id="previewFooterText" class="preview-footer-text">
+            Ближайшие свободные окна:
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПРАВАЯ кнопка скачивания -->
+  <div class="preview-actions">
+    <button id="downloadBtn" class="btn btn-primary preview-download" type="button">
+      Скачать PNG
+    </button>
+  </div>
+</div>
+                  <!-- Панель редактора -->
       <section class="panel panel-editor">
         <h2 class="panel-title">Настройки</h2>
 
         
 
-<div class="form-group">
-  <label for="previewScaleInput">Масштаб превью</label>
-  <input
-    id="previewScaleInput"
-    type="range"
-    min="0.6"
-    max="1.4"
-    step="0.01"
-    value="1"
-  />
-  <div class="hint">0.6 = уменьшить, 1 = авто-норма, 1.4 = приблизить</div>
-</div>
 
         <div class="form-row">
           <div class="form-group">
@@ -382,7 +379,6 @@
 
         <hr class="divider" />
 
-        <button id="downloadBtn" class="btn btn-primary">Скачать картинку (PNG)</button>
       </section>
 
 </main>
