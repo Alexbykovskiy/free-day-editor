@@ -76,22 +76,21 @@ body {
   gap: 4px;
 }
 
-/* верх = 55% экрана внутри workspace */
+/* верх = 50% экрана внутри workspace */
 .panel-preview {
-  flex: 0 0 55%;
+  flex: 0 0 50%;
   min-height: 0;
   overflow: hidden;
 }
 
 /* низ = 60% экрана внутри workspace + скролл */
 .panel-editor {
-  flex: 1;                       /* автоматически займёт оставшиеся 60% */
+  flex: 0 0 50%;
   min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 40px;
 }
-
 /* ====== ШАПКА/ФУТЕР ====== */
 
 .page-header {
@@ -659,14 +658,13 @@ textarea {
   align-items: center;
 }
 
-/* Вертикальный range */
 .preview-zoom-slider{
-  width: 180px;                  /* станет "высотой" после поворота */
+  /* будет "высотой" после поворота */
+  width: calc(100% - 28px);
   transform: rotate(-90deg);
   transform-origin: center;
   touch-action: none;
 }
-
 /* справа */
 .preview-actions{
   display: flex;
@@ -683,14 +681,14 @@ textarea {
 /* На мобилке: кнопка чуть уже, и grid компактнее */
 @media (max-width: 480px){
   .preview-shell{
-    grid-template-columns: 40px 1fr 110px;
-    gap: 6px;
-  }
-  .preview-zoom-slider{
-    width: 150px;
-  }
-  .preview-download{
-    padding: 9px 12px;
-    font-size: 0.85rem;
-  }
+  grid-template-columns: 56px 1fr 84px;
+  gap: 8px;
+}
+.preview-download{
+  width: 54px;
+  height: 54px;
+}
+.preview-download .icon{
+  width: 24px;
+  height: 24px;
 }

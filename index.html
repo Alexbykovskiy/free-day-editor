@@ -15,8 +15,10 @@
  <!-- Превью календаря -->
       
     
-  <main class="workspace">
-<div class="preview-shell">
+ <main class="workspace">
+
+  <section class="panel panel-preview">
+    <div class="preview-shell">
   <!-- ЛЕВЫЙ вертикальный ползунок масштаба -->
   <div class="preview-zoom">
     <input
@@ -63,13 +65,18 @@
 
   <!-- ПРАВАЯ кнопка скачивания -->
   <div class="preview-actions">
-    <button id="downloadBtn" class="btn btn-primary preview-download" type="button">
-      Скачать PNG
-    </button>
+   <button id="downloadBtn" class="btn btn-primary preview-download" type="button" aria-label="Скачать PNG">
+  <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M5 3h11l3 3v15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm2 2v6h10V6.8L15.2 5H7zm0 10v5h10v-5H7zm2-9h6v3H9V6z"></path>
+  </svg>
+</button>
+
   </div>
-</div>
-                  <!-- Панель редактора -->
-      <section class="panel panel-editor">
+ </div>
+  </section>
+
+  <!-- Панель редактора -->
+  <section class="panel panel-editor">
         <h2 class="panel-title">Настройки</h2>
 
         
