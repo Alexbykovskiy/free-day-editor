@@ -20,7 +20,7 @@ footerColor: "#374151",
 footerFontSize: 16,
 footerFontWeight: "400",
 footerFontStyle: "normal",
-  format: "story",
+  
  previewUserScale: 1,   // ползунок пользователя
   previewAutoFit: true,  // авто-вписывание в окно превью
   background: "bg-beige",
@@ -71,8 +71,7 @@ titleMonthFontSizeInput,
   footerTextInput,
    backgroundSelect,
   accentColorInput,
-  formatSelect,
-  calendarDaysContainer,
+    calendarDaysContainer,
   previewTitleMain,
   previewTitleMonth,
   previewFooterText,
@@ -188,7 +187,6 @@ footerColorInput = document.getElementById("footerColorInput");
   footerTextInput = document.getElementById("footerTextInput");
   backgroundSelect = document.getElementById("backgroundSelect");
   accentColorInput = document.getElementById("accentColorInput");
-  formatSelect = document.getElementById("formatSelect");
  previewScaleInput = document.getElementById("previewScaleInput");
   calendarDaysContainer = document.getElementById("calendarDays");
   previewTitleMain = document.getElementById("previewTitleMain");
@@ -252,7 +250,7 @@ function initDefaults() {
 
   backgroundSelect.value = state.background;
   accentColorInput.value = state.accentColor;
-  formatSelect.value = state.format;
+  
 }
 
 /* ====== События ====== */
@@ -448,9 +446,6 @@ window.addEventListener("orientationchange", () => {
   }, 60);
 };
 
-formatSelect.addEventListener("change", onFormatChange);
-formatSelect.addEventListener("input", onFormatChange); // iOS-friendly
-formatSelect.addEventListener("blur", onFormatChange);  // iOS: когда закрыли пикер
 
 // Кнопка "Добавить свой фон"
   uploadBgBtn.addEventListener("click", () => {
@@ -724,17 +719,10 @@ function updateCalendarSettingsVisibility() {
 }
  
 function updateFormat() {
-  if (!previewWrapper) return;
-
-  // Берём формат прямо из селекта
-  const fmt = (formatSelect && formatSelect.value) ? formatSelect.value : state.format;
-  state.format = fmt; // синхронизируем state
-
-  previewWrapper.classList.remove("format-story", "format-square", "format-post");
-  previewWrapper.classList.add(`format-${fmt}`);
-
-requestAnimationFrame(updatePreviewScale);
+  // Формат фиксированный 16:9 — нечего обновлять
+  updatePreviewScale();
 }
+
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
 
 function autoUpdateTextsForMonth() {
@@ -832,24 +820,16 @@ function getMonthName(monthIndex, form) {
 }
 
 function getArtboardBaseSize() {
-  // Источник истины — текущее значение селекта (а не state)
-  const fmt = (formatSelect && formatSelect.value) ? formatSelect.value : state.format;
-
-  // Базовые размеры макета (не экспортные пиксели)
-  if (fmt === "story") return { w: 360, h: 640 }; // 9:16
-  if (fmt === "square") return { w: 560, h: 560 }; // 1:1 (чуть меньше, чтобы лучше влезало)
-  if (fmt === "post") return { w: 520, h: 650 }; // 4:5
-  return { w: 360, h: 640 };
+  // Фиксированный формат 16:9
+  return { w: 640, h: 360 };
 }
+
 function updatePreviewScale() {
   if (!previewWrapper || !previewArtboard) return;
 
   const { w, h } = getArtboardBaseSize();
 
-  // задаём базовые размеры артборда
-  previewArtboard.style.setProperty("--artboard-w", `${w}px`);
-  previewArtboard.style.setProperty("--artboard-h", `${h}px`);
-
+  
   // доступная площадь внутри wrapper
   const wrapperRect = previewWrapper.getBoundingClientRect();
 
