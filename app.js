@@ -436,10 +436,13 @@ window.addEventListener("orientationchange", () => {
     updateAccentColor();
   });
 
-  formatSelect.addEventListener("change", () => {
-    state.format = formatSelect.value;
-    updateFormat();
-  });
+  const onFormatChange = () => {
+  updateFormat();          // updateFormat сам возьмёт formatSelect.value
+  requestAnimationFrame(updatePreviewScale);
+};
+
+formatSelect.addEventListener("change", onFormatChange);
+formatSelect.addEventListener("input", onFormatChange); // ✅ iOS-friendly
 
 
 // Кнопка "Добавить свой фон"
