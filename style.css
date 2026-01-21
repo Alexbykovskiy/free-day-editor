@@ -43,18 +43,18 @@ body {
   min-height: 100vh;
 }
 
-..page {
+.page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 16px;
 
-  min-height: 100vh;
+  /* страница = ровно экран */
+  height: 100vh;
   display: flex;
   flex-direction: column;
-
-  height: 100vh;
-  overflow: hidden;
+  overflow: hidden; /* важно: общий скролл отключаем */
 }
+
 
 /* ====== WORKSPACE: превью сверху, настройки снизу ====== */
 
@@ -68,36 +68,38 @@ body {
 
 /* ВАЖНО: workspace должен иметь ограниченную высоту */
 .workspace {
-  height: calc(100vh - 16px - 16px); /* запас, чтобы не упираться в края */
+  flex: 1;
+  min-height: 0;                 /* критично для внутреннего скролла */
   display: flex;
   flex-direction: column;
   gap: 16px;
-  min-height: 0;
 }
-/* ВЕРХ: превью всегда на месте, не скроллится */
+
+/* верх = 40% экрана внутри workspace */
 .panel-preview {
-  flex: 0 0 50%;               /* верхняя половина */
+  flex: 0 0 40%;
   min-height: 0;
   overflow: hidden;
 }
 
-/* НИЗ: настройки скроллятся */
+/* низ = 60% экрана внутри workspace + скролл */
 .panel-editor {
-  flex: 1;                     /* нижняя половина */
-  min-height: 0;               /* критично */
+  flex: 1;                       /* автоматически займёт оставшиеся 60% */
+  min-height: 0;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
   padding-bottom: 40px;
 }
 
-
 /* ====== ШАПКА/ФУТЕР ====== */
 
 .page-header {
   text-align: left;
-  margin-bottom: 0; /* убрали, чтобы workspace точно влезал */
-  padding-bottom: 16px; /* переносим отступ сюда */
+  margin: 0;            /* убрали margin */
+  padding-bottom: 16px; /* вместо него даём аккуратный отступ */
+  flex: 0 0 auto;
 }
+
 .page-header h1 {
   margin: 0 0 4px;
   font-size: 1.5rem;
@@ -110,12 +112,14 @@ body {
 }
 
 .page-footer {
-  margin-top: 0; /* убрали */
-  padding-top: 16px; /* переносим отступ сюда */
+  margin: 0;            /* убрали margin */
+  padding-top: 16px;    /* вместо него */
   border-top: 1px solid rgba(15, 23, 42, 0.08);
   font-size: 0.8rem;
   color: #6b7280;
+  flex: 0 0 auto;
 }
+
 /* ====== ЛЕЙАУТ ====== */
 
 .layout {
