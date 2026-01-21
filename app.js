@@ -108,6 +108,7 @@ function init() {
   updateAccentColor();
   updateCalendarOpacity();
   updateCalendarAppearance();
+  updatePreviewScale();
 
 if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
 if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
@@ -436,14 +437,20 @@ window.addEventListener("orientationchange", () => {
     updateAccentColor();
   });
 
-  const onFormatChange = () => {
-  updateFormat();          // updateFormat сам возьмёт formatSelect.value
+ const onFormatChange = () => {
+  // iOS иногда обновляет value чуть позже закрытия пикера,
+  // поэтому делаем двойной вызов: сразу и через тик.
+  updateFormat();
   requestAnimationFrame(updatePreviewScale);
+  setTimeout(() => {
+    updateFormat();
+    updatePreviewScale();
+  }, 60);
 };
 
 formatSelect.addEventListener("change", onFormatChange);
-formatSelect.addEventListener("input", onFormatChange); // ✅ iOS-friendly
-
+formatSelect.addEventListener("input", onFormatChange); // iOS-friendly
+formatSelect.addEventListener("blur", onFormatChange);  // iOS: когда закрыли пикер
 
 // Кнопка "Добавить свой фон"
   uploadBgBtn.addEventListener("click", () => {
