@@ -49,7 +49,8 @@ body {
   padding: 4px;
 
   /* страница = ровно экран */
-  height: 100vh;
+  height: 100vh;   /* fallback для старых браузеров */
+height: 100dvh;  /* ✅ мобильные: реальная видимая высота */
   display: flex;
   flex-direction: column;
   overflow: hidden; /* важно: общий скролл отключаем */

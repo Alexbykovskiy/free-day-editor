@@ -376,9 +376,25 @@ if (previewScaleInput) {
     });
   }
 
-  window.addEventListener("resize", () => {
-    updatePreviewScale();
+// Десктоп + обычные случаи
+window.addEventListener("resize", () => {
+  requestAnimationFrame(updatePreviewScale);
+});
+
+// Мобилка: адресная строка/панели меняют "видимую" высоту без window.resize
+if (window.visualViewport) {
+  window.visualViewport.addEventListener("resize", () => {
+    requestAnimationFrame(updatePreviewScale);
   });
+  window.visualViewport.addEventListener("scroll", () => {
+    requestAnimationFrame(updatePreviewScale);
+  });
+}
+
+// Поворот экрана
+window.addEventListener("orientationchange", () => {
+  setTimeout(updatePreviewScale, 50);
+});
 
   monthSelect.addEventListener("change", () => {
     state.month = Number(monthSelect.value);
@@ -707,7 +723,7 @@ function updateFormat() {
   previewWrapper.classList.remove("format-story", "format-square", "format-post");
   previewWrapper.classList.add(`format-${fmt}`);
 
-  updatePreviewScale();
+requestAnimationFrame(updatePreviewScale);
 }
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
 
