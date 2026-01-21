@@ -328,27 +328,43 @@ input[type="color"]::-webkit-color-swatch {
 
 .panel-preview {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .preview-wrapper {
+  flex: 1;                /* занимает всю доступную высоту панели */
+  min-height: 0;
   width: 100%;
-  max-width: 420px;
+
+  /* центрируем артборд внутри */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   margin: 0 auto;
+  max-width: none;        /* убираем ограничение по ширине */
 }
 
 .preview-artboard {
-  width: 100%;
-  aspect-ratio: 9 / 16; /* формат story по умолчанию */
+  height: 100%;           /* ключ: вписываемся по высоте */
+  max-height: 100%;
+  width: auto;            /* ширина подстроится сама */
+  max-width: 100%;
+
+  aspect-ratio: 9 / 16;   /* базовый формат, дальше его переопределяют .format-* */
   border-radius: 32px;
   overflow: hidden;
   position: relative;
+
   display: flex;
   align-items: stretch;
   justify-content: center;
+
   box-shadow: 0 30px 60px rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(15, 23, 42, 0.4);
 }
-
 /* Фоновые варианты */
 
 .preview-artboard.bg-beige {
@@ -538,9 +554,7 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   text-wrap: wrap;
 }
 .preview-note {
-  margin-top: 10px;
-  font-size: 0.75rem;
-  color: #6b7280;
+  display: none; /* в режиме фикс-превью убираем, чтобы всё влезало */
 }
 
 /* Форматы */
