@@ -46,7 +46,7 @@ body {
 .page {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 4px;
 
   /* страница = ровно экран */
   height: 100vh;
@@ -72,12 +72,12 @@ body {
   min-height: 0;                 /* критично для внутреннего скролла */
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 4px;
 }
 
-/* верх = 40% экрана внутри workspace */
+/* верх = 50% экрана внутри workspace */
 .panel-preview {
-  flex: 0 0 40%;
+  flex: 0 0 50%;
   min-height: 0;
   overflow: hidden;
 }
@@ -132,7 +132,7 @@ body {
   backdrop-filter: blur(18px);
   background: rgba(248, 250, 252, 0.8);
   border-radius: 18px;
-  padding: 16px 18px 18px;
+  padding: 4px 4px 4px;
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.20);
   border: 1px solid rgba(148, 163, 184, 0.35);
 }
