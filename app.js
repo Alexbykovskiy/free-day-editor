@@ -21,6 +21,8 @@ footerFontSize: 16,
 footerFontWeight: "400",
 footerFontStyle: "normal",
   format: "story",
+ previewUserScale: 1,   // ползунок пользователя
+  previewAutoFit: true,  // авто-вписывание в окно превью
   background: "bg-beige",
   accentColor: "#22c55e", // зелёный по умолчанию
 
@@ -48,6 +50,7 @@ footerFontStyle: "normal",
 
 // DOM-элементы
 let monthSelect,
+ previewScaleInput,
 calendarFontSizeInput,
 calendarCardBgColorInput,
 calendarTextColorInput,
@@ -129,6 +132,9 @@ if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
   if (calendarOpacityInput) {
     calendarOpacityInput.value = state.calendarOpacity;
   }
+ if (previewScaleInput) {
+    previewScaleInput.value = state.previewUserScale;
+  }
   if (calendarScaleInput) {
     calendarScaleInput.value = state.calendarScale;
   }
@@ -158,7 +164,7 @@ if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
     calendarSettingsToggle.checked = state.calendarSettingsEnabled;
   }
   updateCalendarSettingsVisibility();
-
+ updatePreviewScale();
 }
 
 /* ====== DOM helpers ====== */
@@ -182,6 +188,7 @@ footerColorInput = document.getElementById("footerColorInput");
   backgroundSelect = document.getElementById("backgroundSelect");
   accentColorInput = document.getElementById("accentColorInput");
   formatSelect = document.getElementById("formatSelect");
+ previewScaleInput = document.getElementById("previewScaleInput");
   calendarDaysContainer = document.getElementById("calendarDays");
   previewTitleMain = document.getElementById("previewTitleMain");
   previewTitleMonth = document.getElementById("previewTitleMonth");
@@ -361,6 +368,17 @@ if (footerFontStyleSelect) {
     updatePreviewTexts();
   });
 }
+
+if (previewScaleInput) {
+    previewScaleInput.addEventListener("input", () => {
+      state.previewUserScale = Number(previewScaleInput.value);
+      updatePreviewScale();
+    });
+  }
+
+  window.addEventListener("resize", () => {
+    updatePreviewScale();
+  });
 
   monthSelect.addEventListener("change", () => {
     state.month = Number(monthSelect.value);
@@ -688,6 +706,7 @@ function updateFormat() {
   } else if (state.format === "post") {
     previewWrapper.classList.add("format-post");
   }
+updatePreviewScale();
 }
 
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
@@ -784,6 +803,41 @@ function getMonthName(monthIndex, form) {
   }
 
   return monthsGenNice[monthIndex] || monthsGen[monthIndex] || "";
+}
+
+function getArtboardBaseSize() {
+  // Базовые размеры "как макет". Это не экспортные 1080x1920,
+  // а удобные пропорции для UI.
+  if (state.format === "story") return { w: 360, h: 640 }; // 9:16
+  if (state.format === "square") return { w: 640, h: 640 }; // 1:1
+  if (state.format === "post") return { w: 540, h: 675 }; // 4:5
+  return { w: 360, h: 640 };
+}
+
+function updatePreviewScale() {
+  if (!previewWrapper || !previewArtboard) return;
+
+  const { w, h } = getArtboardBaseSize();
+
+  // задаём базовые размеры артборда
+  previewArtboard.style.setProperty("--artboard-w", `${w}px`);
+  previewArtboard.style.setProperty("--artboard-h", `${h}px`);
+
+  // доступная площадь внутри wrapper
+  const wrapperRect = previewWrapper.getBoundingClientRect();
+
+  // небольшой запас, чтобы не липло к краям
+  const padding = 16;
+  const availW = Math.max(0, wrapperRect.width - padding * 2);
+  const availH = Math.max(0, wrapperRect.height - padding * 2);
+
+  // авто-вписывание
+  const fitScale = Math.min(availW / w, availH / h) * 0.98;
+
+  // итоговый масштаб: авто-fit * ползунок
+  const finalScale = (state.previewAutoFit ? fitScale : 1) * (state.previewUserScale || 1);
+
+  previewArtboard.style.setProperty("--preview-scale", String(finalScale));
 }
 
 document.addEventListener("DOMContentLoaded", init);

@@ -348,12 +348,14 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .preview-artboard {
-  height: 100%;           /* ключ: вписываемся по высоте */
-  max-height: 100%;
-  width: auto;            /* ширина подстроится сама */
-  max-width: 100%;
+  /* базовый "нативный" размер артборда, JS будет менять под формат */
+  width: var(--artboard-w, 360px);
+  height: var(--artboard-h, 640px);
 
-  aspect-ratio: 9 / 16;   /* базовый формат, дальше его переопределяют .format-* */
+  /* масштабируем ВЕСЬ артборд целиком */
+  transform: scale(var(--preview-scale, 1));
+  transform-origin: center center;
+
   border-radius: 32px;
   overflow: hidden;
   position: relative;
@@ -365,6 +367,7 @@ input[type="color"]::-webkit-color-swatch {
   box-shadow: 0 30px 60px rgba(15, 23, 42, 0.6);
   border: 1px solid rgba(15, 23, 42, 0.4);
 }
+
 /* Фоновые варианты */
 
 .preview-artboard.bg-beige {
