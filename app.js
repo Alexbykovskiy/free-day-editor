@@ -698,17 +698,17 @@ function updateCalendarSettingsVisibility() {
 }
  
 function updateFormat() {
-  previewWrapper.classList.remove("format-story", "format-square", "format-post");
-  if (state.format === "story") {
-    previewWrapper.classList.add("format-story");
-  } else if (state.format === "square") {
-    previewWrapper.classList.add("format-square");
-  } else if (state.format === "post") {
-    previewWrapper.classList.add("format-post");
-  }
-updatePreviewScale();
-}
+  if (!previewWrapper) return;
 
+  // Берём формат прямо из селекта
+  const fmt = (formatSelect && formatSelect.value) ? formatSelect.value : state.format;
+  state.format = fmt; // синхронизируем state
+
+  previewWrapper.classList.remove("format-story", "format-square", "format-post");
+  previewWrapper.classList.add(`format-${fmt}`);
+
+  updatePreviewScale();
+}
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
 
 function autoUpdateTextsForMonth() {
@@ -806,14 +806,15 @@ function getMonthName(monthIndex, form) {
 }
 
 function getArtboardBaseSize() {
-  // Базовые размеры "как макет". Это не экспортные 1080x1920,
-  // а удобные пропорции для UI.
-  if (state.format === "story") return { w: 360, h: 640 }; // 9:16
-  if (state.format === "square") return { w: 640, h: 640 }; // 1:1
-  if (state.format === "post") return { w: 540, h: 675 }; // 4:5
+  // Источник истины — текущее значение селекта (а не state)
+  const fmt = (formatSelect && formatSelect.value) ? formatSelect.value : state.format;
+
+  // Базовые размеры макета (не экспортные пиксели)
+  if (fmt === "story") return { w: 360, h: 640 }; // 9:16
+  if (fmt === "square") return { w: 560, h: 560 }; // 1:1 (чуть меньше, чтобы лучше влезало)
+  if (fmt === "post") return { w: 520, h: 650 }; // 4:5
   return { w: 360, h: 640 };
 }
-
 function updatePreviewScale() {
   if (!previewWrapper || !previewArtboard) return;
 
