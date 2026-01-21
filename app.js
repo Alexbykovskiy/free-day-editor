@@ -719,10 +719,9 @@ function updateCalendarSettingsVisibility() {
 }
  
 function updateFormat() {
-  // Формат фиксированный 16:9 — нечего обновлять
+  // Формат фиксированный 9:16 — Instagram Stories
   updatePreviewScale();
 }
-
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
 
 function autoUpdateTextsForMonth() {
@@ -820,10 +819,9 @@ function getMonthName(monthIndex, form) {
 }
 
 function getArtboardBaseSize() {
-  // Фиксированный формат 16:9
-  return { w: 640, h: 360 };
+  // Фиксированный формат 9:16 (Instagram Stories)
+  return { w: 360, h: 640 };
 }
-
 function updatePreviewScale() {
   if (!previewWrapper || !previewArtboard) return;
 

@@ -349,10 +349,8 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .preview-artboard {
-  /* базовый "нативный" размер артборда, JS будет менять под формат */
- width: 640px;   /* базовый размер 16:9 */
-height: 360px;
-
+  width: 360px;
+  height: 640px;
   /* масштабируем ВЕСЬ артборд целиком */
   transform: scale(var(--preview-scale, 1));
   transform-origin: center center;
@@ -398,23 +396,26 @@ height: 360px;
 /* Полупрозрачная белая карточка с календарём */
 
 .preview-overlay {
-  position: relative;
+  position: absolute;
   inset: 0;
-  padding: 24px 22px;
+
+  padding: 24px 20px;
+
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-}
+  gap: 16px;
 
+  /* ВАЖНО: для сторис */
+  justify-content: space-between;
+  align-items: stretch;
+}
 .preview-header {
-  text-align: left;
-  padding: 8px 10px;
-  border-radius: 18px;
-  background: rgba(17, 24, 39, 0.08);
-  backdrop-filter: blur(10px);
-  color: #f9fafb;
-  font-weight: 700;
-  font-size: 1rem;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+
+  padding: 6px 10px;
+  font-size: 0.95rem;
 }
 
 .preview-title-main {
@@ -427,14 +428,14 @@ height: 360px;
 .preview-calendar-container {
   background: var(--calendar-card-bg-color);        /* ← ФОН КАРТОЧКИ */
   color: var(--calendar-text-color);                /* ← ЦВЕТ ТЕКСТА */
-margin-top: 18px;
+
   border-radius: 26px;
   padding: 16px 14px 18px;
-max-width: 90%;       /* ← фиксирует, чтобы блок не рос шире */
-width: fit-content;   /* ← пусть подстраивается под содержимое */
-overflow: hidden;     /* ← защитит от “вылезания” */
-  /* цвет карточки календаря управляется переменной */
-   /* тень / свечение календаря */
+max-width: 320px;
+  width: 100%;
+  margin: 0 auto;
+max-height: 70%;
+overflow: visible;
   box-shadow: var(
     --calendar-shadow,
     0 18px 35px rgba(15, 23, 42, 0.45)
