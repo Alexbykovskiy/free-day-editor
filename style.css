@@ -560,20 +560,6 @@ overflow: hidden;     /* ← защитит от “вылезания” */
   display: none; /* в режиме фикс-превью убираем, чтобы всё влезало */
 }
 
-/* Форматы */
-
-.format-story .preview-artboard {
-  aspect-ratio: 9 / 16;
-}
-
-.format-square .preview-artboard {
-  aspect-ratio: 1 / 1;
-}
-
-.format-post .preview-artboard {
-  aspect-ratio: 4 / 5;
-}
-
 /* ====== АДАПТИВ ====== */
 
 

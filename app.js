@@ -259,7 +259,7 @@ function bindEvents() {
 
 if (calendarFontSizeInput) {
   calendarFontSizeInput.addEventListener("input", () => {
-    state.calendarFontSize = calendarFontSizeInput.value;
+    state.calendarFontSize = Number(calendarFontSizeInput.value);
     updateCalendarAppearance();
 buildCalendar();
   });
