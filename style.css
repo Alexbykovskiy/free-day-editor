@@ -75,9 +75,9 @@ body {
   gap: 4px;
 }
 
-/* верх = 50% экрана внутри workspace */
+/* верх = 65% экрана внутри workspace */
 .panel-preview {
-  flex: 0 0 50%;
+  flex: 0 0 65%;
   min-height: 0;
   overflow: hidden;
 }
