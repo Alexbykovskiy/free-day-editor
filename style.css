@@ -43,15 +43,17 @@ body {
   min-height: 100vh;
 }
 
-.page {
+..page {
   max-width: 1200px;
   margin: 0 auto;
   padding: 16px;
 
-  /* добавили для раскладки 2 блоков */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+
+  height: 100vh;
+  overflow: hidden;
 }
 
 /* ====== WORKSPACE: превью сверху, настройки снизу ====== */
@@ -61,17 +63,17 @@ html, body {
 }
 
 body {
-  overflow: hidden; /* общий скролл страницы выключаем */
+  overflow: hidden; /* скролл будет только в настройках */
 }
 
+/* ВАЖНО: workspace должен иметь ограниченную высоту */
 .workspace {
-  flex: 1;
-  min-height: 0;               /* критично: иначе внутренний скролл не заработает */
+  height: calc(100vh - 16px - 16px); /* запас, чтобы не упираться в края */
   display: flex;
   flex-direction: column;
   gap: 16px;
+  min-height: 0;
 }
-
 /* ВЕРХ: превью всегда на месте, не скроллится */
 .panel-preview {
   flex: 0 0 50%;               /* верхняя половина */
@@ -93,9 +95,9 @@ body {
 
 .page-header {
   text-align: left;
-  margin-bottom: 16px;
+  margin-bottom: 0; /* убрали, чтобы workspace точно влезал */
+  padding-bottom: 16px; /* переносим отступ сюда */
 }
-
 .page-header h1 {
   margin: 0 0 4px;
   font-size: 1.5rem;
@@ -108,13 +110,12 @@ body {
 }
 
 .page-footer {
-  margin-top: 16px;
-  padding-top: 8px;
+  margin-top: 0; /* убрали */
+  padding-top: 16px; /* переносим отступ сюда */
   border-top: 1px solid rgba(15, 23, 42, 0.08);
   font-size: 0.8rem;
   color: #6b7280;
 }
-
 /* ====== ЛЕЙАУТ ====== */
 
 .layout {
