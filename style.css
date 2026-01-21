@@ -47,7 +47,47 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 16px;
+
+  /* добавили для раскладки 2 блоков */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
+
+/* ====== WORKSPACE: превью сверху, настройки снизу ====== */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  overflow: hidden; /* общий скролл страницы выключаем */
+}
+
+.workspace {
+  flex: 1;
+  min-height: 0;               /* критично: иначе внутренний скролл не заработает */
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ВЕРХ: превью всегда на месте, не скроллится */
+.panel-preview {
+  flex: 0 0 50%;               /* верхняя половина */
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* НИЗ: настройки скроллятся */
+.panel-editor {
+  flex: 1;                     /* нижняя половина */
+  min-height: 0;               /* критично */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 40px;
+}
+
 
 /* ====== ШАПКА/ФУТЕР ====== */
 
@@ -389,6 +429,8 @@ overflow: hidden;     /* ← защитит от “вылезания” */
               box-shadow 0.15s ease,
               background 0.15s ease,
               backdrop-filter 0.15s ease;
+}
+
 .preview-title-month {
   text-align: center;
   font-family: var(--title-month-font);
@@ -569,79 +611,4 @@ textarea {
   font-size: 0.9rem;
   font-family: inherit;
   box-sizing: border-box;
-}
-
-/* ============================
-   МОБИЛЬНЫЙ РЕЖИМ — 2 ПОЛОВИНЫ
-   ============================ */
-/* ============================
-   МОБИЛЬНЫЙ РЕЖИМ — ПРЕВЬЮ СВЕРХУ
-   ============================ */
-
-@media (max-width: 900px) {
-
-  html, body {
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .mobile-layout {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
-  }
-
-  /* ПРЕВЬЮ — ВСЕГДА СВЕРХУ */
-  /* ПРЕВЬЮ — КВАДРАТНЫЙ БЛОК, НЕ СКРОЛЛИТСЯ */
-.panel-preview {
-  order: -1 !important;
-
-  /* превью всегда квадрат: ширина = высота */
-  width: 100%;
-  height: 100vw; /* ← квадрат */
-
-  flex: 0 0 auto; 
-  position: sticky;
-  top: 0;
-  z-index: 20;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-.preview-wrapper {
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  transform: none !important;
-}
-.preview-artboard {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-}
-
-  /* НАСТРОЙКИ — НИЖЕ, МОГУТ СКРОЛЛИТЬСЯ */
-  .panel-editor {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 40px;
-  -webkit-overflow-scrolling: touch;
-}
-
-  /* Чуть уменьшаем превью, чтобы лучше помещалось */
-  .preview-wrapper {
-    transform: scale(0.92);
-    transform-origin: top center;
-  }
 }
