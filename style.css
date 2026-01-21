@@ -621,3 +621,22 @@ textarea {
   font-family: inherit;
   box-sizing: border-box;
 }
+
+/* ===== MOBILE: максимум места под превью ===== */
+@media (max-width: 600px) {
+  .page {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .panel-preview {
+    padding-left: 0;
+    padding-right: 0;
+    border-radius: 0; /* чтобы не съедать ширину */
+  }
+
+  .preview-wrapper {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
