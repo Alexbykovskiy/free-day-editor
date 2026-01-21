@@ -658,24 +658,44 @@ textarea {
   align-items: center;
 }
 
-.preview-zoom-slider{
-  /* будет "высотой" после поворота */
-  width: calc(100% - 28px);
-  transform: rotate(-90deg);
-  transform-origin: center;
-  touch-action: none;
-}
-/* справа */
-.preview-actions{
+.preview-zoom{
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100%;
+}
+
+/* Делаем “реальную” высоту слайдера через vh панели */
+.preview-zoom-slider{
+  width: calc(50vh - 24px);  /* 50% экрана = высота preview-панели */
+  min-width: 220px;          /* чтобы не схлопывался */
+  max-width: 520px;          /* чтобы не был гигантским на больших экранах */
+
+  transform: rotate(-90deg);
+  transform-origin: center;
+
+  touch-action: none;
 }
 
 .preview-download{
-  white-space: nowrap;
-  padding: 10px 14px;
+  width: 72px;
+  height: 72px;
+  border-radius: 999px;
+
+  padding: 0 !important;       /* перебиваем .btn */
+  min-width: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow: 0 14px 32px rgba(236, 72, 153, 0.40);
+}
+
+.preview-download .icon{
+  width: 30px;
+  height: 30px;
+  fill: currentColor;
 }
 
 /* На мобилке: кнопка чуть уже, и grid компактнее */
@@ -685,10 +705,10 @@ textarea {
   gap: 8px;
 }
 .preview-download{
-  width: 54px;
-  height: 54px;
+  width: 64px;
+  height: 64px;
 }
 .preview-download .icon{
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
 }
