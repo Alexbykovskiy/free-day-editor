@@ -7,6 +7,12 @@ calendarTextColor: "#111827",
   month: new Date().getMonth(), // 0-11
   titleMain: "Запись на декабрь открыта",
   titleMonth: "",
+// ===== Верхний заголовок (Запись на ... открыта) =====
+  titleMainFont: "Inter",
+  titleMainColor: "#111827",
+  titleMainFontSize: 18,
+  titleMainFontWeight: "600",
+  titleMainFontStyle: "normal",
   footerText: "Ближайшие свободные окна:",
 titleMonthFont: "Inter",
 titleMonthColor: "#1f2937",
@@ -67,6 +73,11 @@ titleMonthFontSizeInput,
     footerFontStyleSelect,
   yearInput,
   titleMainInput,
+ titleMainFontSelect,
+  titleMainColorInput,
+  titleMainFontSizeInput,
+  titleMainFontWeightSelect,
+  titleMainFontStyleSelect,
   titleMonthInput,
   footerTextInput,
    backgroundSelect,
@@ -112,6 +123,13 @@ function init() {
 if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
 if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
 if (calendarFontSizeInput) calendarFontSizeInput.value = state.calendarFontSize;
+
+if (titleMainFontSelect) titleMainFontSelect.value = state.titleMainFont;
+if (titleMainColorInput) titleMainColorInput.value = state.titleMainColor;
+
+if (titleMainFontSizeInput) titleMainFontSizeInput.value = state.titleMainFontSize;
+if (titleMainFontWeightSelect) titleMainFontWeightSelect.value = state.titleMainFontWeight;
+if (titleMainFontStyleSelect) titleMainFontStyleSelect.value = state.titleMainFontStyle;
 
 if (titleMonthFontSelect) titleMonthFontSelect.value = state.titleMonthFont;
 if (titleMonthColorInput) titleMonthColorInput.value = state.titleMonthColor;
@@ -183,6 +201,11 @@ footerColorInput = document.getElementById("footerColorInput");
   monthSelect = document.getElementById("monthSelect");
   yearInput = document.getElementById("yearInput");
   titleMainInput = document.getElementById("titleMainInput");
+titleMainFontSelect = document.getElementById("titleMainFontSelect");
+titleMainColorInput = document.getElementById("titleMainColorInput");
+titleMainFontSizeInput = document.getElementById("titleMainFontSizeInput");
+titleMainFontWeightSelect = document.getElementById("titleMainFontWeightSelect");
+titleMainFontStyleSelect = document.getElementById("titleMainFontStyleSelect");
   titleMonthInput = document.getElementById("titleMonthInput");
   footerTextInput = document.getElementById("footerTextInput");
   backgroundSelect = document.getElementById("backgroundSelect");
@@ -415,6 +438,46 @@ window.addEventListener("orientationchange", () => {
     updatePreviewTexts();
   });
 
+// ===== Верхний заголовок: шрифт/цвет/размер/толщина/наклон =====
+if (titleMainFontSelect) {
+  titleMainFontSelect.addEventListener("change", () => {
+    state.titleMainFont = titleMainFontSelect.value;
+    updatePreviewTexts();
+  });
+
+  Array.from(titleMainFontSelect.options).forEach((opt) => {
+    opt.style.fontFamily = opt.value;
+  });
+}
+
+if (titleMainColorInput) {
+  titleMainColorInput.addEventListener("input", () => {
+    state.titleMainColor = titleMainColorInput.value;
+    updatePreviewTexts();
+  });
+}
+
+if (titleMainFontSizeInput) {
+  titleMainFontSizeInput.addEventListener("input", () => {
+    state.titleMainFontSize = Number(titleMainFontSizeInput.value);
+    updatePreviewTexts();
+  });
+}
+
+if (titleMainFontWeightSelect) {
+  titleMainFontWeightSelect.addEventListener("change", () => {
+    state.titleMainFontWeight = titleMainFontWeightSelect.value;
+    updatePreviewTexts();
+  });
+}
+
+if (titleMainFontStyleSelect) {
+  titleMainFontStyleSelect.addEventListener("change", () => {
+    state.titleMainFontStyle = titleMainFontStyleSelect.value;
+    updatePreviewTexts();
+  });
+}
+
   titleMonthInput.addEventListener("input", () => {
     state.titleMonth = titleMonthInput.value;
     updatePreviewTexts();
@@ -610,6 +673,13 @@ function updatePreviewTexts() {
     state.titleMain && state.titleMain.trim().length
       ? state.titleMain
       : "\u00A0"; // неразрывный пробел, чтобы блок не схлопывался
+
+// Верхний заголовок
+previewTitleMain.style.setProperty("--title-main-font", state.titleMainFont);
+previewTitleMain.style.setProperty("--title-main-font-size", state.titleMainFontSize + "px");
+previewTitleMain.style.setProperty("--title-main-font-weight", state.titleMainFontWeight);
+previewTitleMain.style.setProperty("--title-main-font-style", state.titleMainFontStyle);
+previewTitleMain.style.setProperty("--title-main-color", state.titleMainColor);
 
 previewTitleMonth.style.setProperty("--title-month-font", state.titleMonthFont);
 previewTitleMonth.style.setProperty("--title-month-font-size", state.titleMonthFontSize + "px");

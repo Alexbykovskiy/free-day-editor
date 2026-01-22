@@ -26,6 +26,11 @@
 
   --footer-font: Inter;
   --footer-color: #374151;
+ --title-main-font: Inter;
+  --title-main-color: #111827;
+  --title-main-font-size: 18px;
+  --title-main-font-weight: 600;
+  --title-main-font-style: normal;
 }
 
 html,
@@ -432,9 +437,21 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 0.95rem;
 }
 
-.preview-title-main {
+preview-title-main {
+  font-family: var(--title-main-font);
+  color: var(--title-main-color);
+  font-size: var(--title-main-font-size);
+  font-weight: var(--title-main-font-weight);
+  font-style: var(--title-main-font-style);
+
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.25;
 }
+
 .calendar-day,
 .calendar-number {
   color: var(--calendar-text-color);
