@@ -51,11 +51,23 @@ footerFontStyle: "normal",
 
   availableDays: new Set(), // свободные дни
   customBackground: null,   // dataURL пользовательского фона
+ // custom background transform
+  bgScale: 1,     // 1..3
+  bgOffsetX: 0,   // px
+  bgOffsetY: 0,   // px
+  bgRotate: 0,    // degrees
 };
 
 
 // DOM-элементы
 let monthSelect,
+ bgImageLayer,
+  bgCustomControls,
+  bgScaleInput,
+  bgScaleValue,
+  bgRotateCWBtn,
+  bgRotateCCWBtn,
+  bgResetBtn;
  previewScaleInput,
 calendarFontSizeInput,
 calendarCardBgColorInput,
@@ -392,6 +404,15 @@ if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
   }
   updateCalendarSettingsVisibility();
  updatePreviewScale();
+ bgImageLayer = document.getElementById("bgImageLayer");
+  bgCustomControls = document.getElementById("bgCustomControls");
+  bgScaleInput = document.getElementById("bgScaleInput");
+  bgScaleValue = document.getElementById("bgScaleValue");
+  bgRotateCWBtn = document.getElementById("bgRotateCWBtn");
+  bgRotateCCWBtn = document.getElementById("bgRotateCCWBtn");
+  bgResetBtn = document.getElementById("bgResetBtn");
+if (bgScaleInput) bgScaleInput.value = String(Math.round((state.bgScale || 1) * 100));
+updateCustomBgTransform();
 }
 
 /* ====== DOM helpers ====== */
@@ -487,6 +508,69 @@ function initDefaults() {
 
 /* ====== События ====== */
 function bindEvents() {
+
+if (bgScaleInput) {
+  bgScaleInput.addEventListener("input", () => {
+    // 100..300 -> 1..3
+    state.bgScale = Number(bgScaleInput.value) / 100;
+    updateCustomBgTransform();
+  });
+}
+
+// joystick move step (px)
+const MOVE_STEP = 12;
+
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-move]");
+  if (!btn) return;
+
+  // двигать имеет смысл только когда есть кастомный фон
+  if (!(state.customBackground && state.background === "bg-custom")) return;
+
+  const dir = btn.dataset.move;
+
+  if (dir === "up") state.bgOffsetY -= MOVE_STEP;
+  if (dir === "down") state.bgOffsetY += MOVE_STEP;
+  if (dir === "left") state.bgOffsetX -= MOVE_STEP;
+  if (dir === "right") state.bgOffsetX += MOVE_STEP;
+  if (dir === "center") {
+    state.bgOffsetX = 0;
+    state.bgOffsetY = 0;
+  }
+
+  updateCustomBgTransform();
+});
+
+const ROT_STEP = 3;
+
+if (bgRotateCWBtn) {
+  bgRotateCWBtn.addEventListener("click", () => {
+    if (!(state.customBackground && state.background === "bg-custom")) return;
+    state.bgRotate = (state.bgRotate || 0) + ROT_STEP;
+    updateCustomBgTransform();
+  });
+}
+
+if (bgRotateCCWBtn) {
+  bgRotateCCWBtn.addEventListener("click", () => {
+    if (!(state.customBackground && state.background === "bg-custom")) return;
+    state.bgRotate = (state.bgRotate || 0) - ROT_STEP;
+    updateCustomBgTransform();
+  });
+}
+
+if (bgResetBtn) {
+  bgResetBtn.addEventListener("click", () => {
+    state.bgScale = 1;
+    state.bgOffsetX = 0;
+    state.bgOffsetY = 0;
+    state.bgRotate = 0;
+
+    if (bgScaleInput) bgScaleInput.value = "100";
+    updateCustomBgTransform();
+  });
+}
+
 
 if (calendarFontSizeInput) {
   calendarFontSizeInput.addEventListener("input", () => {
@@ -720,10 +804,16 @@ if (titleMainFontStyleSelect) {
 
     const reader = new FileReader();
     reader.onload = (event) => {
+state.bgScale = 1;
+state.bgOffsetX = 0;
+state.bgOffsetY = 0;
+state.bgRotate = 0;
+if (bgScaleInput) bgScaleInput.value = "100";
       state.customBackground = event.target.result;
       state.background = "bg-custom";
       backgroundSelect.value = "bg-solid"; // визуально что-то выбрано, но фон кастомный
       updateBackground();
+updateCustomBgTransform();
     };
     reader.readAsDataURL(file);
   });
@@ -925,14 +1015,53 @@ function updateBackground() {
     "bg-custom"
   );
 
+  // по умолчанию: скрываем <img>-слой
+  if (bgImageLayer) {
+    bgImageLayer.src = "";
+  }
+  previewArtboard.classList.remove("has-custom-image");
+
+  // если пользовательская картинка выбрана
   if (state.customBackground && state.background === "bg-custom") {
     previewArtboard.classList.add("bg-custom");
-    previewArtboard.style.backgroundImage = `url(${state.customBackground})`;
-  } else {
+
+    // ВАЖНО: больше не через background-image, а через <img>
+    if (bgImageLayer) {
+      bgImageLayer.src = state.customBackground;
+    }
+    previewArtboard.classList.add("has-custom-image");
+
+    // на всякий случай очищаем background-image чтобы не мешалось
     previewArtboard.style.backgroundImage = "";
-    previewArtboard.classList.add(state.background);
+    updateCustomBgTransform();
+    return;
   }
+
+  // обычные градиенты
+  previewArtboard.style.backgroundImage = "";
+  previewArtboard.classList.add(state.background);
+
+  updateCustomBgTransform();
 }
+function updateCustomBgTransform() {
+  if (!previewArtboard || !bgImageLayer) return;
+
+  // показываем/прячем панель контролов
+  const hasCustom = !!(state.customBackground && state.background === "bg-custom");
+  if (bgCustomControls) bgCustomControls.style.display = hasCustom ? "" : "none";
+
+  // применяем transform к <img>
+  const x = state.bgOffsetX || 0;
+  const y = state.bgOffsetY || 0;
+  const s = state.bgScale || 1;
+  const r = state.bgRotate || 0;
+
+  bgImageLayer.style.transform = `translate(${x}px, ${y}px) scale(${s}) rotate(${r}deg)`;
+
+  // подпись процента
+  if (bgScaleValue) bgScaleValue.textContent = `${Math.round(s * 100)}%`;
+}
+
 function updateAccentColor() {
   previewArtboard.style.setProperty("--accent-color", state.accentColor);
 }

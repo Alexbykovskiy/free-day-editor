@@ -411,6 +411,108 @@ input[type="color"]::-webkit-color-swatch {
   background-repeat: no-repeat;
 }
 
+/* ===== Custom background image layer (movable/rotatable) ===== */
+
+.preview-bg-image{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+
+  /* по умолчанию скрыт */
+  opacity: 0;
+  pointer-events: none;
+
+  /* трансформации управляются из JS */
+  transform: translate(0px, 0px) scale(1) rotate(0deg);
+  transform-origin: center;
+
+  z-index: 0;
+}
+
+/* когда пользовательский фон активен */
+.preview-artboard.has-custom-image .preview-bg-image{
+  opacity: 1;
+}
+
+/* overlay должен быть над картинкой */
+.preview-overlay{
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== Controls UI ===== */
+
+.bg-controls{
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 14px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(10px);
+}
+
+.bg-controls__row{
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bg-controls__hint{
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.85rem;
+  color: #374151;
+  margin-top: 6px;
+}
+
+.bg-joystick{
+  width: 120px;
+  display: grid;
+  grid-template-rows: auto auto auto;
+  justify-items: center;
+  gap: 8px;
+}
+
+.bg-joystick__mid{
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 8px;
+  align-items: center;
+}
+
+.bg-joystick__btn{
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.65);
+  background: rgba(255,255,255,0.75);
+  cursor: pointer;
+  user-select: none;
+}
+
+.bg-joystick__btn:active{
+  transform: translateY(1px);
+}
+
+.bg-joystick__center{
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.bg-rotate{
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.bg-rotate__btn{
+  padding: 8px 10px;
+  border-radius: 12px;
+}
 
 /* Полупрозрачная белая карточка с календарём */
 

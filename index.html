@@ -39,7 +39,8 @@
   <!-- ЦЕНТР: превью -->
   <div id="previewWrapper" class="preview-wrapper">
     <div id="previewArtboard" class="preview-artboard bg-beige">
-      <div class="preview-overlay">
+  <img id="bgImageLayer" class="preview-bg-image" alt="" />
+  <div class="preview-overlay">
         <div class="preview-header">
           <div id="previewTitleMain" class="preview-title-main">
             Запись на декабрь открыта
@@ -184,6 +185,35 @@
     accept="image/*"
     style="display: none;"
   />
+</div>
+
+<!-- Настройки пользовательского фона (картинки) -->
+<div id="bgCustomControls" class="bg-controls" style="display:none;">
+  <div class="form-group">
+    <label for="bgScaleInput">Масштаб фона</label>
+    <input id="bgScaleInput" type="range" min="100" max="300" step="1" value="100" />
+    <div class="bg-controls__hint">
+      <span id="bgScaleValue">100%</span>
+    </div>
+  </div>
+
+  <div class="bg-controls__row">
+    <div class="bg-joystick" aria-label="Сдвиг фона">
+      <button type="button" class="bg-joystick__btn" data-move="up">▲</button>
+      <div class="bg-joystick__mid">
+        <button type="button" class="bg-joystick__btn" data-move="left">◀</button>
+        <button type="button" class="bg-joystick__btn bg-joystick__center" data-move="center">●</button>
+        <button type="button" class="bg-joystick__btn" data-move="right">▶</button>
+      </div>
+      <button type="button" class="bg-joystick__btn" data-move="down">▼</button>
+    </div>
+
+    <div class="bg-rotate">
+      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgRotateCCWBtn">⟲</button>
+      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgRotateCWBtn">⟳</button>
+      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgResetBtn">Сброс</button>
+    </div>
+  </div>
 </div>
 
 <!-- Категория "Календарь" с iOS-переключателем -->
