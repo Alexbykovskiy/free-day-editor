@@ -697,7 +697,50 @@ textarea {
   height: 30px;
   fill: currentColor;
 }
+} 
 
+/* ====== MOBILE PORTRAIT: slider-left, preview-center, button-right ====== */
+@media (max-width: 520px){
+  .panel-preview{
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  .preview-shell{
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+
+    grid-template-columns: 64px minmax(0, 1fr) 64px;
+    align-items: center;
+    justify-items: center;
+    gap: 10px;
+  }
+
+  /* критично: центр всегда по центру */
+  #previewWrapper{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* кнопка всегда видима внутри правой колонки */
+  .preview-actions{
+    width: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .preview-download{
+    width: 64px;
+    height: 64px;
+  }
+}
 /* На мобилке: кнопка чуть уже, и grid компактнее */
 @media (max-width: 480px){
   .preview-shell{
