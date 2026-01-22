@@ -461,12 +461,25 @@ input[type="color"]::-webkit-color-swatch {
   justify-content: space-between;
 }
 
-.bg-controls__hint{
+
+
+.bg-scale-row{
   display: flex;
-  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+.bg-scale-row input[type="range"]{
+  flex: 1;
+  min-width: 0;
+}
+
+.bg-scale-value{
+  width: 52px;          /* чтобы не прыгало при 100/300 */
+  text-align: right;
   font-size: 0.85rem;
   color: #374151;
-  margin-top: 6px;
+  white-space: nowrap;
 }
 
 .bg-joystick{
@@ -511,12 +524,6 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 14px;
 }
 
-.bg-rotate{
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
-}
 
 .bg-rotate__btn{
   padding: 8px 10px;
@@ -527,16 +534,11 @@ input[type="color"]::-webkit-color-swatch {
 
 .bg-rotate{
   display: flex;
-  gap: 12px;
+  flex-direction: column;
   align-items: center;
-  flex-wrap: wrap;
+  gap: 8px;
 }
 
-.bg-rotate__actions{
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
 
 .bg-knob{
   width: 120px;

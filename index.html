@@ -190,10 +190,10 @@
 <div id="bgCustomControls" class="bg-controls" style="display:none;">
   <div class="form-group">
     <label for="bgScaleInput">Масштаб фона</label>
-    <input id="bgScaleInput" type="range" min="100" max="300" step="1" value="100" />
-    <div class="bg-controls__hint">
-      <span id="bgScaleValue">100%</span>
-    </div>
+    <div class="bg-scale-row">
+  <input id="bgScaleInput" type="range" min="100" max="300" step="1" value="100" />
+  <span id="bgScaleValue" class="bg-scale-value">100%</span>
+</div>
   </div>
 
   <div class="bg-controls__row">
@@ -207,16 +207,14 @@
       <button type="button" class="bg-joystick__btn" data-move="down">▼</button>
     </div>
 
-    <div class="bg-rotate">
+   <div class="bg-rotate">
+  <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgResetBtn">Сброс</button>
+
   <div class="bg-knob" id="bgRotateKnob" aria-label="Поворот фона">
     <div class="bg-knob__ring"></div>
     <div class="bg-knob__pointer" id="bgKnobPointer"></div>
     <div class="bg-knob__dot" id="bgKnobDot" role="slider" aria-valuemin="-180" aria-valuemax="180"></div>
     <div class="bg-knob__value" id="bgRotateValue">0°</div>
-  </div>
-
-  <div class="bg-rotate__actions">
-    <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgResetBtn">Сброс</button>
   </div>
 </div>
   </div>
