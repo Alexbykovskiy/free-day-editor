@@ -173,7 +173,7 @@ document.body.appendChild(list); // ✅ портал в body
         // Важно: чтобы сработали твои существующие обработчики change
         selectEl.dispatchEvent(new Event("change", { bubbles: true }));
 
-        wrapper.classList.remove("is-open");
+        close();
         renderLabel();
         buildList();
       });
