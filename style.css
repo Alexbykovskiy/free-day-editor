@@ -824,3 +824,105 @@ textarea {
   }
 }
 
+
+/* ===== Custom Font Picker (replaces native <select> preview) ===== */
+
+.font-picker {
+  position: relative;
+  width: 100%;
+}
+
+.font-picker select {
+  /* прячем нативный select, но оставляем в DOM для логики */
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.font-picker__button {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 12px;
+  border-radius: 12px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  color: inherit;
+
+  cursor: pointer;
+}
+
+.font-picker__button:active {
+  transform: translateY(1px);
+}
+
+.font-picker__label {
+  display: block;
+  line-height: 1.2;
+  font-size: 14px;
+}
+
+.font-picker__chev {
+  opacity: 0.8;
+  font-size: 14px;
+}
+
+.font-picker__list {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100% + 8px);
+
+  max-height: 280px;
+  overflow: auto;
+
+  padding: 8px;
+  border-radius: 16px;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(10, 14, 18, 0.88);
+  backdrop-filter: blur(14px);
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+
+  display: none;
+  z-index: 9999;
+}
+
+.font-picker.is-open .font-picker__list {
+  display: block;
+}
+
+.font-picker__item {
+  width: 100%;
+  text-align: left;
+
+  padding: 10px 10px;
+  border-radius: 12px;
+
+  background: transparent;
+  border: none;
+  color: #fff;
+
+  cursor: pointer;
+}
+
+.font-picker__item:hover {
+  background: rgba(255, 255, 255, 0.10);
+}
+
+.font-picker__item.is-active {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.font-picker__hint {
+  display: block;
+  opacity: 0.75;
+  font-size: 12px;
+  margin-top: 2px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}

@@ -104,11 +104,121 @@ titleMonthFontSizeInput,
   calendarShadowOpacityInput,
   calendarGlowSizeInput;
 
+function enhanceFontSelect(selectEl) {
+  // Уже обёрнут
+  if (!selectEl || selectEl.dataset.enhanced === "1") return;
+
+  selectEl.dataset.enhanced = "1";
+
+  const wrapper = document.createElement("div");
+  wrapper.className = "font-picker";
+
+  // Вставляем wrapper перед select и переносим select внутрь
+  selectEl.parentNode.insertBefore(wrapper, selectEl);
+  wrapper.appendChild(selectEl);
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className = "font-picker__button";
+
+  const label = document.createElement("span");
+  label.className = "font-picker__label";
+
+  const chev = document.createElement("span");
+  chev.className = "font-picker__chev";
+  chev.textContent = "▾";
+
+  button.appendChild(label);
+  button.appendChild(chev);
+
+  const list = document.createElement("div");
+  list.className = "font-picker__list";
+  list.setAttribute("role", "listbox");
+
+  wrapper.appendChild(button);
+  wrapper.appendChild(list);
+
+  function renderLabel() {
+    const opt = selectEl.selectedOptions[0];
+    const font = opt?.value || "Inter";
+    label.textContent = opt?.textContent || font;
+    label.style.fontFamily = font;
+  }
+
+  function buildList() {
+    list.innerHTML = "";
+
+    Array.from(selectEl.options).forEach((opt) => {
+      const item = document.createElement("button");
+      item.type = "button";
+      item.className = "font-picker__item";
+      item.setAttribute("role", "option");
+
+      const main = document.createElement("span");
+      main.textContent = opt.textContent || opt.value;
+      main.style.fontFamily = opt.value;
+
+      const hint = document.createElement("span");
+      hint.className = "font-picker__hint";
+      hint.textContent = opt.value;
+
+      item.appendChild(main);
+      item.appendChild(hint);
+
+      if (opt.value === selectEl.value) item.classList.add("is-active");
+
+      item.addEventListener("click", () => {
+        selectEl.value = opt.value;
+
+        // Важно: чтобы сработали твои существующие обработчики change
+        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+
+        wrapper.classList.remove("is-open");
+        renderLabel();
+        buildList();
+      });
+
+      list.appendChild(item);
+    });
+  }
+
+  function open() {
+    wrapper.classList.add("is-open");
+    buildList();
+  }
+
+  function close() {
+    wrapper.classList.remove("is-open");
+  }
+
+  button.addEventListener("click", () => {
+    if (wrapper.classList.contains("is-open")) close();
+    else open();
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!wrapper.contains(e.target)) close();
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") close();
+  });
+
+  // Начальная отрисовка
+  renderLabel();
+}
+
+function initFontPickers() {
+  document.querySelectorAll("select.js-font-picker").forEach(enhanceFontSelect);
+}
+
+
 function init() {
 
  setupNoZoom();
 
   cacheDom();
+initFontPickers();
   initDefaults();
   buildCalendar();
   bindEvents();
@@ -782,6 +892,9 @@ function updateFormat() {
   // Формат фиксированный 9:16 — Instagram Stories
   updatePreviewScale();
 }
+
+
+
 /* ====== Авто-обновление текстов при смене месяца/года ====== */
 
 function autoUpdateTextsForMonth() {
