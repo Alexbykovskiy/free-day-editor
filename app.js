@@ -734,46 +734,41 @@ function autoUpdateTextsForMonth() {
 function exportPreviewAsPng() {
   const target = document.getElementById("previewArtboard");
   if (!target) return;
- // режим экспорта: без скруглений/теней/бордеров
+
+  // режим экспорта: без скруглений/теней/бордеров (у тебя это уже есть в CSS)
   target.classList.add("is-exporting");
-  // запоминаем текущий превью-масштаб
+
+  // сохраняем текущий preview-scale, чтобы вернуть после экспорта
   const prevScale = getComputedStyle(target).getPropertyValue("--preview-scale").trim();
 
-  // на время экспорта делаем 1:1, чтобы html2canvas снял ровно 1080x1920
+  // ВАЖНО: при экспорте убираем transform-scale, иначе будет "пустая полоса"
   target.style.setProperty("--preview-scale", "1");
 
-  // ждём кадр, чтобы браузер применил стиль
+  // чуть увеличиваем масштаб для более чёткого PNG
+  const scale = 3; // 360px * 3 = 1080px, 640px * 3 = 1920px
+
   requestAnimationFrame(() => {
-    const base = getArtboardBaseSize(); // 360×640
-const EXPORT_W = 1080;
-const EXPORT_H = 1920;
-const exportScale = EXPORT_W / base.w; // 3
+    html2canvas(target, {
+      backgroundColor: null,
+      scale,
+      useCORS: true,
+    })
+      .then((canvas) => {
+        // возвращаем как было
+        target.style.setProperty("--preview-scale", prevScale || "1");
+        target.classList.remove("is-exporting");
 
-html2canvas(target, {
-  backgroundColor: null,
-  useCORS: true,
-
-  // ВАЖНО: снимаем ровно "UI-артборд", но в 3 раза плотнее
-  width: base.w,
-  height: base.h,
-  windowWidth: base.w,
-  windowHeight: base.h,
-  scale: exportScale, // итог будет 1080×1920
-})
-.then((canvas) => {
-      // возвращаем масштаб превью
-      target.style.setProperty("--preview-scale", prevScale || "1");
-target.classList.remove("is-exporting");
-      const link = document.createElement("a");
-      const monthNumber = String(state.month + 1).padStart(2, "0");
-      link.download = `calendar-${state.year}-${monthNumber}.png`;
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-   }).catch(() => {
-      // возвращаем масштаб даже при ошибке
-      target.style.setProperty("--preview-scale", prevScale || "1");
-      target.classList.remove("is-exporting");
-    });
+        const link = document.createElement("a");
+        const monthNumber = String(state.month + 1).padStart(2, "0");
+        link.download = `calendar-${state.year}-${monthNumber}.png`;
+        link.href = canvas.toDataURL("image/png");
+        link.click();
+      })
+      .catch(() => {
+        // возвращаем как было даже при ошибке
+        target.style.setProperty("--preview-scale", prevScale || "1");
+        target.classList.remove("is-exporting");
+      });
   });
 }
 /* ====== Утилита: русские месяцы ====== */
