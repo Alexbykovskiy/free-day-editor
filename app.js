@@ -821,6 +821,10 @@ function updatePreviewScale() {
   // доступная площадь внутри wrapper
   const wrapperRect = previewWrapper.getBoundingClientRect();
 
+// Make zoom slider length match the preview area height (especially on iPhone)
+const zoomLen = Math.max(220, Math.min(wrapperRect.height - 40, 420));
+document.documentElement.style.setProperty("--zoom-len", `${zoomLen}px`);
+
   // небольшой запас, чтобы не липло к краям
   const padding = 16;
   const availW = Math.max(0, wrapperRect.width - padding * 2);
