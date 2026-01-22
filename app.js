@@ -69,6 +69,11 @@ let
   backgroundSelect,
   accentColorInput,
 
+bgRotateKnob,
+  bgKnobPointer,
+  bgKnobDot,
+  bgRotateValue,
+
   previewScaleInput,
   calendarFontSizeInput,
   calendarCardBgColorInput,
@@ -348,6 +353,10 @@ initFontPickers();
   updateCalendarOpacity();
   updateCalendarAppearance();
   updatePreviewScale();
+bgRotateKnob = document.getElementById("bgRotateKnob");
+  bgKnobPointer = document.getElementById("bgKnobPointer");
+  bgKnobDot = document.getElementById("bgKnobDot");
+  bgRotateValue = document.getElementById("bgRotateValue");
 
 if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
 if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
@@ -526,6 +535,103 @@ if (bgScaleInput) {
     state.bgScale = Number(bgScaleInput.value) / 100;
     updateCustomBgTransform();
   });
+}
+
+// ===== Rotary knob: drag around circle to rotate =====
+if (bgRotateKnob) {
+  let dragging = false;
+
+  const clampAngle = (deg) => {
+    // чтобы не улетало в бесконечность, держим -180..180
+    let a = deg;
+    while (a > 180) a -= 360;
+    while (a < -180) a += 360;
+    return a;
+  };
+
+  const getAngleFromEvent = (clientX, clientY) => {
+    const rect = bgRotateKnob.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+
+    // atan2: 0° будет вправо, сделаем 0° вверх как “12 часов”
+    const dx = clientX - cx;
+    const dy = clientY - cy;
+
+    const rad = Math.atan2(dy, dx);         // -PI..PI
+    let deg = (rad * 180) / Math.PI;        // -180..180
+    deg += 90;                              // переносим 0° на вверх
+    return clampAngle(deg);
+  };
+
+  const applyAngle = (deg) => {
+    if (!(state.customBackground && state.background === "bg-custom")) return;
+    state.bgRotate = deg;
+    updateCustomBgTransform();
+  };
+
+  const onMove = (clientX, clientY) => {
+    if (!dragging) return;
+    const a = getAngleFromEvent(clientX, clientY);
+    applyAngle(a);
+  };
+
+  // mouse
+  bgRotateKnob.addEventListener("mousedown", (e) => {
+    if (!(state.customBackground && state.background === "bg-custom")) return;
+    e.preventDefault();
+    dragging = true;
+    onMove(e.clientX, e.clientY);
+  });
+
+  window.addEventListener("mousemove", (e) => {
+    if (!dragging) return;
+    onMove(e.clientX, e.clientY);
+  });
+
+  window.addEventListener("mouseup", () => {
+    dragging = false;
+  });
+
+  // touch
+  bgRotateKnob.addEventListener(
+    "touchstart",
+    (e) => {
+      if (!(state.customBackground && state.background === "bg-custom")) return;
+      e.preventDefault();
+      dragging = true;
+      const t = e.touches[0];
+      onMove(t.clientX, t.clientY);
+    },
+    { passive: false }
+  );
+
+  bgRotateKnob.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+      const t = e.touches[0];
+      onMove(t.clientX, t.clientY);
+    },
+    { passive: false }
+  );
+
+  bgRotateKnob.addEventListener(
+    "touchend",
+    () => {
+      dragging = false;
+    },
+    { passive: true }
+  );
+
+  bgRotateKnob.addEventListener(
+    "touchcancel",
+    () => {
+      dragging = false;
+    },
+    { passive: true }
+  );
 }
 
 // ===== Joystick: press & hold + smooth movement =====
@@ -1153,6 +1259,18 @@ function updateCustomBgTransform() {
 
   // подпись процента
   if (bgScaleValue) bgScaleValue.textContent = `${Math.round(s * 100)}%`;
+updateRotateKnobUI();
+}
+
+function updateRotateKnobUI() {
+  if (!bgKnobPointer || !bgKnobDot) return;
+
+  const a = Number(state.bgRotate || 0);
+
+  bgKnobPointer.style.transform = `translateY(-50%) rotate(${a}deg)`;
+  bgKnobDot.style.transform = `translate(-50%, -50%) rotate(${a}deg) translateX(44px)`;
+
+  if (bgRotateValue) bgRotateValue.textContent = `${Math.round(a)}°`;
 }
 
 function updateAccentColor() {

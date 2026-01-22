@@ -209,10 +209,17 @@
     </div>
 
     <div class="bg-rotate">
-      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgRotateCCWBtn">⟲</button>
-      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgRotateCWBtn">⟳</button>
-      <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgResetBtn">Сброс</button>
-    </div>
+  <div class="bg-knob" id="bgRotateKnob" aria-label="Поворот фона">
+    <div class="bg-knob__ring"></div>
+    <div class="bg-knob__pointer" id="bgKnobPointer"></div>
+    <div class="bg-knob__dot" id="bgKnobDot" role="slider" aria-valuemin="-180" aria-valuemax="180"></div>
+    <div class="bg-knob__value" id="bgRotateValue">0°</div>
+  </div>
+
+  <div class="bg-rotate__actions">
+    <button type="button" class="btn btn-secondary bg-rotate__btn" id="bgResetBtn">Сброс</button>
+  </div>
+</div>
   </div>
 </div>
 
