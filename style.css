@@ -877,8 +877,9 @@ textarea {
   left: 0;
   top: 0;
 
-  max-height: 280px;
-  overflow: auto;
+height: auto;
+ max-height: none;
+overflow: visible;
 
   padding: 8px;
   border-radius: 16px;

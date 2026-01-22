@@ -227,19 +227,18 @@ document.body.appendChild(list); // ✅ портал в body
   function positionList() {
   const rect = button.getBoundingClientRect();
 
-  // ширина = ширина кнопки
   list.style.width = rect.width + "px";
   list.style.left = rect.left + "px";
 
-  // хотим открывать вверх
-  const gap = 8;
-  const maxH = Math.max(160, rect.top - 12); // сколько места сверху
-  list.style.maxHeight = Math.min(320, maxH) + "px";
+  // ✅ показываем весь список без внутреннего скролла
+  list.style.maxHeight = "none";
+  list.style.overflow = "visible";
 
   // временно показываем, чтобы померить высоту
   list.classList.add("is-open");
   const listH = list.getBoundingClientRect().height;
 
+  const gap = 8;
   const top = Math.max(8, rect.top - gap - listH);
   list.style.top = top + "px";
 }
