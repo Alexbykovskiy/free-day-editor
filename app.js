@@ -104,7 +104,7 @@ titleMonthFontSizeInput,
   calendarShadowOpacityInput,
   calendarGlowSizeInput;
 
-function enhanceFontSelect(selectEl) {
+function enhanceFontSelect(selectEl, kind = "font") {
   // Уже обёрнут
   if (!selectEl || selectEl.dataset.enhanced === "1") return;
 
@@ -182,11 +182,26 @@ wrapper.appendChild(button);
 // wrapper.appendChild(list);  // ❌ убираем
 document.body.appendChild(list); // ✅ портал в body
   function renderLabel() {
-    const opt = selectEl.selectedOptions[0];
-    const font = opt?.value || "Inter";
-    label.textContent = opt?.textContent || font;
-    label.style.fontFamily = font;
+  const opt = selectEl.selectedOptions[0];
+  const val = opt?.value || "";
+
+  label.textContent = opt?.textContent || val;
+
+  // сбрасываем, чтобы не тянулось от прошлого типа
+  label.style.fontFamily = "";
+  label.style.fontWeight = "";
+  label.style.fontStyle = "";
+
+  if (kind === "font") {
+    label.style.fontFamily = val || "Inter";
+  } else if (kind === "weight") {
+    label.style.fontFamily = "Inter";
+    label.style.fontWeight = val || "400";
+  } else if (kind === "style") {
+    label.style.fontFamily = "Inter";
+    label.style.fontStyle = val || "normal";
   }
+}
 
   function buildList() {
     list.innerHTML = "";
@@ -198,12 +213,26 @@ document.body.appendChild(list); // ✅ портал в body
       item.setAttribute("role", "option");
 
       const main = document.createElement("span");
-      main.textContent = opt.textContent || opt.value;
-      main.style.fontFamily = opt.value;
+main.textContent = opt.textContent || opt.value;
 
-      const hint = document.createElement("span");
-      hint.className = "font-picker__hint";
-      hint.textContent = opt.value;
+// сброс
+main.style.fontFamily = "";
+main.style.fontWeight = "";
+main.style.fontStyle = "";
+
+if (kind === "font") {
+  main.style.fontFamily = opt.value;        // превью шрифта
+} else if (kind === "weight") {
+  main.style.fontFamily = "Inter";
+  main.style.fontWeight = opt.value;        // превью толщины
+} else if (kind === "style") {
+  main.style.fontFamily = "Inter";
+  main.style.fontStyle = opt.value;         // превью наклона
+}
+
+const hint = document.createElement("span");
+hint.className = "font-picker__hint";
+hint.textContent = opt.value;
 
       item.appendChild(main);
       item.appendChild(hint);
@@ -224,7 +253,7 @@ document.body.appendChild(list); // ✅ портал в body
     });
   }
 
-  function positionList() {
+  <select id="titleMainFontWeightSelect" class="js-weight-picker">
   const rect = button.getBoundingClientRect();
 
   list.style.width = rect.width + "px";
@@ -270,9 +299,18 @@ window.addEventListener("scroll", close, true);
 }
 
 function initFontPickers() {
-  document.querySelectorAll("select.js-font-picker").forEach(enhanceFontSelect);
-}
+  document
+    .querySelectorAll("select.js-font-picker")
+    .forEach((el) => enhanceFontSelect(el, "font"));
 
+  document
+    .querySelectorAll("select.js-weight-picker")
+    .forEach((el) => enhanceFontSelect(el, "weight"));
+
+  document
+    .querySelectorAll("select.js-style-picker")
+    .forEach((el) => enhanceFontSelect(el, "style"));
+}
 
 function init() {
 

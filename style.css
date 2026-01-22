@@ -931,3 +931,7 @@ overflow: visible;
   margin-top: 2px;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
+/* чуть аккуратнее текст внутри пункта */
+.font-picker__item span {
+  display: block;
+}
