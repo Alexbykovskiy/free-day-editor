@@ -273,14 +273,17 @@ function positionList() {
 }
 
 function open() {
+  wrapper.classList.add("is-open");
   buildList();
+  list.classList.add("is-open");   // ✅ показать список
   positionList();
 }
 
 function close() {
-  list.classList.remove("is-open");
-}
- button.addEventListener("click", () => {
+  wrapper.classList.remove("is-open"); // ✅ вернуть
+  list.classList.remove("is-open");    // ✅ скрыть список
+} 
+button.addEventListener("click", () => {
   if (list.classList.contains("is-open")) close();
   else open();
 });
