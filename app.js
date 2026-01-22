@@ -758,11 +758,46 @@ function exportPreviewAsPng() {
         target.style.setProperty("--preview-scale", prevScale || "1");
         target.classList.remove("is-exporting");
 
-        const link = document.createElement("a");
         const monthNumber = String(state.month + 1).padStart(2, "0");
-        link.download = `calendar-${state.year}-${monthNumber}.png`;
-        link.href = canvas.toDataURL("image/png");
-        link.click();
+const filename = `calendar-${state.year}-${monthNumber}.png`;
+
+// Пытаемся сделать "сохранение в галерею" через системное Share меню (мобилки)
+canvas.toBlob(async (blob) => {
+  try {
+    if (!blob) throw new Error("Blob is null");
+
+    const file = new File([blob], filename, { type: "image/png" });
+
+    // iOS/Android: если поддерживается Web Share с файлами — откроется нативное меню
+    const canShareFiles =
+      navigator.canShare && navigator.canShare({ files: [file] });
+
+    if (navigator.share && canShareFiles) {
+      await navigator.share({
+        files: [file],
+        title: "Календарь",
+        text: "Сохрани в Фото/Галерею через «Сохранить изображение»",
+      });
+      return; // важно: дальше не делаем браузерную загрузку
+    }
+
+    // Фоллбэк 1: открыть картинку в новой вкладке (на мобилке можно долгим тапом "Сохранить")
+    const url = URL.createObjectURL(blob);
+window.open(url, "_blank", "noopener,noreferrer");
+
+// Чистим URL чуть позже
+setTimeout(() => URL.revokeObjectURL(url), 30_000);
+return;
+  } catch (e) {
+    // Фоллбэк 2: старый способ скачивания в "Загрузки"
+    const link = document.createElement("a");
+link.download = filename;
+link.href = canvas.toDataURL("image/png");
+document.body.appendChild(link);
+link.click();
+link.remove();
+  }
+}, "image/png");
       })
       .catch(() => {
         // возвращаем как было даже при ошибке
