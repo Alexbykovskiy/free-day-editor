@@ -414,6 +414,7 @@ input[type="color"]::-webkit-color-swatch {
 /* ===== Custom background image layer (movable/rotatable) ===== */
 
 .preview-bg-image{
+ transition: transform 0.06s linear;
   position: absolute;
   inset: 0;
   width: 100%;
@@ -484,6 +485,9 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .bg-joystick__btn{
+  touch-action: none;     /* чтобы палец не скроллил страницу при удержании */
+  -webkit-user-select: none;
+  user-select: none;
   width: 36px;
   height: 36px;
   border-radius: 12px;
@@ -495,6 +499,11 @@ input[type="color"]::-webkit-color-swatch {
 
 .bg-joystick__btn:active{
   transform: translateY(1px);
+}
+
+.bg-joystick__btn.is-holding{
+  transform: translateY(1px);
+  filter: brightness(0.98);
 }
 
 .bg-joystick__center{

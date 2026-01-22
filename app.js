@@ -528,28 +528,110 @@ if (bgScaleInput) {
   });
 }
 
-// joystick move step (px)
-const MOVE_STEP = 12;
+// ===== Joystick: press & hold + smooth movement =====
+let joyDir = null;            // 'up' | 'down' | 'left' | 'right' | null
+let joyRaf = 0;
+let joyLastTs = 0;
 
-document.addEventListener("click", (e) => {
-  const btn = e.target.closest("[data-move]");
-  if (!btn) return;
+// скорость (px/sec) при удержании. Можно подкрутить.
+const JOY_SPEED = 220;
 
-  // двигать имеет смысл только когда есть кастомный фон
-  if (!(state.customBackground && state.background === "bg-custom")) return;
+// лёгкое ускорение: первые 0.4s разгоняется
+function joySpeedMultiplier(heldMs) {
+  const t = Math.min(heldMs / 400, 1); // 0..1
+  return 0.35 + 0.65 * t;              // 0.35..1.0
+}
 
-  const dir = btn.dataset.move;
+function canMoveCustomBg() {
+  return !!(state.customBackground && state.background === "bg-custom");
+}
 
-  if (dir === "up") state.bgOffsetY -= MOVE_STEP;
-  if (dir === "down") state.bgOffsetY += MOVE_STEP;
-  if (dir === "left") state.bgOffsetX -= MOVE_STEP;
-  if (dir === "right") state.bgOffsetX += MOVE_STEP;
+function joyTick(ts) {
+  if (!joyDir || !canMoveCustomBg()) {
+    joyRaf = 0;
+    joyLastTs = 0;
+    return;
+  }
+
+  if (!joyLastTs) joyLastTs = ts;
+  const dt = Math.min((ts - joyLastTs) / 1000, 0.05); // сек, clamp
+  joyLastTs = ts;
+
+  // сколько держим
+  const heldMs = Math.max(0, (ts - (joyTick._startTs || ts)));
+  const v = JOY_SPEED * joySpeedMultiplier(heldMs); // px/sec
+  const delta = v * dt;
+
+  // движение
+  if (joyDir === "up") state.bgOffsetY -= delta;
+  if (joyDir === "down") state.bgOffsetY += delta;
+  if (joyDir === "left") state.bgOffsetX -= delta;
+  if (joyDir === "right") state.bgOffsetX += delta;
+
+  updateCustomBgTransform();
+  joyRaf = requestAnimationFrame(joyTick);
+}
+
+function joyStart(dir, btnEl) {
+  if (!canMoveCustomBg()) return;
+
+  // center оставляем мгновенным
   if (dir === "center") {
     state.bgOffsetX = 0;
     state.bgOffsetY = 0;
+    updateCustomBgTransform();
+    return;
   }
 
-  updateCustomBgTransform();
+  joyDir = dir;
+  joyTick._startTs = performance.now();
+
+  if (btnEl) btnEl.classList.add("is-holding");
+
+  if (!joyRaf) {
+    joyLastTs = 0;
+    joyRaf = requestAnimationFrame(joyTick);
+  }
+}
+
+function joyStop(btnEl) {
+  joyDir = null;
+  if (btnEl) btnEl.classList.remove("is-holding");
+}
+
+// навешиваем на кнопки джойстика (и мышь, и тач)
+document.querySelectorAll(".bg-joystick__btn").forEach((btn) => {
+  const dir = btn.dataset.move;
+
+  // mouse
+  btn.addEventListener("mousedown", (e) => {
+    e.preventDefault();
+    joyStart(dir, btn);
+  });
+  window.addEventListener("mouseup", () => joyStop(btn));
+
+  // touch
+  btn.addEventListener(
+    "touchstart",
+    (e) => {
+      e.preventDefault();
+      joyStart(dir, btn);
+    },
+    { passive: false }
+  );
+  btn.addEventListener(
+    "touchend",
+    () => joyStop(btn),
+    { passive: true }
+  );
+  btn.addEventListener(
+    "touchcancel",
+    () => joyStop(btn),
+    { passive: true }
+  );
+
+  // если увели палец/мышь за кнопку
+  btn.addEventListener("mouseleave", () => joyStop(btn));
 });
 
 const ROT_STEP = 3;
