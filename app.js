@@ -132,12 +132,12 @@ wrapper.className = "font-picker is-up";
   button.appendChild(chev);
 
   const list = document.createElement("div");
-  list.className = "font-picker__list";
-  list.setAttribute("role", "listbox");
+list.className = "font-picker__list";
+list.setAttribute("role", "listbox");
 
-  wrapper.appendChild(button);
-  wrapper.appendChild(list);
-
+wrapper.appendChild(button);
+// wrapper.appendChild(list);  // ❌ убираем
+document.body.appendChild(list); // ✅ портал в body
   function renderLabel() {
     const opt = selectEl.selectedOptions[0];
     const font = opt?.value || "Inter";
@@ -182,24 +182,44 @@ wrapper.className = "font-picker is-up";
     });
   }
 
-  function open() {
-    wrapper.classList.add("is-open");
-    buildList();
-  }
+  function positionList() {
+  const rect = button.getBoundingClientRect();
 
-  function close() {
-    wrapper.classList.remove("is-open");
-  }
+  // ширина = ширина кнопки
+  list.style.width = rect.width + "px";
+  list.style.left = rect.left + "px";
 
-  button.addEventListener("click", () => {
-    if (wrapper.classList.contains("is-open")) close();
-    else open();
-  });
+  // хотим открывать вверх
+  const gap = 8;
+  const maxH = Math.max(160, rect.top - 12); // сколько места сверху
+  list.style.maxHeight = Math.min(320, maxH) + "px";
+
+  // временно показываем, чтобы померить высоту
+  list.classList.add("is-open");
+  const listH = list.getBoundingClientRect().height;
+
+  const top = Math.max(8, rect.top - gap - listH);
+  list.style.top = top + "px";
+}
+
+function open() {
+  buildList();
+  positionList();
+}
+
+function close() {
+  list.classList.remove("is-open");
+}
+ button.addEventListener("click", () => {
+  if (list.classList.contains("is-open")) close();
+  else open();
+});
 
   document.addEventListener("click", (e) => {
-    if (!wrapper.contains(e.target)) close();
-  });
-
+  if (!wrapper.contains(e.target) && !list.contains(e.target)) close();
+});
+window.addEventListener("resize", close);
+window.addEventListener("scroll", close, true);
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") close();
   });

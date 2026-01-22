@@ -873,12 +873,9 @@ textarea {
 }
 
 .font-picker__list {
-  position: absolute;
+  position: fixed; /* 👈 ключевое: теперь над всем */
   left: 0;
-  right: 0;
-
-  bottom: calc(100% + 8px); /* 👈 открываем ВВЕРХ */
-  top: auto;
+  top: 0;
 
   max-height: 280px;
   overflow: auto;
@@ -893,9 +890,9 @@ textarea {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
 
   display: none;
-  z-index: 9999;
+  z-index: 99999; /* 👈 выше превью */
 }
-.font-picker.is-open .font-picker__list {
+.font-picker__list.is-open {
   display: block;
 }
 
