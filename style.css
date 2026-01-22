@@ -908,3 +908,11 @@ textarea {
   transform: rotate(180deg);
   transition: transform 140ms ease;
 }
+
+.font-picker__list {
+  display: none;
+}
+
+.font-picker__list.is-open {
+  display: block;
+}
