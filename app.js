@@ -744,10 +744,17 @@ function exportPreviewAsPng() {
   // ждём кадр, чтобы браузер применил стиль
   requestAnimationFrame(() => {
     html2canvas(target, {
-      backgroundColor: null,
-      scale: 1, // получаем ровно CSS-пиксели: 1080x1920
-      useCORS: true,
-    }).then((canvas) => {
+  backgroundColor: null,
+  scale: 1,
+  useCORS: true,
+
+  // железно фиксируем размер итоговой картинки:
+  width: 1080,
+  height: 1920,
+  windowWidth: 1080,
+  windowHeight: 1920,
+})
+.then((canvas) => {
       // возвращаем масштаб превью
       target.style.setProperty("--preview-scale", prevScale || "1");
 
