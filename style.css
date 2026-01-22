@@ -427,7 +427,8 @@ input[type="color"]::-webkit-color-swatch {
 
   border-radius: 26px;
   padding: 16px 14px 18px;
-max-width: min(92%, 380px);
+max-width: 92%;
+
 width: 100%;
 margin: 0 auto;
 max-height: 70%;
@@ -787,3 +788,8 @@ textarea {
     width: var(--zoom-len, 280px);
   }
 }
+
+ /* Artboard defaults (so export/preview never becomes "auto") */
+  --artboard-w: 1080px;
+  --artboard-h: 1920px;
+  --preview-scale: 1;
