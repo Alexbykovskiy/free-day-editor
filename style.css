@@ -551,6 +551,7 @@ input[type="color"]::-webkit-color-swatch {
   touch-action: none;
   user-select: none;
   -webkit-user-select: none;
+ -webkit-touch-callout: none;
 }
 
 .bg-knob__ring{
@@ -583,6 +584,7 @@ input[type="color"]::-webkit-color-swatch {
   box-shadow: 0 8px 18px rgba(249,115,22,0.25);
   transform: translate(-50%, -50%) rotate(0deg) translateX(44px);
   cursor: grab;
+touch-action: none;
 }
 
 .bg-knob__dot:active{
@@ -598,6 +600,7 @@ input[type="color"]::-webkit-color-swatch {
   color: #111827;
   opacity: 0.85;
 }
+
 
 /* Полупрозрачная белая карточка с календарём */
 

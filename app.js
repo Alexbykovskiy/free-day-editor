@@ -542,6 +542,9 @@ if (bgRotateKnob) {
 const knobTarget = bgKnobDot || bgRotateKnob;
   let dragging = false;
 
+const canRotate = () =>
+    !!(state.customBackground && state.background === "bg-custom");
+
   const clampAngle = (deg) => {
     // чтобы не улетало в бесконечность, держим -180..180
     let a = deg;
@@ -585,6 +588,39 @@ const knobTarget = bgKnobDot || bgRotateKnob;
     onMove(e.clientX, e.clientY);
   });
 
+// ----- iOS fallback: Touch Events (Safari can steal the gesture for scroll) -----
+  const isTouchDevice = "ontouchstart" in window || navigator.maxTouchPoints > 0;
+
+  if (isTouchDevice) {
+    const onTouchStart = (e) => {
+      if (!canRotate()) return;
+
+      // важно: иначе скролл панели съест жест
+      e.preventDefault();
+      dragging = true;
+
+      const t = e.touches[0];
+applyAngle(getAngleFromEvent(t.clientX, t.clientY));
+    };
+
+    const onTouchMove = (e) => {
+      if (!dragging) return;
+      e.preventDefault();
+
+      const t = e.touches[0];
+applyAngle(getAngleFromEvent(t.clientX, t.clientY)); 
+   };
+
+    const onTouchEnd = () => {
+      dragging = false;
+    };
+
+    knobTarget.addEventListener("touchstart", onTouchStart, { passive: false });
+    knobTarget.addEventListener("touchmove", onTouchMove, { passive: false });
+    knobTarget.addEventListener("touchend", onTouchEnd, { passive: true });
+    knobTarget.addEventListener("touchcancel", onTouchEnd, { passive: true });
+  }
+
   window.addEventListener("mousemove", (e) => {
     if (!dragging) return;
     onMove(e.clientX, e.clientY);
@@ -626,14 +662,7 @@ const knobTarget = bgKnobDot || bgRotateKnob;
     { passive: true }
   );
 
-  bgRotateKnob.addEventListener(
-    "touchcancel",
-    () => {
-      dragging = false;
-    },
-    { passive: true }
-  );
-}
+ }
 
 // ===== Joystick: press & hold + smooth movement =====
 let joyDir = null;            // 'up' | 'down' | 'left' | 'right' | null
