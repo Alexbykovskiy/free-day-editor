@@ -891,6 +891,9 @@ textarea {
 
   display: none;
   z-index: 99999; /* 👈 выше превью */
+-webkit-overflow-scrolling: touch; /* iOS: инерционный скролл */
+  overscroll-behavior: contain;      /* чтобы не тянуло страницу */
+  touch-action: pan-y;               /* главное: жест = вертикальный скролл */
 }
 .font-picker__list.is-open {
   display: block;
@@ -908,6 +911,8 @@ textarea {
   color: #fff;
 
   cursor: pointer;
+
+  touch-action: manipulation;
 }
 
 .font-picker__item:hover {

@@ -135,6 +135,49 @@ wrapper.className = "font-picker is-up";
 list.className = "font-picker__list";
 list.setAttribute("role", "listbox");
 
+ // --- touch/scroll guard: distinguish scroll from tap ---
+  let didScroll = false;
+  let startY = 0;
+  let startX = 0;
+  let lastMoveTs = 0;
+
+  list.addEventListener(
+    "touchstart",
+    (e) => {
+      didScroll = false;
+      const t = e.touches[0];
+      startY = t.clientY;
+      startX = t.clientX;
+    },
+    { passive: true }
+  );
+
+  list.addEventListener(
+    "touchmove",
+    (e) => {
+      const t = e.touches[0];
+      const dy = Math.abs(t.clientY - startY);
+      const dx = Math.abs(t.clientX - startX);
+
+      // если палец реально двигается — это скролл
+      if (dy > 8 || dx > 8) {
+        didScroll = true;
+        lastMoveTs = Date.now();
+      }
+    },
+    { passive: true }
+  );
+
+  list.addEventListener(
+    "touchend",
+    () => {
+      // оставляем метку скролла на короткое время,
+      // чтобы "end of scroll" не стал кликом по кнопке
+      if (didScroll) lastMoveTs = Date.now();
+    },
+    { passive: true }
+  );
+
 wrapper.appendChild(button);
 // wrapper.appendChild(list);  // ❌ убираем
 document.body.appendChild(list); // ✅ портал в body
@@ -168,15 +211,14 @@ document.body.appendChild(list); // ✅ портал в body
       if (opt.value === selectEl.value) item.classList.add("is-active");
 
       item.addEventListener("click", () => {
-        selectEl.value = opt.value;
+  if (didScroll || Date.now() - lastMoveTs < 250) return;
 
-        // Важно: чтобы сработали твои существующие обработчики change
-        selectEl.dispatchEvent(new Event("change", { bubbles: true }));
-
-        close();
-        renderLabel();
-        buildList();
-      });
+  selectEl.value = opt.value;
+  selectEl.dispatchEvent(new Event("change", { bubbles: true }));
+  close();
+  renderLabel();
+  buildList();
+});
 
       list.appendChild(item);
     });
