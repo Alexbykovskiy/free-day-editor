@@ -437,7 +437,7 @@ input[type="color"]::-webkit-color-swatch {
   font-size: 0.95rem;
 }
 
-preview-title-main {
+.preview-title-main {
   font-family: var(--title-main-font);
   color: var(--title-main-color);
   font-size: var(--title-main-font-size);
