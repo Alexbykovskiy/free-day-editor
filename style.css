@@ -425,9 +425,9 @@ input[type="color"]::-webkit-color-swatch {
 
   border-radius: 26px;
   padding: 16px 14px 18px;
-max-width: 320px;
-  width: 100%;
-  margin: 0 auto;
+max-width: min(92%, 380px);
+width: 100%;
+margin: 0 auto;
 max-height: 70%;
 overflow: visible;
   box-shadow: var(
@@ -633,6 +633,10 @@ textarea {
 
 .preview-zoom{
   height: 100%;
+  width: 100%;
+  max-width: 64px;
+  padding: 12px 0;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -640,12 +644,12 @@ textarea {
   position: relative;
   z-index: 10;
 }
-
 /* vertical range (rotated) */
 .preview-zoom-slider{
-  width: calc(50vh - 24px);  /* preview panel height ≈ 50% viewport */
-  min-width: 220px;
-  max-width: 520px;
+  /* длина слайдера = высота панели превью минус отступы */
+  width: calc(100% - 24px);
+  min-width: 140px;
+  max-width: none;
 
   transform: rotate(-90deg);
   transform-origin: center;
