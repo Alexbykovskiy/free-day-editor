@@ -253,7 +253,7 @@ hint.textContent = opt.value;
     });
   }
 
-  <select id="titleMainFontWeightSelect" class="js-weight-picker">
+function positionList() {
   const rect = button.getBoundingClientRect();
 
   list.style.width = rect.width + "px";
