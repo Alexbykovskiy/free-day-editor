@@ -734,7 +734,8 @@ function autoUpdateTextsForMonth() {
 function exportPreviewAsPng() {
   const target = document.getElementById("previewArtboard");
   if (!target) return;
-
+ // режим экспорта: без скруглений/теней/бордеров
+  target.classList.add("is-exporting");
   // запоминаем текущий превью-масштаб
   const prevScale = getComputedStyle(target).getPropertyValue("--preview-scale").trim();
 
@@ -762,15 +763,16 @@ html2canvas(target, {
 .then((canvas) => {
       // возвращаем масштаб превью
       target.style.setProperty("--preview-scale", prevScale || "1");
-
+target.classList.remove("is-exporting");
       const link = document.createElement("a");
       const monthNumber = String(state.month + 1).padStart(2, "0");
       link.download = `calendar-${state.year}-${monthNumber}.png`;
       link.href = canvas.toDataURL("image/png");
       link.click();
-    }).catch(() => {
+   }).catch(() => {
       // возвращаем масштаб даже при ошибке
       target.style.setProperty("--preview-scale", prevScale || "1");
+      target.classList.remove("is-exporting");
     });
   });
 }
