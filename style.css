@@ -6,6 +6,10 @@
   box-sizing: border-box;
 }
 :root {
+--artboard-w: 360px;
+  --artboard-h: 640px;
+  --preview-scale: 1;
+  --zoom-len: 320px;
 --calendar-cell-size: 34px; /* базовое значение */
   --calendar-card-bg-color: #ffffff;
   --calendar-text-color: #111827;
@@ -789,7 +793,3 @@ textarea {
   }
 }
 
- /* Artboard defaults (so export/preview never becomes "auto") */
-  --artboard-w: 1080px;
-  --artboard-h: 1920px;
-  --preview-scale: 1;

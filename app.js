@@ -743,16 +743,21 @@ function exportPreviewAsPng() {
 
   // ждём кадр, чтобы браузер применил стиль
   requestAnimationFrame(() => {
-    html2canvas(target, {
+    const base = getArtboardBaseSize(); // 360×640
+const EXPORT_W = 1080;
+const EXPORT_H = 1920;
+const exportScale = EXPORT_W / base.w; // 3
+
+html2canvas(target, {
   backgroundColor: null,
-  scale: 1,
   useCORS: true,
 
-  // железно фиксируем размер итоговой картинки:
-  width: 1080,
-  height: 1920,
-  windowWidth: 1080,
-  windowHeight: 1920,
+  // ВАЖНО: снимаем ровно "UI-артборд", но в 3 раза плотнее
+  width: base.w,
+  height: base.h,
+  windowWidth: base.w,
+  windowHeight: base.h,
+  scale: exportScale, // итог будет 1080×1920
 })
 .then((canvas) => {
       // возвращаем масштаб превью
@@ -829,10 +834,10 @@ function getMonthName(monthIndex, form) {
 }
 
 function getArtboardBaseSize() {
-  // Instagram Stories – fixed 9:16
-  return { w: 1080, h: 1920 };
+  // UI-макет (удобный для превью). Пропорции 9:16.
+  // Экспорт в 1080×1920 делаем отдельно через html2canvas scale.
+  return { w: 360, h: 640 };
 }
-
 function updatePreviewScale() {
   if (!previewWrapper || !previewArtboard) return;
 
@@ -844,9 +849,11 @@ previewArtboard.style.setProperty("--artboard-h", `${h}px`);
   const wrapperRect = previewWrapper.getBoundingClientRect();
 
 // Make zoom slider length match the preview area height (especially on iPhone)
-const zoomLen = Math.max(220, Math.min(wrapperRect.height - 40, 420));
+const zoomLen = Math.max(
+  280,
+  Math.min(wrapperRect.height - 48, Math.round(wrapperRect.height * 0.85))
+);
 document.documentElement.style.setProperty("--zoom-len", `${zoomLen}px`);
-
   // небольшой запас, чтобы не липло к краям
   const padding = 16;
   const availW = Math.max(0, wrapperRect.width - padding * 2);
