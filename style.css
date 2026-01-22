@@ -697,7 +697,7 @@ textarea {
   height: 30px;
   fill: currentColor;
 }
-} 
+
 
 /* ====== MOBILE PORTRAIT: slider-left, preview-center, button-right ====== */
 @media (max-width: 520px){
@@ -755,7 +755,7 @@ textarea {
   width: 28px;
   height: 28px;
 }
-
+} 
 /* ====== MOBILE FIX: controls always on top ====== */
 
 /* создаём отдельный слой для z-index внутри превью */
