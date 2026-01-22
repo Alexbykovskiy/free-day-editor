@@ -38,6 +38,12 @@ body {
   color: #111827;
 }
 
+html,
+body {
+  touch-action: manipulation; /* убирает double-tap zoom, оставляет скролл */
+  -ms-touch-action: manipulation;
+}
+
 body {
   min-height: 100vh;
 }

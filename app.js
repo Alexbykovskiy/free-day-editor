@@ -95,7 +95,7 @@ titleMonthFontSizeInput,
 
 function init() {
 
-
+ setupNoZoom();
 
   cacheDom();
   initDefaults();
@@ -898,6 +898,36 @@ document.documentElement.style.setProperty("--zoom-len", `${zoomLen}px`);
   const finalScale = (state.previewAutoFit ? fitScale : 1) * (state.previewUserScale || 1);
 
   previewArtboard.style.setProperty("--preview-scale", String(finalScale));
+}
+
+
+function setupNoZoom() {
+  // iOS Safari: блокируем pinch-zoom жесты
+  const block = (e) => e.preventDefault();
+  document.addEventListener("gesturestart", block, { passive: false });
+  document.addEventListener("gesturechange", block, { passive: false });
+  document.addEventListener("gestureend", block, { passive: false });
+
+  // Блокируем double-tap zoom (часто срабатывает на iOS)
+  let lastTouchEnd = 0;
+  document.addEventListener(
+    "touchend",
+    (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = now;
+    },
+    { passive: false }
+  );
+
+  // Десктоп: блокируем Ctrl + колесо (zoom браузера)
+  document.addEventListener(
+    "wheel",
+    (e) => {
+      if (e.ctrlKey) e.preventDefault();
+    },
+    { passive: false }
+  );
 }
 
 document.addEventListener("DOMContentLoaded", init);
