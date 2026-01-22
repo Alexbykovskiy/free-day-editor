@@ -353,10 +353,6 @@ initFontPickers();
   updateCalendarOpacity();
   updateCalendarAppearance();
   updatePreviewScale();
-bgRotateKnob = document.getElementById("bgRotateKnob");
-  bgKnobPointer = document.getElementById("bgKnobPointer");
-  bgKnobDot = document.getElementById("bgKnobDot");
-  bgRotateValue = document.getElementById("bgRotateValue");
 
 if (calendarCardBgColorInput) calendarCardBgColorInput.value = state.calendarCardBgColor;
 if (calendarTextColorInput) calendarTextColorInput.value = state.calendarTextColor;
@@ -495,7 +491,11 @@ titleMonthFontSizeInput = document.getElementById("titleMonthFontSizeInput");
   bgRotateCWBtn = document.getElementById("bgRotateCWBtn");
   bgRotateCCWBtn = document.getElementById("bgRotateCCWBtn");
   bgResetBtn = document.getElementById("bgResetBtn");
-
+ // rotary knob (поворот фона)
+  bgRotateKnob = document.getElementById("bgRotateKnob");
+  bgKnobPointer = document.getElementById("bgKnobPointer");
+  bgKnobDot = document.getElementById("bgKnobDot");
+  bgRotateValue = document.getElementById("bgRotateValue");
 
 }
 function initDefaults() {
@@ -539,6 +539,7 @@ if (bgScaleInput) {
 
 // ===== Rotary knob: drag around circle to rotate =====
 if (bgRotateKnob) {
+const knobTarget = bgKnobDot || bgRotateKnob;
   let dragging = false;
 
   const clampAngle = (deg) => {
