@@ -773,13 +773,20 @@ canvas.toBlob(async (blob) => {
       navigator.canShare && navigator.canShare({ files: [file] });
 
     if (navigator.share && canShareFiles) {
-      await navigator.share({
-        files: [file],
-        title: "Календарь",
-        text: "Сохрани в Фото/Галерею через «Сохранить изображение»",
-      });
-      return; // важно: дальше не делаем браузерную загрузку
-    }
+  try {
+    await navigator.share({
+      files: [file],
+      title: "Календарь",
+      text: "Сохрани в Фото/Галерею через «Сохранить изображение»",
+    });
+  } catch (err) {
+    // Пользователь закрыл меню (тап по пустому месту / Cancel) — это НЕ ошибка
+    if (err && (err.name === "AbortError" || err.code === 20)) return;
+    // Если вдруг другая ошибка — пусть упадём в фоллбэки ниже
+    throw err;
+  }
+  return; // важно: после успешного share ничего больше не делаем
+}
 
     // Фоллбэк 1: открыть картинку в новой вкладке (на мобилке можно долгим тапом "Сохранить")
     const url = URL.createObjectURL(blob);
