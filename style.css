@@ -10,8 +10,6 @@
   --calendar-card-bg-color: #ffffff;
   --calendar-text-color: #111827;
 --calendar-font-size: 18px;
-}
-:root {
   --title-month-font-size: 20px;
   --title-month-font-weight: 400;
   --title-month-font-style: normal;
@@ -19,9 +17,6 @@
   --footer-font-size: 16px;
   --footer-font-weight: 400;
   --footer-font-style: normal;
-}
-
-:root {
   --title-month-font: Inter;
   --title-month-color: #1f2937;
 
@@ -622,33 +617,18 @@ textarea {
   box-sizing: border-box;
 }
 
-/* ===== MOBILE: максимум места под превью ===== */
-@media (max-width: 600px) {
-  .page {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  .panel-preview {
-    padding-left: 0;
-    padding-right: 0;
-    border-radius: 0; /* чтобы не съедать ширину */
-  }
-
-  .preview-wrapper {
-    padding-left: 0;
-    padding-right: 0;
-  }
-}
-
-/* ====== PREVIEW CONTROLS: slider left + button right ====== */
+/* ====== PREVIEW CONTROLS (base) ====== */
 
 .preview-shell{
   height: 100%;
   display: grid;
-  grid-template-columns: 44px 1fr 140px; /* слайдер | превью | кнопка */
+  grid-template-columns: 64px minmax(0, 1fr) 96px; /* slider | preview | button */
   align-items: center;
-  gap: 10px;
+  justify-items: center;
+  gap: 12px;
+
+  position: relative;
+  isolation: isolate;
 }
 
 .preview-zoom{
@@ -656,25 +636,30 @@ textarea {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  position: relative;
+  z-index: 10;
 }
 
-.preview-zoom{
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* Делаем “реальную” высоту слайдера через vh панели */
+/* vertical range (rotated) */
 .preview-zoom-slider{
-  width: calc(50vh - 24px);  /* 50% экрана = высота preview-панели */
-  min-width: 220px;          /* чтобы не схлопывался */
-  max-width: 520px;          /* чтобы не был гигантским на больших экранах */
+  width: calc(50vh - 24px);  /* preview panel height ≈ 50% viewport */
+  min-width: 220px;
+  max-width: 520px;
 
   transform: rotate(-90deg);
   transform-origin: center;
-
   touch-action: none;
+}
+
+.preview-actions{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+  z-index: 10;
 }
 
 .preview-download{
@@ -682,14 +667,12 @@ textarea {
   height: 72px;
   border-radius: 999px;
 
-  padding: 0 !important;       /* перебиваем .btn */
+  padding: 0 !important;
   min-width: 0;
 
   display: inline-flex;
   align-items: center;
   justify-content: center;
-
-  box-shadow: 0 14px 32px rgba(236, 72, 153, 0.40);
 }
 
 .preview-download .icon{
@@ -698,9 +681,25 @@ textarea {
   fill: currentColor;
 }
 
+/* preview is under controls */
+#previewWrapper{
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+}
+#previewArtboard{
+  position: relative;
+  z-index: 1;
+}
 
-/* ====== MOBILE PORTRAIT: slider-left, preview-center, button-right ====== */
+
+/* ====== MOBILE (portrait/phones) ====== */
 @media (max-width: 520px){
+  /* use full width: remove paddings that steal space */
+  .page{
+    padding-left: 0;
+    padding-right: 0;
+  }
   .panel-preview{
     padding: 0 !important;
     border-radius: 0 !important;
@@ -715,12 +714,9 @@ textarea {
     padding-right: max(10px, env(safe-area-inset-right));
 
     grid-template-columns: 64px minmax(0, 1fr) 64px;
-    align-items: center;
-    justify-items: center;
     gap: 10px;
   }
 
-  /* критично: центр всегда по центру */
   #previewWrapper{
     width: 100%;
     display: flex;
@@ -728,82 +724,16 @@ textarea {
     align-items: center;
   }
 
-  /* кнопка всегда видима внутри правой колонки */
-  .preview-actions{
-    width: 64px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
   .preview-download{
     width: 64px;
     height: 64px;
   }
-}
-/* На мобилке: кнопка чуть уже, и grid компактнее */
-@media (max-width: 480px){
-  .preview-shell{
-  grid-template-columns: 56px 1fr 84px;
-  gap: 8px;
-}
-.preview-download{
-  width: 64px;
-  height: 64px;
-}
-.preview-download .icon{
-  width: 28px;
-  height: 28px;
-}
-} 
-/* ====== MOBILE FIX: controls always on top ====== */
-
-/* создаём отдельный слой для z-index внутри превью */
-.preview-shell{
-  position: relative;
-  isolation: isolate;
-}
-
-/* центр (артборд) ниже */
-#previewWrapper{
-  position: relative;
-  z-index: 1;
-  overflow: visible; /* пусть артборд может “выпирать”, не ломая клики */
-}
-
-/* левый слайдер и правая кнопка всегда выше артборда */
-.preview-zoom,
-.preview-actions{
-  position: relative;
-  z-index: 10;
-}
-
-/* чтобы артборд не перехватывал тапы по бокам, когда он “наезжает” */
-#previewArtboard{
-  position: relative;
-  z-index: 1;
-}
-
-/* ====== MOBILE: pin controls to screen edges ====== */
-@media (max-width: 520px){
-  /* у панели по умолчанию есть padding: 4px; — на айфоне это съедает ширину */
-  .panel-preview{
-    padding: 0 !important;
-    border-radius: 0 !important;
+  .preview-download .icon{
+    width: 28px;
+    height: 28px;
   }
 
-  /* прижимаем колонки к краям, учитывая safe-area */
-  .preview-shell{
-    width: 100%;
-    padding-left: max(10px, env(safe-area-inset-left));
-    padding-right: max(10px, env(safe-area-inset-right));
-    grid-template-columns: 64px 1fr 64px; /* симметрично: слева слайдер, справа кнопка */
-    gap: 10px;
-  }
-
-  /* делаем кнопку компактнее по ширине, но крупной */
-  .preview-download{
-    width: 64px;
-    height: 64px;
+  .preview-zoom-slider{
+    max-width: 420px; /* чтобы не упирался на маленьких экранах */
   }
 }
