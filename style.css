@@ -830,6 +830,7 @@ textarea {
 .font-picker {
   position: relative;
   width: 100%;
+  z-index: 10000;
 }
 
 .font-picker select {
@@ -875,7 +876,9 @@ textarea {
   position: absolute;
   left: 0;
   right: 0;
-  top: calc(100% + 8px);
+
+  bottom: calc(100% + 8px); /* 👈 открываем ВВЕРХ */
+  top: auto;
 
   max-height: 280px;
   overflow: auto;
@@ -892,7 +895,6 @@ textarea {
   display: none;
   z-index: 9999;
 }
-
 .font-picker.is-open .font-picker__list {
   display: block;
 }

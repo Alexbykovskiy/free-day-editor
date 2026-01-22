@@ -110,8 +110,8 @@ function enhanceFontSelect(selectEl) {
 
   selectEl.dataset.enhanced = "1";
 
-  const wrapper = document.createElement("div");
-  wrapper.className = "font-picker";
+ const wrapper = document.createElement("div");
+wrapper.className = "font-picker is-up";
 
   // Вставляем wrapper перед select и переносим select внутрь
   selectEl.parentNode.insertBefore(wrapper, selectEl);
