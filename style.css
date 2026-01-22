@@ -712,3 +712,55 @@ textarea {
   width: 28px;
   height: 28px;
 }
+
+/* ====== MOBILE FIX: controls always on top ====== */
+
+/* создаём отдельный слой для z-index внутри превью */
+.preview-shell{
+  position: relative;
+  isolation: isolate;
+}
+
+/* центр (артборд) ниже */
+#previewWrapper{
+  position: relative;
+  z-index: 1;
+  overflow: visible; /* пусть артборд может “выпирать”, не ломая клики */
+}
+
+/* левый слайдер и правая кнопка всегда выше артборда */
+.preview-zoom,
+.preview-actions{
+  position: relative;
+  z-index: 10;
+}
+
+/* чтобы артборд не перехватывал тапы по бокам, когда он “наезжает” */
+#previewArtboard{
+  position: relative;
+  z-index: 1;
+}
+
+/* ====== MOBILE: pin controls to screen edges ====== */
+@media (max-width: 520px){
+  /* у панели по умолчанию есть padding: 4px; — на айфоне это съедает ширину */
+  .panel-preview{
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  /* прижимаем колонки к краям, учитывая safe-area */
+  .preview-shell{
+    width: 100%;
+    padding-left: max(10px, env(safe-area-inset-left));
+    padding-right: max(10px, env(safe-area-inset-right));
+    grid-template-columns: 64px 1fr 64px; /* симметрично: слева слайдер, справа кнопка */
+    gap: 10px;
+  }
+
+  /* делаем кнопку компактнее по ширине, но крупной */
+  .preview-download{
+    width: 64px;
+    height: 64px;
+  }
+}
