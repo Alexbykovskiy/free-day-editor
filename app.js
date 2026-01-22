@@ -60,50 +60,59 @@ footerFontStyle: "normal",
 
 
 // DOM-элементы
-let monthSelect,
- bgImageLayer,
-  bgCustomControls,
-  bgScaleInput,
-  bgScaleValue,
-  bgRotateCWBtn,
-  bgRotateCCWBtn,
-  bgResetBtn;
- previewScaleInput,
-calendarFontSizeInput,
-calendarCardBgColorInput,
-calendarTextColorInput,
-titleMonthFontSelect,
-titleMonthColorInput,
-footerFontSelect,
-footerColorInput,
-titleMonthFontSizeInput,
-    titleMonthFontWeightSelect,
-    titleMonthFontStyleSelect,
-
-    footerFontSizeInput,
-    footerFontWeightSelect,
-    footerFontStyleSelect,
+let
+  monthSelect,
   yearInput,
   titleMainInput,
- titleMainFontSelect,
+  titleMonthInput,
+  footerTextInput,
+  backgroundSelect,
+  accentColorInput,
+
+  previewScaleInput,
+  calendarFontSizeInput,
+  calendarCardBgColorInput,
+  calendarTextColorInput,
+
+  titleMainFontSelect,
   titleMainColorInput,
   titleMainFontSizeInput,
   titleMainFontWeightSelect,
   titleMainFontStyleSelect,
-  titleMonthInput,
-  footerTextInput,
-   backgroundSelect,
-  accentColorInput,
-    calendarDaysContainer,
+
+  titleMonthFontSelect,
+  titleMonthColorInput,
+  titleMonthFontSizeInput,
+  titleMonthFontWeightSelect,
+  titleMonthFontStyleSelect,
+
+  footerFontSelect,
+  footerColorInput,
+  footerFontSizeInput,
+  footerFontWeightSelect,
+  footerFontStyleSelect,
+
+  calendarDaysContainer,
   previewTitleMain,
   previewTitleMonth,
   previewFooterText,
   previewArtboard,
   previewWrapper,
+
   clearDaysBtn,
   downloadBtn,
   uploadBgBtn,
   bgUploadInput,
+
+  // новые элементы фона
+  bgImageLayer,
+  bgCustomControls,
+  bgScaleInput,
+  bgScaleValue,
+  bgRotateCWBtn,
+  bgRotateCCWBtn,
+  bgResetBtn,
+
   calendarSettingsToggle,
   calendarSettingsGroup,
   calendarOpacityInput,
@@ -115,7 +124,6 @@ titleMonthFontSizeInput,
   calendarShadowSizeInput,
   calendarShadowOpacityInput,
   calendarGlowSizeInput;
-
 function enhanceFontSelect(selectEl, kind = "font") {
   // Уже обёрнут
   if (!selectEl || selectEl.dataset.enhanced === "1") return;
@@ -404,14 +412,7 @@ if (footerFontStyleSelect) footerFontStyleSelect.value = state.footerFontStyle;
   }
   updateCalendarSettingsVisibility();
  updatePreviewScale();
- bgImageLayer = document.getElementById("bgImageLayer");
-  bgCustomControls = document.getElementById("bgCustomControls");
-  bgScaleInput = document.getElementById("bgScaleInput");
-  bgScaleValue = document.getElementById("bgScaleValue");
-  bgRotateCWBtn = document.getElementById("bgRotateCWBtn");
-  bgRotateCCWBtn = document.getElementById("bgRotateCCWBtn");
-  bgResetBtn = document.getElementById("bgResetBtn");
-if (bgScaleInput) bgScaleInput.value = String(Math.round((state.bgScale || 1) * 100));
+ if (bgScaleInput) bgScaleInput.value = String(Math.round((state.bgScale || 1) * 100));
 updateCustomBgTransform();
 }
 
@@ -476,6 +477,16 @@ titleMonthFontSizeInput = document.getElementById("titleMonthFontSizeInput");
   footerFontSizeInput = document.getElementById("footerFontSizeInput");
   footerFontWeightSelect = document.getElementById("footerFontWeightSelect");
   footerFontStyleSelect = document.getElementById("footerFontStyleSelect");
+
+ // фон: слой картинки + контролы
+  bgImageLayer = document.getElementById("bgImageLayer");
+  bgCustomControls = document.getElementById("bgCustomControls");
+  bgScaleInput = document.getElementById("bgScaleInput");
+  bgScaleValue = document.getElementById("bgScaleValue");
+  bgRotateCWBtn = document.getElementById("bgRotateCWBtn");
+  bgRotateCCWBtn = document.getElementById("bgRotateCCWBtn");
+  bgResetBtn = document.getElementById("bgResetBtn");
+
 
 }
 function initDefaults() {
