@@ -343,11 +343,13 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 .preview-artboard {
-  width: 360px;
-  height: 640px;
-  /* масштабируем ВЕСЬ артборд целиком */
+  width: var(--artboard-w);
+  height: var(--artboard-h);
+
   transform: scale(var(--preview-scale, 1));
-  transform-origin: center center;
+  transform-origin: center;
+
+  will-change: transform;
 
   border-radius: 32px;
   overflow: hidden;

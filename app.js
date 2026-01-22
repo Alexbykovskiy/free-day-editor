@@ -733,22 +733,35 @@ function autoUpdateTextsForMonth() {
 
 function exportPreviewAsPng() {
   const target = document.getElementById("previewArtboard");
+  if (!target) return;
 
-  // чуть увеличиваем масштаб для более чёткого PNG
-  const scale = 3;
+  // запоминаем текущий превью-масштаб
+  const prevScale = getComputedStyle(target).getPropertyValue("--preview-scale").trim();
 
-  html2canvas(target, {
-    backgroundColor: null,
-    scale,
-  }).then((canvas) => {
-    const link = document.createElement("a");
-    const monthNumber = String(state.month + 1).padStart(2, "0");
-    link.download = `calendar-${state.year}-${monthNumber}.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+  // на время экспорта делаем 1:1, чтобы html2canvas снял ровно 1080x1920
+  target.style.setProperty("--preview-scale", "1");
+
+  // ждём кадр, чтобы браузер применил стиль
+  requestAnimationFrame(() => {
+    html2canvas(target, {
+      backgroundColor: null,
+      scale: 1, // получаем ровно CSS-пиксели: 1080x1920
+      useCORS: true,
+    }).then((canvas) => {
+      // возвращаем масштаб превью
+      target.style.setProperty("--preview-scale", prevScale || "1");
+
+      const link = document.createElement("a");
+      const monthNumber = String(state.month + 1).padStart(2, "0");
+      link.download = `calendar-${state.year}-${monthNumber}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    }).catch(() => {
+      // возвращаем масштаб даже при ошибке
+      target.style.setProperty("--preview-scale", prevScale || "1");
+    });
   });
 }
-
 /* ====== Утилита: русские месяцы ====== */
 /**
  * @param {number} monthIndex 0-11
@@ -809,14 +822,16 @@ function getMonthName(monthIndex, form) {
 }
 
 function getArtboardBaseSize() {
-  // Фиксированный формат 9:16 (Instagram Stories)
-  return { w: 360, h: 640 };
+  // Instagram Stories – fixed 9:16
+  return { w: 1080, h: 1920 };
 }
+
 function updatePreviewScale() {
   if (!previewWrapper || !previewArtboard) return;
 
   const { w, h } = getArtboardBaseSize();
-
+previewArtboard.style.setProperty("--artboard-w", `${w}px`);
+previewArtboard.style.setProperty("--artboard-h", `${h}px`);
   
   // доступная площадь внутри wrapper
   const wrapperRect = previewWrapper.getBoundingClientRect();
