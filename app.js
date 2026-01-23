@@ -29,7 +29,7 @@ footerFontStyle: "normal",
   
  previewUserScale: 1,   // ползунок пользователя
   previewAutoFit: true,  // авто-вписывание в окно превью
-  background: "bg-beige",
+  background: "bg-solid",
   accentColor: "#22c55e", // зелёный по умолчанию
 
  // параметры календаря
@@ -56,6 +56,9 @@ footerFontStyle: "normal",
   bgOffsetX: 0,   // px
   bgOffsetY: 0,   // px
   bgRotate: 0,    // degrees
+// tint overlay (color + opacity)
+  tintColor: "#000000",
+  tintOpacity: 0, // 0..100
 };
 
 
@@ -78,6 +81,12 @@ bgRotateKnob,
   calendarFontSizeInput,
   calendarCardBgColorInput,
   calendarTextColorInput,
+
+ // tint
+  tintLayer,
+  tintColorInput,
+  tintOpacityInput,
+  tintOpacityValue,
 
   titleMainFontSelect,
   titleMainColorInput,
@@ -344,6 +353,12 @@ function init() {
   cacheDom();
 initFontPickers();
   initDefaults();
+
+ if (tintColorInput) tintColorInput.value = state.tintColor || "#000000";
+  if (tintOpacityInput) tintOpacityInput.value = String(state.tintOpacity ?? 0);
+  if (tintOpacityValue) tintOpacityValue.textContent = `${state.tintOpacity ?? 0}%`;
+  updateTintLayer();
+
   buildCalendar();
   bindEvents();
   updatePreviewTexts();
@@ -444,7 +459,6 @@ titleMainFontWeightSelect = document.getElementById("titleMainFontWeightSelect")
 titleMainFontStyleSelect = document.getElementById("titleMainFontStyleSelect");
   titleMonthInput = document.getElementById("titleMonthInput");
   footerTextInput = document.getElementById("footerTextInput");
-  backgroundSelect = document.getElementById("backgroundSelect");
   accentColorInput = document.getElementById("accentColorInput");
  previewScaleInput = document.getElementById("previewScaleInput");
   calendarDaysContainer = document.getElementById("calendarDays");
@@ -497,6 +511,12 @@ titleMonthFontSizeInput = document.getElementById("titleMonthFontSizeInput");
   bgKnobDot = document.getElementById("bgKnobDot");
   bgRotateValue = document.getElementById("bgRotateValue");
 
+ // tint
+  tintLayer = document.getElementById("tintLayer");
+  tintColorInput = document.getElementById("tintColorInput");
+  tintOpacityInput = document.getElementById("tintOpacityInput");
+  tintOpacityValue = document.getElementById("tintOpacityValue");
+
 }
 function initDefaults() {
   // по умолчанию ставим следующий месяц, чтобы было похоже на "запись открыта"
@@ -521,7 +541,6 @@ function initDefaults() {
   titleMonthInput.value = state.titleMonth;
   footerTextInput.value = state.footerText;
 
-  backgroundSelect.value = state.background;
   accentColorInput.value = state.accentColor;
   
 }
@@ -534,6 +553,20 @@ if (bgScaleInput) {
     // 100..300 -> 1..3
     state.bgScale = Number(bgScaleInput.value) / 100;
     updateCustomBgTransform();
+  });
+}
+
+if (tintColorInput) {
+  tintColorInput.addEventListener("input", () => {
+    state.tintColor = tintColorInput.value;
+    updateTintLayer();
+  });
+}
+
+if (tintOpacityInput) {
+  tintOpacityInput.addEventListener("input", () => {
+    state.tintOpacity = Number(tintOpacityInput.value);
+    updateTintLayer();
   });
 }
 
@@ -1010,11 +1043,7 @@ if (titleMainFontStyleSelect) {
     updatePreviewTexts();
   });
 
-  backgroundSelect.addEventListener("change", () => {
-    state.background = backgroundSelect.value;
-    updateBackground();
-  });
-
+  
   accentColorInput.addEventListener("input", () => {
     state.accentColor = accentColorInput.value;
     updateAccentColor();
@@ -1038,11 +1067,10 @@ state.bgOffsetX = 0;
 state.bgOffsetY = 0;
 state.bgRotate = 0;
 if (bgScaleInput) bgScaleInput.value = "100";
-      state.customBackground = event.target.result;
+       state.customBackground = event.target.result;
       state.background = "bg-custom";
-      backgroundSelect.value = "bg-solid"; // визуально что-то выбрано, но фон кастомный
       updateBackground();
-updateCustomBgTransform();
+      updateCustomBgTransform();
     };
     reader.readAsDataURL(file);
   });
@@ -1290,6 +1318,27 @@ function updateCustomBgTransform() {
   // подпись процента
   if (bgScaleValue) bgScaleValue.textContent = `${Math.round(s * 100)}%`;
 updateRotateKnobUI();
+}
+
+function hexToRgb(hex) {
+  const h = String(hex || "").replace("#", "").trim();
+  if (h.length !== 6) return { r: 0, g: 0, b: 0 };
+  return {
+    r: parseInt(h.slice(0, 2), 16),
+    g: parseInt(h.slice(2, 4), 16),
+    b: parseInt(h.slice(4, 6), 16),
+  };
+}
+
+function updateTintLayer() {
+  if (!tintLayer) return;
+
+  const { r, g, b } = hexToRgb(state.tintColor || "#000000");
+  const a = Math.max(0, Math.min(100, Number(state.tintOpacity ?? 0))) / 100;
+
+  tintLayer.style.backgroundColor = `rgba(${r}, ${g}, ${b}, ${a})`;
+
+  if (tintOpacityValue) tintOpacityValue.textContent = `${Math.round(a * 100)}%`;
 }
 
 function updateRotateKnobUI() {

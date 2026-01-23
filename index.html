@@ -38,8 +38,10 @@
 
   <!-- ЦЕНТР: превью -->
   <div id="previewWrapper" class="preview-wrapper">
-    <div id="previewArtboard" class="preview-artboard bg-beige">
+<div id="previewArtboard" class="preview-artboard bg-solid">
+
   <img id="bgImageLayer" class="preview-bg-image" alt="" />
+  <div id="tintLayer" class="preview-tint-layer"></div>
   <div class="preview-overlay">
         <div class="preview-header">
           <div id="previewTitleMain" class="preview-title-main">
@@ -164,13 +166,18 @@
 <div class="settings-separator"></div>
 
 <div class="form-group">
-  <label for="backgroundSelect">Фон</label>
-  <select id="backgroundSelect">
-    <option value="bg-beige">Бежевый</option>
-    <option value="bg-red">Красный</option>
-    <option value="bg-green">Зеленый</option>
-    <option value="bg-solid">Серый</option>
-  </select>
+  <label>Однородный цвет</label>
+
+  <div class="tint-row">
+    <input id="tintColorInput" type="color" value="#000000" />
+
+    <div class="tint-slider">
+      <input id="tintOpacityInput" type="range" min="0" max="100" step="1" value="0" />
+      <span id="tintOpacityValue" class="tint-value">0%</span>
+    </div>
+  </div>
+
+  <div class="hint">Цвет кладётся поверх фото/градиента как фильтр (полезно для затемнения/подтона).</div>
 </div>
 
 <div class="form-group">
